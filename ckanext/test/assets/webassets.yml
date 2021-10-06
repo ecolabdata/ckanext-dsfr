@@ -1,0 +1,14 @@
+# test-js:
+#   filter: rjsmin
+#   output: ckanext-test/%(version)s-test.js
+#   contents:
+#     - js/test.js
+#   extra:
+#     preload:
+#       - base/main
+
+# test-css:
+#   filter: cssrewrite
+#   output: ckanext-test/%(version)s-test.css
+#   contents:
+#     - css/test.css
