@@ -11,23 +11,23 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='''ckanext-test''',
+    name='''ckanext-theme-design-system-fr''',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
     version='0.0.1',
 
-    description='''''',
+    description='''Implementation du design system de l etat''',
     long_description=long_description,
     long_description_content_type="text/markdown",
 
     # The project's main homepage.
-    url='https://github.com//ckanext-test',
+    url='https://github.com//ckanext-theme-design-system-fr',
 
     # Author details
-    author='''''',
-    author_email='''''',
+    author='''ematrat''',
+    author_email='''erwan.matrat@soprasteria.com''',
 
     # Choose your license
     license='AGPL',
@@ -84,7 +84,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        test=ckanext.test.plugin:TestPlugin
+        theme_design_system_fr=ckanext.theme_design_system_fr.plugin:ThemeDesignSystemFrPlugin
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan

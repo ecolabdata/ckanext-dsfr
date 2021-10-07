@@ -1,0 +1,14 @@
+# theme_design_system_fr-js:
+#   filter: rjsmin
+#   output: ckanext-theme_design_system_fr/%(version)s-theme_design_system_fr.js
+#   contents:
+#     - js/theme_design_system_fr.js
+#   extra:
+#     preload:
+#       - base/main
+
+# theme_design_system_fr-css:
+#   filter: cssrewrite
+#   output: ckanext-theme_design_system_fr/%(version)s-theme_design_system_fr.css
+#   contents:
+#     - css/theme_design_system_fr.css

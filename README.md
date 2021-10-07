@@ -1,6 +1,6 @@
-[![Tests](https://github.com//ckanext-test/workflows/Tests/badge.svg?branch=main)](https://github.com//ckanext-test/actions)
+[![Tests](https://github.com//ckanext-theme-design-system-fr/workflows/Tests/badge.svg?branch=main)](https://github.com//ckanext-theme-design-system-fr/actions)
 
-# ckanext-test
+# ckanext-theme-design-system-fr
 
 **TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
 
@@ -35,7 +35,7 @@ Suggested values:
    For example installing any non-Python dependencies or adding any required
    config settings.
 
-To install ckanext-test:
+To install ckanext-theme-design-system-fr:
 
 1. Activate your CKAN virtual environment, for example:
 
@@ -43,12 +43,12 @@ To install ckanext-test:
 
 2. Clone the source and install it on the virtualenv
 
-    git clone https://github.com//ckanext-test.git
-    cd ckanext-test
+    git clone https://github.com//ckanext-theme-design-system-fr.git
+    cd ckanext-theme-design-system-fr
     pip install -e .
 	pip install -r requirements.txt
 
-3. Add `test` to the `ckan.plugins` setting in your CKAN
+3. Add `theme-design-system-fr` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
@@ -65,16 +65,16 @@ None at present
 
 	# The minimum number of hours to wait before re-checking a resource
 	# (optional, default: 24).
-	ckanext.test.some_setting = some_default_value
+	ckanext.theme_design_system_fr.some_setting = some_default_value
 
 
 ## Developer installation
 
-To install ckanext-test for development, activate your CKAN virtualenv and
+To install ckanext-theme-design-system-fr for development, activate your CKAN virtualenv and
 do:
 
-    git clone https://github.com//ckanext-test.git
-    cd ckanext-test
+    git clone https://github.com//ckanext-theme-design-system-fr.git
+    cd ckanext-theme-design-system-fr
     python setup.py develop
     pip install -r dev-requirements.txt
 
@@ -86,9 +86,9 @@ To run the tests, do:
     pytest --ckan-ini=test.ini
 
 
-## Releasing a new version of ckanext-test
+## Releasing a new version of ckanext-theme-design-system-fr
 
-If ckanext-test should be available on PyPI you can follow these steps to publish a new version:
+If ckanext-theme-design-system-fr should be available on PyPI you can follow these steps to publish a new version:
 
 1. Update the version number in the `setup.py` file. See [PEP 440](http://legacy.python.org/dev/peps/pep-0440/#public-version-identifiers) for how to choose version numbers.
 

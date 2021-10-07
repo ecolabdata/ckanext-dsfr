@@ -2,7 +2,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
 
-class TestPlugin(plugins.SingletonPlugin):
+class ThemeDesignSystemFrPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
 
     # IConfigurer
@@ -13,3 +13,4 @@ class TestPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('assets', 'design_system')
         toolkit.add_resource('fanstatic',
             'test')
+
