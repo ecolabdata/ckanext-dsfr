@@ -1,0 +1,18 @@
+{% set intro = g.site_intro_text %}
+
+<div class="fr-callout">
+  <div>
+      <h1 class="fr-callout__title">{{ _("Welcome to CKAN") }}</h1>
+      <p class="fr-callout__text">
+        {% if intro %}
+          {{ h.render_markdown(intro) }}
+        {% else %}
+        {% trans %}This is a nice introductory paragraph about CKAN or the site
+        in general. We don't have any copy to go here yet but soon we will
+        {% endtrans %}
+      </p>
+    {% endif %}
+  </div>
+
+  
+</div>

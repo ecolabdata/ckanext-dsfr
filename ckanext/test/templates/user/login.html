@@ -1,0 +1,66 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Login') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Login'), named_route='user.login') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      <h1 class="page-heading">{% block page_heading %}{{ _('Login') }}{% endblock %}</h1>
+      {% block form %}
+        {% snippet "user/snippets/login_form.html", action=g.login_handler, error_summary=error_summary %}
+      {% endblock %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block secondary_content %}
+  {% if h.check_access('user_create') %}
+  {% block help_register %}
+    <div class="fr-grid-row fr-py-1w">
+        <div class="fr-col-12">
+            <section class="fr-card fr-enlarge-link">
+                {% block help_register_inner %}
+                <div class="fr-card__body">
+                <h2 class="fr-card__title"><a class="btn btn-default" href="{{ h.url_for('user.register') }}">{{ _('Need an Account?') }}</a></h2>
+                <div class="fr-card__desc">
+                    <div>{% trans %}Then sign right up, it only takes a minute.{% endtrans %}</div>
+                    <div class="action">
+                    {% block help_register_button %}
+                    <a class="btn btn-default" href="{{ h.url_for('user.register') }}">{{ _('Create an Account') }}</a>
+                    {% endblock %}
+                    </div>
+                </div>
+                </div>
+                {% endblock %}
+            </section>
+        </div>
+    </div>
+  {% endblock %}
+  {% endif %}
+
+  {% block help_forgotten %}
+  <div class="fr-grid-row">
+        <div class="fr-col-12">
+            <section class="fr-card fr-enlarge-link">
+                {% block help_forgotten_inner %}
+                <div class="fr-card__body">
+                    <h2 class="fr-card__title"><a class="btn btn-default" href="{{ h.url_for('user.register') }}">{{ _('Forgotten your password?') }}</a></h2>
+                    <div class="fr-card__desc">
+                        <div>{% trans %}No problem, use our password recovery form to reset it.{% endtrans %}</div>
+                        <div class="action">
+                            {% block help_forgotten_button %}
+                            <a class="btn btn-default" href="{{ h.url_for('user.request_reset') }}">{{ _('Forgot your password?') }}</a>
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+            </section>
+        </div>
+    </div>
+  {% endblock %}
+{% endblock %}
