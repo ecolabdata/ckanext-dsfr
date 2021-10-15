@@ -48,7 +48,7 @@ To install ckanext-theme-design-system-fr:
     pip install -e .
 	pip install -r requirements.txt
 
-3. Add `theme-design-system-fr` to the `ckan.plugins` setting in your CKAN
+3. Add `theme_design_system_fr` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
