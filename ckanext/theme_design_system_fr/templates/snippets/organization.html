@@ -1,0 +1,79 @@
+{#
+Embeds a organization within the sidebar of a page.
+
+organization    - The organization dict.
+truncate - A max length for the organization description. If not provided the description
+           will be full length.
+has_context_title - Boolean for whether to display a module-heading for when
+                    this snippet appears within a non-organization template
+                    (e.g. dataset page sidebar)
+
+Example:
+
+    {% snippet 'snippets/organization, organization=c.group_dict %}
+
+#}
+
+{% set truncate = truncate or 0 %}
+{% set url = h.url_for(organization.type + '.read', id=organization.name, ) %}
+
+  {% block info %}
+  <div class="fr-grid-row  fr-grid-row--gutters">
+    <div class="fr-col-12">
+      <div class="module module-narrow module-shallow context-info fr-tile fr-enlarge-link">
+      
+        <section class="module-content fr-tile__body">
+          {% if has_context_title %}
+            <h2 class="module-heading fr-tile__title"><i class="fa fa-building-o"></i> {{ _('Organization') }}</h2>
+          {% endif %}
+          {% block inner %}
+          {% block image %}
+            <div class="image fr-tile__img">
+              <img class="fr-responsive-img" src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" width="200" alt="{{ organization.name }}" />
+            </div>
+          {% endblock %}
+          {% block heading %}
+          <h1 class="heading fr-h5">salut{{ organization.title or organization.name }}
+            {% if organization.state == 'deleted' %}
+              [{{ _('Deleted') }}]
+            {% endif %}
+          </h1>
+          {% endblock %}
+          {% block description %}
+          {% if organization.description %}
+            <p class="description">
+              {{ h.markdown_extract(organization.description, 180) }}
+            </p>
+            <p class="read-more">
+              {% link_for _('read more'), controller='organization', action='about', id=organization.name %}
+            </p>
+          {% else %}
+            <p class="empty">{{ _('There is no description for this organization') }}</p>
+          {% endif %}
+          {% endblock %}
+          {% if show_nums %}
+            {% block nums %}
+            <div class="nums">
+              <dl>
+                <dt>{{ _('Followers') }}</dt>
+                <dd data-module="followers-counter" data-module-id="{{ organization.id }}" data-module-num_followers="{{ organization.num_followers }}">{{ h.SI_number_span(organization.num_followers) }}</dd>
+              </dl>
+              <dl>
+                <dt>{{ _('Datasets') }}</dt>
+                <dd>{{ h.SI_number_span(organization.package_count) }}</dd>
+              </dl>
+            </div>
+            {% endblock %}
+            {% block follow %}
+            <div class="follow_button">
+              {{ h.follow_button('group', organization.id) }}
+            </div>
+            {% endblock %}
+          {% endif %}
+          {% endblock %}
+        </section>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

@@ -1,0 +1,297 @@
+.hide-filters {
+    display: none;
+}
+
+.fr-tile__body .fr-tags-group {
+    margin-top: 15px;
+}
+
+
+
+
+.fr-tabs__list a {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .fr-tabs__list a:not([class*="tabs__tab--icon-"])[class^="fr-fi-"],
+  .fr-tabs__list a:not([class*="tabs__tab--icon-"])[class*=" fr-fi-"] {
+    flex-direction: row;
+    max-width: 2.5rem;
+    max-height: 2.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .fr-tabs__list a[class^="fr-fi-"]:not([class*="tabs__tab--icon-"])::before,
+  .fr-tabs__list a[class*=" fr-fi-"]:not([class*="tabs__tab--icon-"])::before {
+    margin-left: 0;
+    margin-right: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  .fr-tabs__list a--icon-left[class^="fr-fi-"],
+  .fr-tabs__list a--icon-left[class*=" fr-fi-"] {
+    flex-direction: row;
+  }
+  
+  .fr-tabs__list a--icon-left[class^="fr-fi-"]::before,
+  .fr-tabs__list a--icon-left[class*=" fr-fi-"]::before {
+    margin-left: -0.25rem;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .fr-tabs {
+    --is-list: false;
+    --is-link: false;
+    position: relative;
+    overflow: hidden;
+    margin-top: -4px;
+    padding-top: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /**
+      * Animation de la hauteur du panel
+      */
+    transition: height 0.3s;
+    
+    /**
+     * ul : element srollable des boutons
+     *//**
+    * Tab button
+    *//**
+    * Tab Panel
+    */
+  }
+  
+  .fr-tabs .fr-tabs {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .fr-tabs__list {
+    display: flex;
+    align-items: flex-end;
+    overflow-x: auto;
+    width: 100%;
+    height: 3rem;
+    position: absolute;
+    /**
+      * overflow vertical de 4px pour le focus
+      */
+    margin: -4px 0;
+    padding: 4px 0.5rem;
+    /**
+      * Reset du style par défaut du li
+      */
+  }
+  
+  .fr-tabs__list::after {
+    display: block;
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  
+  .fr-tabs__list > li {
+    display: block;
+    flex: 0 0 auto;
+    margin: 0 0.5rem;
+    height: 82%;
+  }
+  
+  .fr-tabs__list > li:not(:first-child) {
+    margin-left: 0;
+  }
+  
+  .fr-tabs__list > li:not(:first-child)::before {
+    display: block;
+    content: "";
+    position: sticky;
+    top: 100%;
+    width: 0.5rem;
+    height: 1px;
+    margin-left: -0.5rem;
+  }
+  
+  .fr-tabs__list > li:last-child {
+    padding-right: 1rem;
+  }
+  
+  .fr-tabs__list > li:last-child::after {
+    display: block;
+    content: "";
+    min-width: 1rem;
+    margin-left: 100%;
+    flex: 1 1 auto;
+    position: sticky;
+    top: 100%;
+    width: auto;
+    height: 1px;
+    margin-top: -1px;
+  }
+  
+  .fr-tabs__list > li:first-child::before {
+    display: block;
+    content: "";
+    position: sticky;
+    top: 100%;
+    width: 100%;
+    height: 1px;
+    position: sticky;
+    margin-left: -100%;
+  }
+  
+  .fr-tabs__list a {
+    --is-link: false;
+    margin: 0;
+    position: relative;
+    overflow: visible;
+    font-weight: bold;
+    z-index: 1;
+  }
+  
+  .fr-tabs__list li.active a {
+    cursor: default;
+    background: transparent;
+  }
+  
+  .fr-tabs__list li.active a::after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: 1px;
+    bottom: 0;
+    left: 1px;
+    width: auto;
+    height: calc(100% - 1px);
+    z-index: 1;
+  }
+  
+  .fr-tabs__panel {
+    --is-link:  ;
+    --is-list:  ;
+    display: block;
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    margin-top: 2.5rem;
+    margin-right: -100%;
+    flex: 0 0 100%;
+    transition: visibility 0.3s, transform 0.3s;
+    /**
+      * Les éléments non sélectionnés sont cachés et rendus innaccessibles au focus
+      * Point d'attention : visibility hidden sur le panel et surcharge sur l'élément active avec visibility visible créé des problèmes dans la gestion du focus en cas d'imbrication d'onglets
+      *
+      * tabs
+      * └─ panel active
+      * └─ panel (visibility hidden, tabindex -1)
+      *    └─ tabs
+      *       └─ panel active (visibility visible tabindex 0)
+      *            ↑ ce panel est accessible alors que caché par son panel parent
+      * solution : visibility hidden seulement sur les éléments non sélectionnés
+      **/
+  }
+  
+  .fr-tabs__panel:focus, .fr-tabs__panel:focus-visible {
+    outline-offset: calc(-1rem + 2px);
+  }
+  
+  .fr-tabs__panel:not(.fr-tabs__panel--active) {
+    visibility: hidden;
+  }
+  
+  .fr-tabs {
+    /**
+     * ul : element srollable des boutons
+     *//**
+    * Tab button
+    */
+  }
+  
+
+  .fr-tabs__list {
+    /**
+      * Reset du style par défaut du li
+      */
+  }
+  
+  .fr-tabs__list::after {
+    box-shadow: 0 1px 0 0 var(--g300);
+  }
+  
+  .fr-tabs__list > li:not(:first-child)::before {
+    box-shadow: 0 1px 0 0 var(--g300);
+  }
+  
+  .fr-tabs__list > li:last-child::after {
+    box-shadow: 0 1px 0 0 var(--g300);
+  }
+  
+  .fr-tabs__list > li:first-child::before {
+    box-shadow: 0 1px 0 0 var(--g300);
+  }
+  
+  .fr-tabs__list li:not(.active) a {
+    background-color: var(--bf100-g750);
+    color: var(--g700);
+    box-shadow: 0 1px 0 0 var(--g300);
+  }
+  
+  :root:not([data-fr-theme="dark" i]) .fr-tabs__list li:not(.active) a {
+    --color-hover: rgba(182, 182, 255, 0.5);
+    --color-active: rgba(119, 119, 255, 0.5);
+  }
+  
+  :root:not([data-fr-theme="dark" i]) [class*="fr-scheme-light"] .fr-tabs__list li:not(.active) a,
+  :root:not([data-fr-theme="dark" i]) [class*="--scheme-light-"] .fr-tabs__list li:not(.active) a {
+    --color-hover: rgba(182, 182, 255, 0.5);
+    --color-active: rgba(119, 119, 255, 0.5);
+  }
+  
+  :root:not([data-fr-theme="dark" i]) [class*="fr-scheme-dark"] .fr-tabs__list li:not(.active) a,
+  :root:not([data-fr-theme="dark" i]) [class*="--scheme-dark-"] .fr-tabs__list li:not(.active) a {
+    --color-hover: rgba(79, 79, 79, 0.5);
+    --color-active: rgba(115, 115, 115, 0.5);
+  }
+  
+  :root[data-fr-theme="dark" i] .fr-tabs__list li:not(.active) a {
+    --color-hover: rgba(79, 79, 79, 0.5);
+    --color-active: rgba(115, 115, 115, 0.5);
+  }
+  
+  .fr-tabs__list li:not(.active) a[disabled],
+  .fr-tabs__list li:not(.active) a:disabled {
+    color: var(--g600-g400);
+    background-color: var(--g200);
+  }
+  
+  .fr-tabs__list li.active a {
+    box-shadow: inset 0 0.125rem 0 0 var(--bf500);
+    background-color: var(--t-plain);
+    color: var(--bf500);
+  }
+  
+  .fr-tabs__list li.active a:hover:not([disabled]),
+  .fr-tabs__list li.active a:hover:not(:disabled),
+  .fr-tabs__list li.active a:active:not([disabled]),
+  .fr-tabs__list li.active a:active:not(:disabled) {
+    background-image: none;
+  }
+  
+  .fr-tabs__list li.active a::after {
+    box-shadow: -1px 0 0 0 var(--g300), 1px 0 0 0 var(--g300);
+  }
+
+  .fr-tabs::after {
+      box-shadow: none;
+  }

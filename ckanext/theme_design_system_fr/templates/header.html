@@ -82,38 +82,38 @@
                   {% block header_account_logged %} 
                     {% if c.userobj.sysadmin %}
                   <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" target="_self" aria-current="page" title="{{ _('Sysadmin settings') }}">{{ _('Admin') }}</a>
+                      <a class="fr-nav__link" href="{{ h.url_for(controller='admin', action='index') }}" target="_self" title="{{ _('Sysadmin settings') }}" {% if h.current_url().startswith(h.url_for(controller='admin', action='index')) %}aria-current="page"{% endif %} >{{ _('Admin') }}</a>
                   </li>
                     {% endif %}
                   
                   <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" title="{{ _('View profile') }}" target="_self">{{ c.userobj.display_name }}</a>
+                      <a class="fr-nav__link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" title="{{ _('View profile') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.read', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ c.userobj.display_name }}</a>
                   </li>
                   {% set new_activities = h.new_activities() %}
                   <li class="fr-nav__item">
                     {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities)
                     %}
-                      <a class="fr-nav__link" href="{{ h.url_for('dashboard.index') }}" title="{{ notifications_tooltip }}" target="_self">{{ _('Dashboard') }} ({{ new_activities }})</a>
+                      <a class="fr-nav__link" href="{{ h.url_for('dashboard.index') }}" title="{{ notifications_tooltip }}" target="_self" {% if h.current_url().startswith(h.url_for('dashboard.index')) %}aria-current="page"{% endif %} >{{ _('Dashboard') }} ({{ new_activities }})</a>
                   </li>
                   {% block header_account_settings_link %}
                   <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" target="_self">{{ _('Profile settings') }}</a>
+                      <a class="fr-nav__link" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.edit', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ _('Profile settings') }}</a>
                   </li>
                   {% endblock %} 
                   {% endblock %}
                 {% endif %} 
                 {% block header_site_navigation %}
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}" title="{{ _('Datasets') }}" target="_self">{{ _('Datasets') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}" title="{{ _('Datasets') }}" target="_self" {% if h.current_url().startswith(h.url_for('dataset.search')) %}aria-current="page"{% endif %} >{{ _('Datasets') }}</a>
                     </li>
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self">{{ _('Organizations') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self" {% if h.current_url().startswith(h.url_for('organization.index')) %}aria-current="page"{% endif %} >{{ _('Organizations') }}</a>
                     </li>
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('group.index') }}" title="{{ _('Groups') }}" target="_self">{{ _('Groups') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('group.index') }}" title="{{ _('Groups') }}" target="_self" {% if h.current_url().startswith(h.url_for('group.index')) %}aria-current="page"{% endif %} >{{ _('Groups') }}</a>
                     </li>
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self">{{ _('About') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
                     </li>
                 {% endblock %}
                   
