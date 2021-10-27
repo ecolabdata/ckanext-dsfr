@@ -1,0 +1,56 @@
+{#
+Renders a media item for a group. This should be used in a list.
+
+group - A group dict.
+
+Example:
+
+    <ul class="media-grid">
+      {% for group in groups %}
+        {% snippet "group/snippets/group_item.html", group=group %}
+      {% endfor %}
+    </ul>
+#}
+{% set type = group.type or 'group' %}
+{% set url = h.url_for(type ~ '.read', id=group.name) %}
+{% block item %}
+<div class="fr-col-4">
+  <div class="fr-card fr-enlarge-link">
+    <div class="fr-card__body">
+      {% block item_inner %}
+      {% block image %}
+      <div class="fr-card__img">
+        <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image img-responsive">
+      </div>
+      {% endblock %}
+      {% block title %}
+        <h2 class="media-heading fr-card__title">{{ group.display_name }}</h2>
+      {% endblock %}
+      {% block description %}
+        {% if group.description %}
+          <p class="media-description fr-card__desc">{{ h.markdown_extract(group.description, extract_length=80) }}</p>
+        {% endif %}
+      {% endblock %}
+      {% block datasets %}
+        {% if group.package_count %}
+          <strong class="count fr-card__desc">{{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}</strong>
+        {% elif group.package_count == 0 %}
+          <span class="count fr-card__desc">{{ _('0 Datasets') }}</span>
+        {% endif %}
+      {% endblock %}
+      {% block link %}
+      <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view fr-card__link">
+        <span>{{ _('View {name}').format(name=group.display_name) }}</span>
+      </a>
+      {% endblock %}
+      {% if group.user_member %}
+        <input name="group_remove.{{ group.id }}" value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-sm media-edit" title="{{ _('Remove dataset from this group') }}"/>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %}

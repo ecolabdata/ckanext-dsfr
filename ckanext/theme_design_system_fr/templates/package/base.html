@@ -21,7 +21,7 @@
         {% else %}
             <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
         {% endif %}
-        <li{{ self.breadcrumb_content_selected() }}>{% link_for dataset|truncate(30), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='read', id=pkg.name %}</li>
+        <li{{ self.breadcrumb_content_selected() }} class="fr-breadcrumb__link">{% link_for dataset|truncate(30), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='read', id=pkg.name %}</li>
     {% else %}
 
         <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
