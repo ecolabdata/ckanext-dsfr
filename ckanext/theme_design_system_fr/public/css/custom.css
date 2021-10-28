@@ -581,3 +581,97 @@
   .js .js-hide.active {
     display: block;
   }
+
+  .fr-breadcrumb li:not(.active) a:after {
+    font:normal normal normal 1rem/1 dsfr-icons;
+    content:"";
+    position:absolute;
+    top:.125rem;
+    right:-1.25rem;
+    pointer-events:none;
+   }
+
+   .fr-breadcrumb li a {
+    position: relative;
+    display: inline-flex;
+    font-size: .75rem;
+    line-height: 1.25rem;
+    margin-bottom: .5rem;
+   }
+
+   .fr-breadcrumb li:not(.active) a {
+    margin-right: 1.5rem;
+   }
+
+
+   ul.activity li{
+    list-style: none;
+    padding-bottom: 15px;
+   }
+
+   ul.activity li:nth-child(even){
+    background-color: var(--beige);
+   }
+   
+   ul.activity li i{
+     transform: translateY(-100%);
+   }
+   ul.activity li p{
+    display: inline-block;
+    margin-bottom: auto;
+   }
+   ul.activity li img{
+    transform: translateY(65%);
+   }
+   ul.activity li .date {
+    margin-left: 32px;
+   }
+   
+
+   .pagination li>a {
+    margin: 0;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    min-width: 2rem;
+    margin-left: 0.125rem;
+    margin-right: 0.125rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    box-shadow: none;
+   }
+
+   .pagination li > a:hover {
+    background-image: linear-gradient(
+      0deg, var(--block-color-hover), var(--block-color-hover));
+   }
+
+   .pagination li > a:active {
+    background-image: linear-gradient(
+      0deg, var(--block-color-active), var(--block-color-active));
+   }
+
+   .pagination li.active a {
+    color: #f0F0F0!important;
+    background-color: var(--bf500);
+   }
+   
+
+   ul.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin: auto;
+    width: max-content;
+   }
+
+   .pagination-wrapper {
+    width: 100%;
+   }

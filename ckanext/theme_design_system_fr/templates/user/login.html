@@ -25,7 +25,7 @@
             <section class="fr-card fr-enlarge-link">
                 {% block help_register_inner %}
                 <div class="fr-card__body">
-                <h2 class="fr-card__title"><a class="btn btn-default" href="{{ h.url_for('user.register') }}">{{ _('Need an Account?') }}</a></h2>
+                <h2 class="fr-card__title">{{ _('Need an Account?') }}</h2>
                 <div class="fr-card__desc">
                     <div>{% trans %}Then sign right up, it only takes a minute.{% endtrans %}</div>
                     <div class="action">
@@ -48,7 +48,7 @@
             <section class="fr-card fr-enlarge-link">
                 {% block help_forgotten_inner %}
                 <div class="fr-card__body">
-                    <h2 class="fr-card__title"><a class="btn btn-default" href="{{ h.url_for('user.register') }}">{{ _('Forgotten your password?') }}</a></h2>
+                    <h2 class="fr-card__title">{{ _('Forgotten your password?') }}</h2>
                     <div class="fr-card__desc">
                         <div>{% trans %}No problem, use our password recovery form to reset it.{% endtrans %}</div>
                         <div class="action">
