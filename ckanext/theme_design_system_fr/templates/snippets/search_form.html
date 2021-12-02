@@ -49,7 +49,7 @@
 
   {% block search_title %}
     {% if not error %}
-      <h1>{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type %}</h1>
+      <div class="fr-h5">{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type %}<div>
     {% else %}
       <h2>Error</h2>
     {% endif %}

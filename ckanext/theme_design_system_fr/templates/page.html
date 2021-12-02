@@ -36,7 +36,7 @@
             <nav role="navigation" class="fr-breadcrumb" aria-label="{{ _('Breadcrumb') }}">
 
               {% block breadcrumb %}
-                <button class="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
+                <button class="fr-breadcrumb__button breadcrumb" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
                 {% if self.breadcrumb_content() | trim %}
                 <div class="fr-collapse" id="breadcrumb-1">
                     <ol class="fr-breadcrumb__list">

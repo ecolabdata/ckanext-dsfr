@@ -6,8 +6,7 @@
                     <div class="fr-header__brand-top">
                         <div class="fr-header__logo">
                             <p class="fr-logo">
-                                République
-                                <br>Française
+                                ministères<br> transition écologique<br> cohésion des territoires<br> mer
                             </p>
                         </div>
                         <div class="fr-header__navbar">
@@ -84,6 +83,7 @@
                   <li class="fr-nav__item">
                       <a class="fr-nav__link" href="{{ h.url_for(controller='admin', action='index') }}" target="_self" title="{{ _('Sysadmin settings') }}" {% if h.current_url().startswith(h.url_for(controller='admin', action='index')) %}aria-current="page"{% endif %} >{{ _('Admin') }}</a>
                   </li>
+               
                     {% endif %}
                   
                   <li class="fr-nav__item">
@@ -109,9 +109,9 @@
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self" {% if h.current_url().startswith(h.url_for('organization.index')) %}aria-current="page"{% endif %} >{{ _('Organizations') }}</a>
                     </li>
-                    <li class="fr-nav__item">
+                    <!-- <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('group.index') }}" title="{{ _('Groups') }}" target="_self" {% if h.current_url().startswith(h.url_for('group.index')) %}aria-current="page"{% endif %} >{{ _('Groups') }}</a>
-                    </li>
+                    </li> -->
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
                     </li>
