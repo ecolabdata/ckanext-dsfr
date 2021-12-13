@@ -83,6 +83,9 @@
                   <li class="fr-nav__item">
                       <a class="fr-nav__link" href="{{ h.url_for(controller='admin', action='index') }}" target="_self" title="{{ _('Sysadmin settings') }}" {% if h.current_url().startswith(h.url_for(controller='admin', action='index')) %}aria-current="page"{% endif %} >{{ _('Admin') }}</a>
                   </li>
+                  <li class="fr-nav__item">
+                    <a class="fr-nav__link" href="{{ h.url_for(controller='harvest', action='search') }}" target="_self" title="Moissonage" {% if h.current_url().startswith(h.url_for(controller='harvest', action='search')) %}aria-current="page"{% endif %} >{{ _('Moissonage') }}</a>
+                </li>
                
                     {% endif %}
                   

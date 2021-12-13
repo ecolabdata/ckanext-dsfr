@@ -63,6 +63,9 @@ Example:
                 <dd>{{ h.SI_number_span(organization.package_count) }}</dd>
               </dl>
             </div>
+            {% if c.userobj.sysadmin %}
+            <div><a class="fr-link" href="{{ h.url_for(controller='harvest', action='search', q=organization.display_name) }}" target="_self" title="Moissonage" >{{ _('Voir moissonage') }}</a></div>
+            {% endif %}
             {% endblock %}
             {% block follow %}
             <div class="follow_button">
