@@ -27,6 +27,7 @@ Example:
         <div class="dataset-content">
           {% block heading %}
             <h2 class="dataset-heading fr-tile__title">
+            
               {% block heading_private %}
                 {% if package.private %}
                   <span class="dataset-private label label-inverse">
@@ -78,9 +79,14 @@ Example:
           {% endif %}
         {% endblock %}
       {% endblock %}
-          </div>
+      </div>
+      <div class="fr-tile__img">
+        <img src="{{ package.organization.image_url or h.url_for_static('/base/images/placeholder-organization.png') }}" class="fr-responsive-img" alt="">
+        <!-- L'alternative de l'image (attribut alt) doit à priori rester vide car l'image est illustrative et ne doit pas être restituée aux technologies d’assistance. Vous pouvez toutefois remplir l'alternative si vous estimer qu'elle apporte une information essentielle à la compréhension du contenu non présente dans le texte -->
+      </div>
     </div>
   </div>
+  
 </div>
 
 {% endblock %}

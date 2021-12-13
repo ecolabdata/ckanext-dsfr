@@ -1172,3 +1172,8 @@
 .fr-header__service {
   margin-left: 10px;
 }
+
+ul.hierarchy-tree {
+  font-size: 15px;
+  margin-top: 7px !important;
+}
