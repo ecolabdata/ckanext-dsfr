@@ -2,7 +2,7 @@
 
 # ckanext-theme-design-system-fr
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
+Template CKAN implémentant le [Système de Design de l'État](https://www.systeme-de-design.gouv.fr/).
 
 
 ## Requirements
