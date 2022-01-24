@@ -1,5 +1,3 @@
-[![Tests](https://github.com//ckanext-theme-design-system-fr/workflows/Tests/badge.svg?branch=main)](https://github.com//ckanext-theme-design-system-fr/actions)
-
 # ckanext-theme-design-system-fr
 
 Template CKAN implémentant le [Système de Design de l'État](https://www.systeme-de-design.gouv.fr/).
