@@ -13,9 +13,11 @@ To install ckanext-theme-design-system-fr:
 
 2. Clone the source and install it on the virtualenv
 
+```bash
     git clone https://github.com//ckanext-theme-design-system-fr.git
     cd ckanext-theme-design-system-fr
     pip install -e .
+```
 
 3. Add `theme_design_system_fr` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
@@ -45,13 +47,6 @@ Compatibility with core CKAN versions:
 | 2.7             | not tested    |
 | 2.8             | not tested    |
 | 2.9             | yes           |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
 
 ## License
 
