@@ -1,3 +1,23 @@
+/**
+ * Cette classe wrapper_minimap est positionnée sur le parent de la minimap
+ * en mettant du relative, le positionnement absolute css fonctionne
+ * cette classe n'est positionnée que sur le parent de la minimap
+ */
+.wrapper_minimap {
+        position: relative;
+}
+
+.dataset-map-expanded .wrapper_minimap{
+        min-height: 400px;
+        margin-top: 425px;
+}
+
+.dataset-map-expanded .wrapper_minimap #dataset-map{
+        top: -400px;
+        left: 12px;
+}
+
+
 .hide-filters {
     display: none;
 }
