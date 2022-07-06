@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {%- block page -%}
-
+{% set current_lang = h.lang() %}
+<div>lang: {{ current_lang}}</div>
   {% block skip %}
     <div class="sr-only sr-only-focusable"><a href="#content">{{ _('Skip to content') }}</a></div>
   {% endblock %}
@@ -11,6 +12,7 @@
   making sitewide header changes it is preferable to override the header.html
   file.
   #}
+
   {%- block header %}
     {% include "header.html" %}
   {% endblock -%}

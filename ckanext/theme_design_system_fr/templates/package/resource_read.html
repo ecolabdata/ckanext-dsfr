@@ -4,7 +4,8 @@
 
 {% block head_extras -%}
   {{ super() }}
-  {% set description = h.markdown_extract(h.get_translated(res, 'description'), extract_length=200) if res.description else h.markdown_extract(h.get_translated(package, 'notes'), extract_length=200) %}
+  {% set description = h.markdown_extract(h.get_localized_value_for_display(res.get('description', '')), extract_length=200) if res.description else h.markdown_extract(h.get_localized_value_for_display(package.get('notes', '')), extract_length=200) %}
+
   <meta property="og:title" content="{{ h.dataset_display_name(package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
   <meta property="og:description" content="{{ description|forceescape }}">
 {% endblock -%}
@@ -15,7 +16,7 @@
 
 {% block breadcrumb_content %}
   {{ super() }}
-  <li class="active"><a href="">{{ h.resource_display_name(res)|truncate(30) }}</a></li>
+  <li class="active"><a href="">{{ h.get_localized_value_for_display(res.get('name', '')) }}</a></li>
 {% endblock %}
 
 {% block pre_primary %}
@@ -31,6 +32,7 @@
               <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn btn-default fr-btn fr-btn--secondary', icon='wrench' %}</li>
             {% endif %}
             {% if res.url and h.is_url(res.url) %}
+
               <li>
                 <div class="btn-group">
                 <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }} fr-btn" href="{{ res.url }}">
@@ -81,7 +83,9 @@
               </div>
             {% endif %}
           {% endblock %}
-          {% block resource_read_title %}<h1 class="page-heading">{{ h.resource_display_name(res) | truncate(50) }}</h1>{% endblock %}
+          {% block resource_read_title %}<h1 class="page-heading">{{ h.get_localized_value_for_display(res.get('name', '')) }}</h1>{% endblock %}
+
+          
           {% block resource_read_url %}
             {% if res.url and h.is_url(res.url) %}
               <p class="text-muted ellipsis">{{ _('URL:') }} <a class="resource-url-analytics" href="{{ res.url }}" title="{{ res.url }}">{{ res.url }}</a></p>
@@ -91,12 +95,13 @@
           {% endblock %}
           <div class="prose notes" property="rdfs:label">
             {% if res.description %}
-              {{ h.render_markdown(res.description) }}
+              {{ h.render_markdown(h.get_localized_value_for_display(res.get('description', '') ) ) }}
             {% endif %}
             {% if not res.description and package.notes %}
             
                 <h3>{{ _('Dataset description:') }}</h3>
-                <blockquote class="fr-highlight">{{ h.markdown_extract(h.get_translated(package, 'notes')) }}</blockquote>
+                <blockquote class="fr-highlight">{{ h.markdown_extract(h.get_localized_value_for_display( package.get('notes', ''))) }}</blockquote>
+
                 <p>{% trans dataset=package.title, url=h.url_for(package.type ~ '.read', id=package.id if is_activity_archive else package.name) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
             {% endif %}
           </div>

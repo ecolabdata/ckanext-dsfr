@@ -23,10 +23,13 @@
                     <li class="fr-footer__content-item">
                         <a class="fr-footer__content-link" href="https://data.gouv.fr">data.gouv.fr</a>
                     </li>
+                    
                 </ul>
             </div>
         </div>
         <div class="fr-footer__bottom">
+
+        
             {% block footer_links %}
             <ul class="fr-footer__bottom-list">
                 <li class="fr-footer__bottom-item">
@@ -41,6 +44,9 @@
         </div>
     </div>
     {% block footer_debug %}
+
+    
+
       {% if g.debug %}
         {% include 'snippets/debug.html' %}
       {% endif %}
