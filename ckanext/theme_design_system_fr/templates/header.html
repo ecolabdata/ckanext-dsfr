@@ -1,5 +1,5 @@
 <header role="banner" class="fr-header">
-    <div class="fr-header__body">
+    <div class="fr-header__body" >
         <div class="fr-container">
             <div class="fr-header__body-row">
                 <div class="fr-header__brand fr-enlarge-link">
@@ -88,7 +88,7 @@
                 </li>
                
                     {% endif %}
-                  
+                
                   <li class="fr-nav__item">
                       <a class="fr-nav__link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" title="{{ _('View profile') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.read', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ c.userobj.display_name }}</a>
                   </li>
@@ -118,9 +118,13 @@
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
                     </li>
+                    <li class="fr-nav__item">
+                        {% snippet "snippets/fr_language_selector.html" %}
+                    </li>
                 {% endblock %}
                   
               </ul>
+        
             </nav>
         </div>
     </div>

@@ -1,0 +1,32 @@
+{% set current_url = request.environ.CKAN_CURRENT_URL %}
+{% set current_lang = h.lang() %}
+{% set current_locale = h.get_locales_dict()[current_lang] %}
+
+
+
+  <li class="fr-nav__item" data-fr-js-navigation-item="true">
+                  
+                            
+                            
+    <button class="fr-nav__btn" aria-expanded="false" aria-controls="Commencer sur data.gouv.fr" data-fr-js-collapse-button="true">Langue</button>
+    <div class="fr-collapse fr-menu" id="Commencer sur data.gouv.fr" data-fr-js-collapse="true" style="--collapse:-180px;">
+        <ul class="fr-menu__list">
+            
+          {% for locale in h.get_available_locales() %}
+            <li>
+                <a class="fr-nav__link" href="{{ h.url_for(current_url, locale=locale) }}" target="_self">
+                  {{ (locale.display_name or locale.english_name) | capitalize }}
+                </a>
+            </li>
+          {% endfor %}
+            
+          
+            
+        </ul>
+    </div>
+    
+</li>
+  
+
+
+
