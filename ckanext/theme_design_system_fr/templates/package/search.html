@@ -1,0 +1,144 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _(dataset_type.title() + 's') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_(dataset_type.title() + 's'), named_route='%s.search' % dataset_type, highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block page_title_and_search %}
+<h1 class="hide-heading">{% block page_heading %}{{ _('Recherche de jeux de données') }}{% endblock %}</h1>
+
+
+<div class="fr-search-bar" id="search-850" role="search">
+    <input form="dataset-search-form" aria-label="{% block header_site_search_label %}{{ _('Recherche libre dans les libellés, descriptions et mots-clés') }}{% endblock %}" id="field-giant-search" type="text" class="fr-input" name="q" value="{{ q }}" autocomplete="off" placeholder="{{ _('Recherche libre dans les libellés, descriptions et mots-clés') }}">
+    <button form="dataset-search-form" class="fr-btn" title="Submit" type="submit" value="search" aria-label="{{_('Submit')}}">
+        Submit
+    </button>
+</div>
+{% endblock %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {% block page_primary_action %}
+        {% if h.check_access('package_create') %}
+          <div class="page_primary_action">
+            {{ h.snippet ('snippets/add_dataset.html', dataset_type=dataset_type) }}
+          </div>
+        {% endif %}
+      {% endblock %}
+      {% block form %}
+        {% set facets = {
+          'fields': fields_grouped,
+          'search': search_facets,
+          'titles': facet_titles,
+          'translated_fields': translated_fields,
+          'remove_field': remove_field }
+        %}
+        {% set sorting = [
+          (_('Relevance'), 'score desc, metadata_modified desc'),
+          (_('Name Ascending'), 'title_string asc'),
+          (_('Name Descending'), 'title_string desc'),
+          (_('Last Modified'), 'metadata_modified desc'),
+          (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+        %}
+        {% snippet 'snippets/search_form.html', form_id='dataset-search-form', type=dataset_type, query=q, sorting=sorting, sorting_selected=sort_by_selected, count=page.item_count, placeholder=_('Search ' + dataset_type + 's') + '...', facets=facets, show_empty=request.params, error=query_error, fields=fields, hidesearchbar = 1 %}
+      {% endblock %}
+      {% block package_search_results_list %}
+        {{ h.snippet('snippets/package_list.html', packages=page.items) }}
+      {% endblock %}
+    </div>
+
+    {% block page_pagination %}
+      {{ page.pager(q=q) }}
+    {% endblock %}
+  </section>
+
+  {% block package_search_results_api %}
+    <section class="module">
+      <div class="module-content">
+        {% block package_search_results_api_inner %}
+          <small>
+            {% set api_link = h.link_to(_('API'), h.url_for(controller='api', action='get_api', ver=3)) %}
+            {% set api_doc_link = h.link_to(_('API Docs'), 'http://docs.ckan.org/en/{0}/api/'.format(g.ckan_doc_version)) %}
+            {% if g.dumps_url -%}
+              {% set dump_link = h.link_to(_('full {format} dump').format(format=g.dumps_format), g.dumps_url) %}
+              {% trans %}
+              You can also access this registry using the {{ api_link }} (see {{ api_doc_link }}) or download a {{ dump_link }}.
+          {% endtrans %}
+            {% else %}
+          {% trans %}
+          You can also access this registry using the {{ api_link }} (see {{ api_doc_link}}).
+          {% endtrans %}
+            {%- endif %}
+          </small>
+        {% endblock %}
+      </div>
+    </section>
+  {% endblock %}
+{% endblock %}
+
+
+{% block secondary_content %}
+    {{ super() }}
+    <h3>{{ _('Filters') }}</h3>
+  <div class="filters"> {#
+    {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
+  {% if dataset_extent %}
+    {% snippet "spatial/snippets/dataset_map_sidebar.html", extent=dataset_extent %}
+    {%else%}
+  {% endif %}#}
+  {#% snippet "spatial/snippets/spatial_query.html", default_extent="[[42.33, -4.87], [51.14, 8.23]]" %#}
+  {% snippet "package/snippets/map_search.html", default_extent="[[42.33, -4.87], [51.14, 8.23]]" %}
+    <form method="get" class="filterblock">
+      {% for facet in facet_titles %}
+        {{ h.snippet('snippets/facet_list_selects.html', title=facet_titles[facet], name=facet, search_facets=search_facets) }}
+      {% endfor %}
+
+      {# filtres dates #}
+      <section class="module module-narrow module-shallow">
+        <nav aria-label="Date de mise à jour">
+          <label>Date de mise à jour</label>
+          <div class="item item-part">
+            <label for="filter-ext_startdate" id="filter-ext_startdate-label">Date de début</label>
+            <input type="date" class="fr-input" id="filter-ext_startdate" name="filter-ext_startdate"/>
+          </div>
+          <div class="item item-part">
+            <label for="filter-ext_enddate" id="filter-ext_enddate-label">Date de fin</label>
+            <input type="date" class="fr-input" id="filter-ext_enddate" name="filter-ext_enddate"/>
+          </div>
+        </nav>
+
+        <nav aria-label="Date de mise à jour">
+          <div class="fr-checkbox-group item">
+            <a href="./">
+                <input type="checkbox" id="checkbox" name="checkbox">
+                <label class="fr-label" >Inclure les données à accès restreint</label>
+            </a>
+            <a href="#" class="i-right"><span class="fr-fi-information-line"></span></a>
+        </div>
+        </nav>
+      </section>
+      
+
+      {#<button class="fr-btn fr-btn--rounded apply-filters" type="submit">{{ _('Apply filters') }}</button>#}
+      <a href="{{ h.url_for('dataset.search') }}{#?_organization_limit=0&_tags_limit=0&_res_format_limit=0#}" class="fr-btn fr-btn--secondary fr-btn--rounded reset-filters" >{{ _('Reset filters') }}</a>
+    </form>
+    {#<div>
+      {% for facet in facet_titles %}
+        {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets) }}
+      {% endfor %}
+    </div>#}
+    {#<a class="close no-text hide-filters"><i class="fa fa-times-circle"></i><span class="text">close</span></a>#}
+  </div>
+{% endblock %}
+
+{%- block scripts %}
+  {{ super() }}
+  <script src="/js/ecosphere/pkgsearch.js" type="text/javascript"></script>
+  <script>
+    pkgsearch.baseUrl = "{{ h.url_for('dataset.search') }}";
+  </script>
+{% endblock %}

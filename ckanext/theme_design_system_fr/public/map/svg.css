@@ -1,0 +1,15 @@
+svg .cls-1 {
+    fill: #FFF;
+}
+svg:not(.static) g[id]:hover .cls-1,
+svg:not(.static) g[id]:hover .cls-2 {
+    fill: #ECECFE;
+}
+/*
+.cls-1:hover, .cls-2:hover {
+    fill: #ECECFE;
+}*/
+
+svg .selected .cls-1 {
+    fill: #DCDCFC;
+}

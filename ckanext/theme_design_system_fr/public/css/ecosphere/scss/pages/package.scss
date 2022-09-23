@@ -1,0 +1,160 @@
+
+tr.resource-item {
+    td.format-column {
+        //vertical-align: top;
+    }
+    a.heading {
+        color: #000;
+        padding-left: 0;
+        div.format-block {
+            padding-right: 16px;
+            flex-shrink: 0;
+            span.format-label {
+                z-index: auto;
+                border: 1px solid #666;
+                color: #666;
+                background: transparent;
+                min-height: 1rem;
+                height: 2em;
+                border-radius: 4px;
+                padding: 0 10px;
+                text-transform: uppercase;
+                font-size: 12px;
+                font-weight: 400;
+                box-sizing: content-box;
+            }
+        }
+        &:hover {
+            background: none;
+        }
+    }
+    td.actions {
+        min-width: 300px;
+        text-align: right;
+        padding-top: 2px;
+        a {
+            i {
+                margin-right: 6px;
+            }
+        }
+    }
+}
+
+.package-title-info {
+    h1 {
+        //word-break: break-all;
+    }
+    .summary {
+        .fr-grid-row > * {
+            min-height: 40px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 14px;
+            a span:before {
+                font-size: 16px;
+                margin-right: 4px;
+                padding-bottom: 1px;
+                margin-top: -1px;
+            }
+        }
+    }
+}
+.pkg-org-title {
+    margin-bottom: 2em;
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+    &.has-series {
+        border-left: 3px solid #6A6AF4;
+        padding-left: 16px;
+        .ri-stack-fill {
+            vertical-align: text-top;
+        }
+        .list {
+            background: #FFF;
+            margin: 0 0 0 -19px;
+            padding: 1em 0;
+            display: none;
+        }
+        ul {
+            border: 1px solid #E5E5E5;
+            border-width: 1px 0;
+            list-style: none;
+            padding: 1em 0 1em 16px;
+            li {
+                .fr-fi-arrow-right-line {
+                    &:before {
+                        font-size: 16px;
+                    }
+                }
+                a {
+    
+                }
+            }
+        }
+    }
+}
+.pkg-org-series-container {
+    margin-right: 205px;
+    a {
+        color: #6A6AF4;
+        &.toggle span:before {font-size: 18px}
+    }
+    p {
+        margin: 0;
+    }
+    .link-open {display: inline;}
+    .link-close {display: none;}
+    &.open {
+        .link-open {display: none;}
+        .link-close {display: inline;}
+        .list {
+            display: block;
+            li {
+                display: flex;
+                gap: 5px;
+                a {
+                    box-shadow: none;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    &:last-child {
+        .list {
+            padding-bottom: 0;
+        }
+    }
+}
+.pkg-org-zone {
+    float: right;
+    width: 180px;
+    margin-left: 1em;
+    position: relative;
+    object {
+        background: #F6F6F6;
+        padding: 1em;
+        width: 100%;
+    }
+    .btn-map-enlarge {
+        position: absolute;
+        display: block;
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        background: RGBA(255,255,255,0.9) url('./img/zoom.svg') center center no-repeat;
+        background-size: contain;
+        color: transparent;
+        border-radius: 15px;
+        text-align: center;
+        text-indent: -30px;
+    }
+}
+.package-description {
+    p {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}

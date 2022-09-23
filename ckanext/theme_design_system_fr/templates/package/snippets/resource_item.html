@@ -17,44 +17,46 @@
 
 <tr class="resource-item" data-id="{{ res.id }}">
       {% block resource_item_title %}
+      <td class="format-column">
+        <a class="heading fr-tile__title fr-link" href="{{ url }}" title="{{ h.get_localized_value_for_display(res.get('name', '')) or h.get_localized_value_for_display(res.get('description', '')) }}">
+        <div class="format-block"><span class="format-label label label-default fr-tag" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">  {{ h.get_vocabulary_label_by_uri("iana_media_type",res.format) }}</span></div></a>
+      </td>
       <td>
           <a class="heading fr-tile__title fr-link" href="{{ url }}" title="{{ h.get_localized_value_for_display(res.get('name', '')) or h.get_localized_value_for_display(res.get('description', '')) }}">
-          {{ h.get_localized_value_for_display(res.get('name', '')) }}<span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ h.get_translated(res, 'format') }}</span>
+          <span class="resource-name">{{ h.get_localized_value_for_display(res.get('name', '')) }}</span>
           {{ h.popular('views', res.tracking_summary.total, min=10) if res.tracking_summary }}
           </a>
       </td>
       {% endblock %}
       {% block resource_item_description %}
-        <td class="description">
+        {#<td class="description">
            <!-- {% if res.description %}
 
             {{ h.markdown_extract(h.get_localized_value_for_display(res.get('description', '')), extract_length=80) }}
 
           {% endif %} -->
-        </td>
+        </td>#}
       {% endblock %}
 
 
       {% block resource_item_explore %}
 
       {% if not url_is_edit %}
-        <td>
+        <td class="actions">
           <ul class="fr-btns-group--sm fr-btns-group--inline"> 
             {% block resource_item_explore_links %}
             <li>
-              <a class="fr-btn" href="{{ url }}">
+              <a class="fr-btn fr-btn--secondary fr-btn--rounded fr-btn--sm" href="{{ url }}">
                 {% if not is_activity_archive and res.has_views %}
-                  <i class="fa fa-bar-chart-o"></i>
                   {{ _('Preview') }}
                 {% else %}
-                  <i class="fa fa-info-circle"></i>
-                  {{ _('More information') }}
+                  {{ _('Détails') }}
                 {% endif %}
               </a>
             </li>
             {% if res.url and h.is_url(res.url) %}
             <li>
-              <a class="fr-btn" href="{{ res.url }}" class="resource-url-analytics" target="_blank">
+              <a class="fr-btn fr-btn--white fr-btn--rounded fr-btn--sm" href="{{ res.url }}" class="resource-url-analytics" target="_blank">
                 {% if res.has_views or res.url_type == 'upload' %}
                   <i class="fa fa-arrow-circle-o-down"></i>
                   {{ _('Download') }}
@@ -67,7 +69,7 @@
             {% endif %}
             {% if can_edit %}
             <li>
-              <a class="fr-btn" href="{{ h.url_for(pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id) }}">
+              <a class="fr-btn fr-btn--secondary fr-btn--rounded fr-btn--sm" href="{{ h.url_for(pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id) }}">
                 <i class="fa fa-pencil-square-o"></i>
                 {{ _('Edit') }}
               </a>

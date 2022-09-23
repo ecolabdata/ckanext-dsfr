@@ -1,95 +1,227 @@
 {#
 Displays a single of dataset.
 
-package        - A package to display.
-item_class     - The class name to use on the list item.
+package - A package to display.
+item_class - The class name to use on the list item.
 hide_resources - If true hides the resources (default: false).
-banner         - If true displays a popular banner (default: false).
-truncate       - The length to trucate the description to (default: 180)
+banner - If true displays a popular banner (default: false).
+truncate - The length to trucate the description to (default: 180)
 truncate_title - The length to truncate the title to (default: 80).
 
 Example:
 
-  {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
+{% snippet 'snippets/package_item.html', package=c.datasets[0] %}
 
 #}
 {% set truncate = truncate or 180 %}
 {% set truncate_title = truncate_title or 80 %}
-{% set title = h.get_localized_value_for_display(package.get('title', ''))  or package.name %}
+{% set title = h.get_localized_value_for_display(package.get('title', '')) or package.name %}
 {% set notes = h.truncate(h.get_localized_value_for_display(package.get('notes', '')), truncate) %}
 {% block package_item %}
+{#
 <div class="fr-grid-row  fr-grid-row--gutters">
-<div class="fr-col-12">
-  <div class="{{ item_class or "dataset-item" }} fr-tile fr-enlarge-link fr-tile--horizontal">
-    <div class="fr-tile__body">
-      {% block content %}
+  <div class="fr-col-12">
+    <div class="{{ item_class or " dataset-item" }} fr-tile fr-enlarge-link fr-tile--horizontal">
+      <div class="fr-tile__body">
+        {% block content %}
         <div class="dataset-content">
           {% block heading %}
-            <h2 class="dataset-heading fr-tile__title">
-            
-              {% block heading_private %}
-                {% if package.private %}
-                  <span class="dataset-private label label-inverse">
-                      <i class="fa fa-lock"></i>
-                      {{ _('Private') }}
-                  </span>
-                {% endif %}
-              {% endblock %}
-              {% block heading_title %}
+          <h2 class="dataset-heading fr-tile__title">
+
+            {% block heading_private %}
+            {% if package.private %}
+            <span class="dataset-private label label-inverse">
+              <i class="fa fa-lock"></i>
+              {{ _('Private') }}
+            </span>
+            {% endif %}
+            {% endblock %}
+            {% block heading_title %}
 
 
-      {{ h.link_to(h.truncate(title, truncate_title), h.url_for('%s.read' % package.type, id=package.name)) }}
+            {{ h.link_to(h.truncate(title, truncate_title), h.url_for('%s.read' % package.type, id=package.name)) }}
 
 
-              {% endblock %}
-              {% block heading_meta %}
-                {% if package.get('state', '').startswith('draft') %}
-                  <span class="label label-info">{{ _('Draft') }}</span>
-                {% elif package.get('state', '').startswith('deleted') %}
-                  <span class="label label-danger">{{ _('Deleted') }}</span>
-                {% endif %}
-                {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
-              {% endblock %}
-            </h2>
+            {% endblock %}
+            {% block heading_meta %}
+            {% if package.get('state', '').startswith('draft') %}
+            <span class="label label-info">{{ _('Draft') }}</span>
+            {% elif package.get('state', '').startswith('deleted') %}
+            <span class="label label-danger">{{ _('Deleted') }}</span>
+            {% endif %}
+            {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+            {% endblock %}
+          </h2>
           {% endblock %}
           {% block banner %}
-            {% if banner %}
-              <span class="banner">{{ _('Popular') }}</span>
-            {% endif %}
+          {% if banner %}
+          <span class="banner">{{ _('Popular') }}</span>
+          {% endif %}
           {% endblock %}
           {% block notes %}
-            {% if notes %}
-              <div>{{ notes|urlize }}</div>
-            {% else %}
-              <p class="empty">{{ _("This dataset has no description") }}</p>
-            {% endif %}
+          {% if notes %}
+          <div>{{ notes|urlize }}</div>
+          {% else %}
+          <p class="empty">{{ _("This dataset has no description") }}</p>
+          {% endif %}
           {% endblock %}
         </div>
-      
+
         {% block resources %}
-          {% if package.resources and not hide_resources %}
-            {% block resources_outer %}
-              <ul class="dataset-resources list-unstyled fr-tags-group">
-                {% block resources_inner %}
-                  {% for resource in h.dict_list_reduce(package.resources, 'format') %}
-                  <li>
-                    <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="label label-default fr-tag" data-format="{{ resource.lower() }}">{{ resource }}</a>
-                  </li>
-                  {% endfor %}
-                {% endblock %}
-              </ul>
-            {% endblock %}
-          {% endif %}
+        {% if package.resources and not hide_resources %}
+        {% block resources_outer %}
+        <ul class="dataset-resources list-unstyled fr-tags-group">
+          {% block resources_inner %}
+          {% for resource in h.dict_list_reduce(package.resources, 'format') %}
+          <li>
+            <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="label label-default fr-tag"
+              data-format="{{ resource.lower() }}">{{ resource }}</a>
+          </li>
+          {% endfor %}
+          {% endblock %}
+        </ul>
         {% endblock %}
-      {% endblock %}
+        {% endif %}
+        {% endblock %}
+        {% endblock %}
       </div>
       <div class="fr-tile__img">
-        <img src="{{ package.organization.image_url or h.url_for_static('/base/images/placeholder-organization.png') }}" class="fr-responsive-img" alt="">
+        <img src="{{ package.organization.image_url or h.url_for_static('/base/images/placeholder-organization.png') }}"
+          class="fr-responsive-img" alt="">
         <!-- L'alternative de l'image (attribut alt) doit à priori rester vide car l'image est illustrative et ne doit pas être restituée aux technologies d’assistance. Vous pouvez toutefois remplir l'alternative si vous estimer qu'elle apporte une information essentielle à la compréhension du contenu non présente dans le texte -->
       </div>
     </div>
   </div>
-  
-</div>
 
+</div>
+#}
+
+<li class="fr-enlarge-link {{ item_class or " dataset-item" }}"> 
+	<div class="body">
+		{% block content %}
+			<div class="heading-block">
+				<div>
+					{% block heading %}
+						<h2 class="heading">
+
+							{% block heading_private %}
+								{% if package.private %}
+									<span class="dataset-private label label-inverse">
+										<i class="fa fa-lock"></i>
+										{{ _('Private') }}
+									</span>
+								{% endif %}
+							{% endblock %}
+							{% block heading_title %}
+
+
+								{{ h.link_to(h.truncate(title, truncate_title), h.url_for('%s.read' % package.type, id=package.name)) }}
+
+
+							{% endblock %}
+							{% block heading_meta %}
+								{% if package.get('state', '').startswith('draft') %}
+									<span class="label label-info">{{ _('Draft') }}</span>
+								{% elif package.get('state', '').startswith('deleted') %}
+									<span class="label label-danger">{{ _('Deleted') }}</span>
+								{% endif %}
+								{{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+							{% endblock %}
+						</h2>
+					{% endblock %}
+					{% block banner %}
+						{% if banner %}
+							<span class="banner">{{ _('Popular') }}</span>
+						{% endif %}
+					{% endblock %}
+					{% set keywords = h.scheming_language_text(package.keywords, prefer_lang="fr") %}
+					{% if keywords %}
+					<div class="tags">
+						{% for kw in keywords %}
+							<a class="fr-tag" href="#">{{ kw }}</a>
+						{% endfor %}
+					</div>
+					{% endif %}
+					<div>
+						<strong>Par</strong>
+						<a href="#" class="enlarge-link-inside">{{ package.organization.title }}</a>
+						<br>
+						<strong>Date de mise à jour</strong>
+						{% if package.modified is defined %}
+							{{ h.get_localized_date(package.modified) }}
+						{% elif package.metadata_modified is defined %}
+							{{ h.get_localized_date(package.metadata_modified) }}
+            {% else %}
+              -
+						{% endif %}
+					</div>
+				</div>
+				<div class="img-zone">
+					{% if packageimagefieldnametbd %}
+					{% else %}
+					<div class="imgmap" data-territory="{% for t in package.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
+						<object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
+						<object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
+						
+                        {% set om = [
+                            { "id": "mayotte", "title": "Mayotte" },
+                            { "id": "guadeloupe", "title": "Guadeloupe" },
+                            { "id": "martinique", "title": "Martinique" },
+                            { "id": "la-reunion", "title": "La Réunion" },
+                            { "id": "guyane", "title": "Guyane" },
+                            { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
+                            { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
+                            { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
+                            { "id": "saint-martin", "title": "Saint-Martin" },
+                            { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
+                            { "id": "polynesie-francaise", "title": "Polynésie Française" },
+                            { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
+                        ] %}
+                            {% for territoire in om %}
+                                <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
+                            {% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			{% block notes %}
+				{% if notes %}
+					<div>{{ notes|urlize }}</div>
+				{% else %}
+					<p class="empty">{{ _("This dataset has no description") }}</p>
+				{% endif %}
+			{% endblock %}
+			<div class="footer">
+				<div class="isopen">
+					{% if package.restricted_access == "true" %}
+						<span><i class="ri-close-circle-fill"></i>{{ _('Données restreintes') }}</span>
+					{% else %}
+						<span><i class="ri-checkbox-circle-fill"></i>{{ _('Données ouvertes') }}</span>
+					{% endif %}
+				</div>
+				<div class="res-types">
+					{% block resources %}
+						{% if package.resources and not hide_resources %}
+							{% block resources_outer %}
+								<ul class="dataset-resources list-unstyled fr-tags-group">
+									{% block resources_inner %}
+										{% for resource in h.dict_list_reduce(package.resources, 'format') %}
+											<li>
+												<span class="label label-default fr-tag" data-format="{{ resource.lower() }}">{{ resource }}</span>
+											</li>
+										{% endfor %}
+									{% endblock %}
+								</ul>
+							{% endblock %}
+						{% endif %}
+					{% endblock %}
+				</div>
+			</div>
+		{% endblock %}
+	</div>
+	<div class="img">
+		<img
+		src="{{ package.organization.image_display_url or package.organization.image_url or h.url_for_static('/base/images/placeholder-organization.png') }}" class="fr-responsive-img" alt="">
+	</div>
+</li>
 {% endblock %}

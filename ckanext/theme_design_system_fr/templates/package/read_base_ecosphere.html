@@ -1,0 +1,112 @@
+{% extends "package/base.html" %}
+
+
+
+{% block breadcrumb_content_selected %} class="active"{% endblock %}
+
+{% block subtitle %}{{ _(dataset_type.title()) }}{% endblock %}
+
+{% block breadcrumb_content %}
+    {% if pkg %}
+        {#{% set dataset = h.scheming_language_text(pkg.title, prefer_lang="fr") %}#}
+        {% set dataset = h.get_localized_value_for_display(pkg.get('title', '')) %}
+        
+        {% if pkg.organization %}
+            {% set organization = pkg.organization.title %}
+            <li class="fr-breadcrumb__link">{% link_for _('Organizations'), controller='organization', action='index' %}</li>
+            {#
+            {% set parent_list =  h.group_tree_parents(pkg.organization.name)  %}
+            {% for parent_node in parent_list %}
+                <li class="fr-breadcrumb__link">{% link_for  parent_node.title|truncate(35), controller='organization', action='read', id=parent_node.name %}</li>
+            {% endfor %}#}
+            <li class="fr-breadcrumb__link">{% link_for organization|truncate(30), controller='organization', action='about', id=pkg.organization.name %}</li>
+        {% else %}
+            <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
+        {% endif %}
+        <li{{ self.breadcrumb_content_selected() }} class="fr-breadcrumb__link">{% link_for dataset|truncate(30), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='read', id=pkg.name, title=dataset %}</li>
+    {% else %}
+
+        <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
+        <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block secondary %}{% endblock %}
+{% block pagebody %}
+
+<section class="wrapper white">
+    <div class="fr-container">
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-xs-12 fr-col-md-3 fr-col-lg-2">
+                {% block package_aside %}{% endblock %}
+            </div>
+            <div class="fr-col-xs-12 fr-col-md-9 fr-col-lg-10 package-title-info">
+                <div class="pkg-org-zone">
+                    {% block package_zone %}{% endblock %}
+                </div>
+                {% block package_title_info %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+<section class="wrapper">
+    <div class="fr-container">
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-xs-12 fr-col-md-9 fr-col-lg-10 fr-col-offset-md-3 fr-col-offset-lg-2">
+                {#<h2>Description</h2>#}
+                {% block package_description %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+<section class="wrapper white">
+    <div class="fr-container">
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-xs-12 fr-col-md-9 fr-col-lg-10 fr-col-offset-md-3 fr-col-offset-lg-2">
+                {#<h2>Informations</h2>#}
+                {% block package_informations %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="wrapper" style="display: none;opacity: 0.3">
+    {% block primary_content_inner %}{% endblock %}
+    <div class="fr-container">
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-xs-12 fr-col-md-9 fr-col-lg-10 fr-col-offset-md-3 fr-col-offset-lg-2">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modale avec zone d'action 
+     La balise <dialog> peut être placée n'importe où sur la page, toutefois 
+     nous vous conseillons, si vous en avez la possibilité, 
+     d'en faire un enfant direct de la balise <body> 
+-->
+
+<dialog aria-labelledby="fr-modal-imgzoom-title" id="fr-modal-imgzoom" class="fr-modal" role="dialog" >
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-imgzoom-title" class="fr-modal__title sr-only">
+                            <span class="fr-fi-arrow-right-line fr-fi--lg" aria-hidden="true"></span>
+                            Titre de la modale
+                        </h1>
+                        {% block imgmodalcontent %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+{% endblock %}

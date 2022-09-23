@@ -6,13 +6,13 @@
                     <div class="fr-header__brand-top">
                         <div class="fr-header__logo">
                             <p class="fr-logo">
-                                ministères<br> transition écologique<br> cohésion des territoires<br> mer
+                                ministères<br> transition écologique<br> cohésion des territoires<br> transition énergétique<br> mer
                             </p>
                         </div>
-                        <div class="fr-header__navbar">
+                        <div class="fr-header__navbar">{#
                             <button class="fr-btn--search fr-btn" data-fr-opened="false" aria-controls="modal-851" title="Rechercher">
                                 Rechercher
-                            </button>
+                            </button>#}
                             <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-855" id="button-855" aria-haspopup="menu" title="Menu" id="fr-btn-menu-mobile-1">
                                 Menu
                             </button>
@@ -33,26 +33,40 @@
                         <ul class="fr-links-group">
                             
                         {% if c.userobj %}
+                        
+                
+                            <li>
+                                <a class="fr-link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" title="{{ _('View profile') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.read', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ c.userobj.display_name }}</a>
+                            </li>
+                            {% set new_activities = h.new_activities() %}
+                            <li>
+                                {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities)
+                                %}
+                                <a class="fr-link" href="{{ h.url_for('dashboard.index') }}" title="{{ notifications_tooltip }}" target="_self" {% if h.current_url().startswith(h.url_for('dashboard.index')) %}aria-current="page"{% endif %} >{{ _('Dashboard') }} ({{ new_activities }})</a>
+                            </li>
                             {% block header_account_log_out_link %}
                             <li>
-                                <a class="fr-link fr-fi-add-circle-line" href="{{ h.url_for('/user/_logout') }}" title="{{ _('Log out') }}">{{ _('Log out') }}</a>
+                                <a class="fr-link " href="{{ h.url_for('/user/_logout') }}" title="{{ _('Log out') }}"><span class="ri-database-2-line"></span>{{ _('Log out') }}</a>
                             </li>
                             {% endblock %}
                         {% else %}
                             {% block header_account_notlogged %}
+                            {# les comptes user ne sont plus à l'ordre du jour
                             <li>
-                                <a class="fr-link fr-fi-lock-line" >{% link_for _('Log in'), named_route='user.login' %}</a>
+                                {% link_for _('Log in'), named_route='user.login', class_='fr-link fr-fi-lock-line' %}
                             </li>
                                 {% if h.check_access('user_create') %}
                             <li>
-                                <a class="fr-link fr-fi-account-line" >{% link_for _('Register'), named_route='user.register', class_='sub' %}</a>
+                                {% link_for _('Register'), named_route='user.register', class_='fr-link fr-fi-account-line' %}
                             </li>
                                 {% endif %} 
+                            #}
                             {% endblock %}
                         {% endif %} 
+                        {% snippet "snippets/fr_language_selector.html" %}
                         </ul>
                     </div>
-                    <div class="fr-header__search fr-modal" id="modal-851">
+                    {#<div class="fr-header__search fr-modal" id="modal-851">
                         <div class="fr-container fr-container-lg--fluid">
                             <button class="fr-link--close fr-link" aria-controls="modal-851">Fermer</button>
                             <div class="fr-search-bar" id="search-850" role="search">
@@ -66,17 +80,20 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </div>
     </div>
     <div class="fr-header__menu fr-modal" id="modal-855" aria-labelledby="fr-btn-menu-mobile-1">
         <div class="fr-container">
-            <button class="fr-link--close fr-link" aria-controls="modal-840">Fermer</button>
+            <button class="fr-link--close fr-link" aria-controls="modal-855">Fermer</button>
             <div class="fr-header__menu-links"></div>
             <nav class="fr-nav" id="header-navigation" role="navigation" aria-label="Menu principal">
                 <ul class="fr-nav__list">
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ h.url_for('home.index') }}" title="{{ _('Home') }}" target="_self" {% if h.current_url() == h.url_for('home.index') %}aria-current="page"{% endif %} >{{ _('Home') }}</a>
+                    </li>
                 {% if c.userobj %}
                   {% block header_account_logged %} 
                     {% if c.userobj.sysadmin %}
@@ -88,26 +105,16 @@
                 </li>
                
                     {% endif %}
-                
-                  <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for('user.read', id=c.userobj.name) }}" title="{{ _('View profile') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.read', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ c.userobj.display_name }}</a>
-                  </li>
-                  {% set new_activities = h.new_activities() %}
-                  <li class="fr-nav__item">
-                    {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities)
-                    %}
-                      <a class="fr-nav__link" href="{{ h.url_for('dashboard.index') }}" title="{{ notifications_tooltip }}" target="_self" {% if h.current_url().startswith(h.url_for('dashboard.index')) %}aria-current="page"{% endif %} >{{ _('Dashboard') }} ({{ new_activities }})</a>
-                  </li>
-                  {% block header_account_settings_link %}
+                  {#% block header_account_settings_link %}
                   <li class="fr-nav__item">
                       <a class="fr-nav__link" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.edit', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ _('Profile settings') }}</a>
                   </li>
-                  {% endblock %} 
+                  {% endblock %#} 
                   {% endblock %}
                 {% endif %} 
                 {% block header_site_navigation %}
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}" title="{{ _('Datasets') }}" target="_self" {% if h.current_url().startswith(h.url_for('dataset.search')) %}aria-current="page"{% endif %} >{{ _('Datasets') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}{#?_organization_limit=0&_tags_limit=0&_res_format_limit=0#}" title="{{ _('Datasets') }}" target="_self" {% if h.current_url().startswith(h.url_for('dataset.search')) %}aria-current="page"{% endif %} >{{ _('Datasets') }}</a>
                     </li>
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self" {% if h.current_url().startswith(h.url_for('organization.index')) %}aria-current="page"{% endif %} >{{ _('Organizations') }}</a>
@@ -118,10 +125,23 @@
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
                     </li>
-                    <li class="fr-nav__item">
+                    {#<li class="fr-nav__item">
                         {% snippet "snippets/fr_language_selector.html" %}
-                    </li>
+                    </li>#}
                 {% endblock %}
+                {#
+                <li class="fr-nav__item"><a class="fr-nav__link">
+                {{ h.url_for('home.index') }}
+                </a></li>
+                <li class="fr-nav__item"><a class="fr-nav__link">
+                    {{ h.url_for(controller='admin', action='index') }}
+                </a></li>
+                <li class="fr-nav__item"><a class="fr-nav__link">
+                    {{ '/' ~ h.lang() ~ h.full_current_url() }}
+                </a></li>
+                <li class="fr-nav__item"><a class="fr-nav__link">
+                    (todo: debug liens actifs) {{ _('Hi my name is patrick') }}
+                </a></li>#}
                   
               </ul>
         

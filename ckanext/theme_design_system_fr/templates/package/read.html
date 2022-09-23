@@ -1,0 +1,406 @@
+{% extends "package/read_base_ecosphere.html" %}
+
+{# Zone de gauche : logo organisation, abonnement #}
+{% block package_aside %}
+  {% block package_organization %}
+      {% if pkg.organization %}
+          {% set org = h.get_organization(pkg.organization.id) %}
+          <div class="">
+              <img class="fr-responsive-img" src="{{ org.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" width="200" alt="{{ org.name }}" />
+          </div>
+      {% endif %}
+  {% endblock %}
+  {% block package_info %}
+      {% if pkg %}
+      <section class="module module-narrow">
+          <div class="module context-info">
+          <div class="module-content">
+              {% block package_info_inner %}
+              {% block heading %}{% endblock %}
+              {% block nums %}
+                  {#
+                  {% set num_followers = h.follow_count('dataset', pkg.id) %}
+                  <div class="nums">
+                  <dl>
+                      <dt>{{ _('Followers') }}</dt>
+                      <dd data-module="followers-counter" data-module-id="{{ pkg.id }}" data-module-num_followers="{{ num_followers }}">{{ h.SI_number_span(num_followers) }}</dd>
+                  </dl>
+                  </div>#}
+              {% endblock %}
+              {% block follow_button %}
+                  {% if not hide_follow_button %}
+                  <div class="follow_button">
+                      {{ h.follow_button('dataset', pkg.id) }}
+                  </div>
+                  {% endif %}
+              {% endblock %}
+              {% endblock %}
+          </div>
+          </div>
+      </section>
+      {% endif %}
+  {% endblock %}
+{% endblock %}
+
+{# Titre & informations principales #}
+{% block package_title_info %}
+  <div class="pkg-org-title has-series">
+    <h1 class="fr-mb-3w">
+    {{ h.get_localized_value_for_display(pkg.get('title', '')) }}</h1>
+    
+          {% if pkg.state.startswith('draft') %}
+            <div class="fr-pb-2w">[{{ _('Draft') }}]</div>
+          {% endif %}
+          {% if pkg.state == 'deleted' %}
+            <div class="fr-pb-2w">[{{ _('Deleted') }}]</div>
+          {% endif %}
+    {% if pkg.series_member and pkg.series_member|length > 0 %}
+    <div class="pkg-org-series-container">
+      <p>
+        <span class="ri-stack-fill" aria-hidden="true"></span> Série de {{ pkg.series_member|length }} jeux de données
+        <a class="toggle" href="#">
+        <span class="link-open">Voir la liste <span class="fr-fi-arrow-down-s-line"></span></span>
+        <span class="link-close">Fermer la liste <span class="fr-fi-arrow-up-s-line"></span></span>
+        </a>
+      </p>
+      <div class="list">
+        <ul>
+          {% for item in pkg.series_member %}
+          <li><span class="fr-fi-arrow-right-line" aria-hidden="true"></span> <a href="{{ h.url_for('%s.read' % pkg.type, id=item.url) }}">{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+    {% if pkg.in_series and pkg.in_series|length > 0 %}
+    <div class="pkg-org-series-container">
+      {% for i_s in pkg.in_series %}
+      <p>
+        <span class="ri-stack-line" aria-hidden="true"></span> Inclus dans la série&nbsp;:
+        <a href="{{ h.url_for('%s.read' % pkg.type, id=i_s.url) }}">
+          {{ i_s.title }}
+        </a>
+      </p>
+      {% endfor %}
+    </div>
+    {#{% else %}
+    NONE#}
+    {% endif %}
+  </div>
+  <div class="fr-grid-row fr-pb-3w ">
+    <div class="fr-col-5">
+      Date de mise à jour
+      {% if pkg.modified is defined %}
+      {{ h.get_localized_date(pkg.modified) }}
+      {% elif pkg.metadata_modified is defined %}
+      {{ h.get_localized_date(pkg.metadata_modified) }}
+      {% else %}
+      -
+      {% endif %}
+    </div>
+    <div class="fr-col-7">
+				<div class="isopen">
+					{% if pkg.restricted_access == "true" %}
+						<span><i class="ri-close-circle-fill"></i>{{ _('Données restreintes') }}</span>
+					{% else %}
+						<span><i class="ri-checkbox-circle-fill"></i>{{ _('Données ouvertes') }}</span>
+					{% endif %}
+				</div>
+    </div>
+  </div>
+  <div class="summary">
+    <div class="fr-grid-row">
+      <div class="fr-col-5"><strong>{{ _('Organization') }}</strong></div>
+      <div class="fr-col-7">
+        {{ pkg.organization.title }}
+      </div>
+    </div>
+    {% if pkg.temporal is defined %}
+    <div class="fr-grid-row">
+      <div class="fr-col-5"><strong>{{ _('Étendue temporelle') }}</strong></div>
+      <div class="fr-col-7">
+      {% if(pkg.temporal[0].start_date <= pkg.temporal[0].end_date) %}
+        {{ h.get_localized_date(pkg.temporal[0].start_date) }} {{ _('au') }} {{ h.get_localized_date(pkg.temporal[0].end_date) }}
+      {% else %}
+        {{ h.get_localized_date(pkg.temporal[0].end_date) }} {{ _('au') }} {{ h.get_localized_date(pkg.temporal[0].start_date) }}
+      {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    <div class="fr-grid-row">
+      <div class="fr-col-5"><strong>{{ _('Source') }}</strong></div>
+      <div class="fr-col-7">
+        Nom du catalogue <a href="{{ pkg.url }}" class="fr-btn fr-btn--rounded fr-btn--white fr-btn--sm" target="_blank"><span class="fr-fi-external-link-line" aria-hidden="true"></span> Lien du catalogue</a>
+      </div>
+    </div>
+    <div class="fr-grid-row">
+      <div class="fr-col-5"><strong>{{ _('License') }}</strong></div>
+      <div class="fr-col-7">
+        {{ pkg.license_title or "-" }}
+      </div>
+    </div>
+  </div>
+  <div>
+    {{ pkg if 1==0 }}
+  </div>
+{% endblock %}
+
+{# Zone d'application #}
+{% block package_zone %}
+				<div class="img-zone">
+					{% if packageimagefieldnametbd %}
+					{% else %}
+					<div class="imgmap" data-territory="{% for t in pkg.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
+						<object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
+						<object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
+						
+            {% set om = [
+                { "id": "mayotte", "title": "Mayotte" },
+                { "id": "guadeloupe", "title": "Guadeloupe" },
+                { "id": "martinique", "title": "Martinique" },
+                { "id": "la-reunion", "title": "La Réunion" },
+                { "id": "guyane", "title": "Guyane" },
+                { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
+                { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
+                { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
+                { "id": "saint-martin", "title": "Saint-Martin" },
+                { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
+                { "id": "polynesie-francaise", "title": "Polynésie Française" },
+                { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
+            ] %}
+                {% for territoire in om %}
+                    <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
+                {% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+<button class="btn-map-enlarge" data-fr-opened="false" aria-controls="fr-modal-imgzoom" title="zoom">
+    +
+</button>
+{% endblock %}
+
+{% block imgmodalcontent %}
+  <div class="swiper imglist">
+      <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="img-zone">
+              {% if packageimagefieldnametbd %}
+              {% else %}
+              <div class="imgmap" data-territory="{% for t in pkg.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
+                <object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
+                <object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
+                
+                {% set om = [
+                    { "id": "mayotte", "title": "Mayotte" },
+                    { "id": "guadeloupe", "title": "Guadeloupe" },
+                    { "id": "martinique", "title": "Martinique" },
+                    { "id": "la-reunion", "title": "La Réunion" },
+                    { "id": "guyane", "title": "Guyane" },
+                    { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
+                    { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
+                    { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
+                    { "id": "saint-martin", "title": "Saint-Martin" },
+                    { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
+                    { "id": "polynesie-francaise", "title": "Polynésie Française" },
+                    { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
+                ] %}
+                    {% for territoire in om %}
+                        <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
+                    {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {#
+          <div class="swiper-slide">
+            <img class="fr-responsive-img" src="/_tmp/800x500.png" alt="" >
+          </div>
+          <div class="swiper-slide">
+            <img class="fr-responsive-img" src="https://via.placeholder.com/800x800" alt="" >
+          </div>#}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+  </div>
+{% endblock %}
+
+{# description#}
+{% block package_description %}
+  {% if pkg.notes %}
+    <!--div class="notes embedded-content" style="display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
+      {{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}
+    </div-->
+    <div class="package-description desc-unwrap">{{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}</div>
+  {% endif %}
+{% endblock %}
+
+{# Informations #}
+{% block package_informations %}
+{% set infoArr = {} %}
+{% for key in schema %}
+  {% if key.startswith('.tab') %}
+    {% set title = h.scheming_language_text(schema[key], prefer_lang="fr") %}
+    {% do infoArr.update({title: {"key": key[1:], "content": [], "hasData": False}}) %}
+  {% endif %}
+{% endfor %}
+{% for item in schema.dataset_fields %}
+  {% if "tab" in item %}
+    {% set title = h.scheming_language_text(item.tab, prefer_lang="fr") %}
+    {% do infoArr[title].content.append(item) %}
+    {% if pkg[item.field_name] %}
+      {% do infoArr[title].update({"hasData": True}) %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<div class="fr-tabs package-tabs">
+    {# TAB TITLES #}
+    <ul class="fr-tabs__list" role="tablist" aria-label="Informations">
+      {% for key in infoArr %}
+        {% if infoArr[key].hasData or infoArr[key].key == "tab_data" %}
+        <li role="presentation">
+            <button id="tabpanel-{{ infoArr[key].key }}" class="fr-tabs__tab" role="tab" {% if loop.index == 1 %} tabindex="0" aria-selected="true"{% else %} tabindex="-1" aria-selected="false" {% endif %}
+                aria-controls="tabpanel-{{ infoArr[key].key }}-panel">{{ key }}</button>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {# TAB CONTENTS #}
+    
+    {% for key in infoArr %}
+      {% if infoArr[key].hasData or infoArr[key].key == "tab_data" %}
+        <div id="tabpanel-{{ infoArr[key].key }}-panel" class="fr-tabs__panel{% if loop.index == 1 %} fr-tabs__panel--selected{% endif %}" role="tabpanel"
+            aria-labelledby="tabpanel-{{ infoArr[key].key }}" tabindex="0">
+            {% if infoArr[key].key == "tab_data" %}
+              {% block package_resources %}
+                {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+              {% endblock %}
+            {% else %}
+              {% set tabcontent = {'empty': True} %}
+              <table style="width:100%" class="info-table fr-table">
+              {% for item in infoArr[key].content %}
+              
+                {% if pkg[item.field_name] %}
+                  {% do tabcontent.update({'empty': False}) %}
+                  <tr>
+                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label, prefer_lang="fr") }}</th>
+                    <td class="dataset-details" property="rdf:value">
+                    {#
+                      {{ pkg[item.field_name] }} <br>
+                      {{ item }} <br>
+                      #}
+                      {%- snippet 'scheming/snippets/display_field.html',
+              field=item, data=pkg, schema=schema -%}
+                    </td>
+                  </tr>
+                {#{% else %}
+                  <tr style="background-color: RGBA(255,0,0,0.5); opacity: 0.3">
+                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label, prefer_lang="fr") }} [{{ item.field_name }}]</th>
+                    <td></td>
+                  </tr>#}
+                {% endif %}
+              {% endfor %}
+              </table>
+              {% if tabcontent.empty == True %}
+              <p>Rien</p>
+              {% endif %}
+            {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    {# 
+    <div id="tabpanel-acces-panel" class="fr-tabs__panel" role="tabpanel"
+        aria-labelledby="tabpanel-acces" tabindex="0">
+        {% block package_resources %}
+          {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+        {% endblock %}
+    </div>
+    <div id="tabpanel-details-panel" class="fr-tabs__panel fr-tabs__panel--selected" role="tabpanel"
+        aria-labelledby="tabpanel-details" tabindex="0">
+    </div>
+    <div id="tabpanel-documentation-panel" class="fr-tabs__panel" role="tabpanel" aria-labelledby="tabpanel-documentation"
+        tabindex="0">
+        Documentation
+    </div>
+    <div id="tabpanel-contacts-panel" class="fr-tabs__panel" role="tabpanel" aria-labelledby="tabpanel-contacts"
+        tabindex="0">
+        Contacts
+    </div>
+    <div id="tabpanel-infosadd-panel" class="fr-tabs__panel" role="tabpanel" aria-labelledby="tabpanel-infosadd"
+        tabindex="0">
+        <table style="width:100%" class="info-table fr-table">
+        {% for extra in h.sorted_extras(pkg_dict.extras) %}
+          {% set key, value = extra %}
+          <tr rel="dc:relation" resource="_:extra{{ i }}">
+            <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key|e) }}</th>
+            <td class="dataset-details" property="rdf:value">{{ value }}</td>
+          </tr>
+        {% endfor %}
+        </table>
+    </div>#}
+</div>
+<div>
+{#{{ infoArr }}#}
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block primary_content_inner %}
+  {{ super() }}
+  {% block package_description_old %}
+    {% if pkg.private %}
+      <span class="dataset-private badge badge-inverse pull-right">
+        <i class="fa fa-lock"></i>
+        {{ _('Private') }}
+      </span>
+    {% endif %}
+    <h1>
+      {% block page_heading %}
+        {{ h.scheming_language_text(pkg.title, prefer_lang="fr") }} <br>
+        
+        {{ pkg.notes }}
+        {% if pkg.state.startswith('draft') %}
+          [{{ _('Draft') }}]
+        {% endif %}
+        {% if pkg.state == 'deleted' %}
+          [{{ _('Deleted') }}]
+        {% endif %}
+      {% endblock %}
+    </h1>
+    {% block package_notes %}
+      {% if pkg.notes %}
+        <div class="notes embedded-content">
+          {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
+        </div>
+      {% endif %}
+    {% endblock %}
+  {% endblock %}
+
+  {% block package_resources__ %}
+    {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+  {% endblock %}
+
+  {% block package_tags %}
+    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+  {% endblock %}
+
+  {% block package_additional_info %}
+    {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
+  {% endblock %}
+        <pre style="word-break: break-all;">
+          <script>
+          </script>
+          </pre>
+
+{% endblock %}

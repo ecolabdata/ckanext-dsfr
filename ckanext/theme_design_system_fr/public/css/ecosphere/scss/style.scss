@@ -1,0 +1,21 @@
+// sass --watch scss/style.scss:style.css --style compressed
+
+:root {
+    --bf500: #6A6AF4;
+}
+
+@import "global/layout.scss";
+@import "global/elements.scss";
+@import "global/search-lists.scss";
+@import "global/tabs.scss";
+@import "global/tiles.scss";
+@import "global/filterblock.scss";
+@import "global/map.scss";
+@import "select-a11y.scss";
+
+@import "pages/home.scss";
+@import "pages/about.scss";
+@import "pages/organisation_list.scss";
+@import "pages/package.scss";
+@import "pages/organization.scss";
+@import "pages/user.scss";

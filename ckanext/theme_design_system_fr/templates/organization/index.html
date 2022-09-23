@@ -1,0 +1,70 @@
+{#% extends "page.html" %#}
+{% ckan_extends %}
+
+{% block subtitle %}{{ _('Organizations') }} {% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Organizations'), named_route=group_type+'.index' %}</li>
+{% endblock %}
+
+{% block page_title_and_search %}
+<h1 class="hide-heading">{% block page_heading %}{{ _('Rechercher une organisation') }}{% endblock %}</h1>
+
+
+<div class="fr-search-bar" id="search-850" role="search">
+    <input form="organization-search-form" aria-label="{% block header_site_search_label %}{{ _('Search organizations...') }}{% endblock %}" id="field-giant-search" type="text" class="fr-input" name="q" value="{{ q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
+    <button form="organization-search-form" class="fr-btn" title="Submit" type="submit" value="search" aria-label="{{_('Submit')}}">
+        Submit
+    </button>
+</div>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block page_primary_action %}
+  {% if h.check_access('organization_create') %}
+    {% link_for _('Add Organization'), named_route=group_type+'.new', class_='btn btn-primary', icon='plus-square' %}
+  {% endif %}
+{% endblock %}
+
+{% block primary_content_inner %}
+  {#<h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>#}
+  {% block organizations_search_form %}
+    {% snippet 'snippets/search_form.html', form_id='organization-search-form', type='organization', query=q, sorting_selected=sort_by_selected, count=page.item_count, placeholder=_('Search organizations...'), show_empty=request.params, no_bottom_border=true if page.items, sorting = [(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')], hidesearchbar = 1 %}
+  {% endblock %}
+  {% block organizations_list %}
+    {#
+        liste des organisations - on n'utilise plus le template de l'extension ckanext-hierarchy
+        (structure template  ckanext-hierarchy pour info: organization_list > organization_tree)
+    #}
+    {% if page.items or request.params %}
+      {% if page.items %}
+        {% snippet "organization/snippets/organization_list.html", organizations=page.items %}
+      {% endif %}
+    {% else %}
+      <p class="empty">
+        {{ _('There are currently no organizations for this site') }}.
+        {% if h.check_access('organization_create') %}
+          {% link_for _('How about creating one?'), named_route=group_type+'.new' %}</a>.
+        {% endif %}
+      </p>
+    {% endif %}
+  {% endblock %}
+  {% block page_pagination %}
+  <div style="display: none;">
+    {{ page.pager(q=q or '', sort=sort_by_selected or '', symbol_last="LAST") }}
+  </div>
+  {% endblock %}
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet "organization/snippets/filters.html" %}
+{% endblock %}
+
+{%- block scripts %}
+  {{ super() }}
+  <script src="/js/ecosphere/orgsearch.js" type="text/javascript"></script>
+  <script>
+    orgsearch.orgBaseUrl = "{{ h.url_for('organization.index') }}";
+  </script>
+{% endblock %}

@@ -1,0 +1,62 @@
+.filterblock {
+    .item {
+        padding-bottom: 30px;
+        &:not(:last-child) {
+            padding-bottom: 15px;
+        }
+        & + div {
+            padding-bottom: 30px;
+        }
+        &.reset {
+            padding-top: 10px;
+            .fr-btn {
+                font-size: 14px;
+                line-height: 1.5em;
+                min-height: 2.5em;
+                padding: .5rem 1.5em;
+                display: block;
+                text-align: center;
+            }
+        }
+        &.item-part {
+            &:not(:last-child) {
+                padding-bottom: 15px;
+            }
+            label {
+                font-size: 12px;
+                color: #666666;
+            }
+        }
+    }
+    label {
+        display: block;
+        padding-bottom: 0.5em;
+        cursor: pointer;
+    }
+    span[data-for] {
+        display: block;
+        padding-bottom: 0.5em;
+        cursor: pointer;
+    }
+    a.reset-filters {
+        display: block;
+        text-align: center;
+    }
+    .apply-filters {
+        display: block;
+        text-align: center;
+        margin-bottom: 2em;
+        width: 100%;
+    }
+    .i-right {
+        position: absolute;
+        top: 12px;
+        right: 0;
+        text-decoration: none;
+        box-shadow: none;
+    }
+    .fr-checkbox-group input[type="checkbox"]:active + label::before,
+    .fr-checkbox-group input[type="checkbox"]:checked + label::before {
+        background-color: #000;
+    }
+}

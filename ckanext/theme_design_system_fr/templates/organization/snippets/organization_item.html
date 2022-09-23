@@ -1,0 +1,81 @@
+{#
+    Renders a media item for a organization. This should be used in a list.
+    
+    organization - A organization dict.
+    
+    Example:
+    
+        <ul class="media-grid">
+          {% for organization in organizations %}
+            {% snippet "organization/snippets/organization_item.html", organization=organization %}
+          {% endfor %}
+        </ul>
+    #}
+{% set url = h.url_for(organization.type ~ '.about', id=organization.name) %}
+{% block item %}
+    <li class="fr-enlarge-link">
+		{% block item_inner %}
+            <div class="body">
+                <h2 class="heading">
+                    <a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization.display_name) }}">
+                        {{ organization.display_name }}
+                    </a>
+                </h2>
+                <div class="description">
+                {% block description %}
+                    {% if organization.description %}
+                        <p class="media-description">{{ h.markdown_extract(organization.description, extract_length=200) }}</p>
+                    {% endif %}
+                {% endblock %}
+                </div>
+
+            </div>
+            <div class="img">
+			    {% block image %}
+                    <img src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ organization.name }}" class="img-fluid">
+                {% endblock %}
+                {#<div data-module="followers-counter" data-module-id="{{ organization.id }}" data-module-num_followers="{{ organization.num_followers }}">{{ h.SI_number_span(organization.num_followers) }} {{ _('Followers') }}</div>
+                
+                {% if organization.package_count %}
+                <span class="count">{{ ungettext('{num} Dataset', '{num} Datasets', organization.package_count).format(num=organization.package_count) }}</span>
+                {% else %}
+                <span class="count">{{ _('0 Datasets') }}</span>
+                {% endif %}#}
+            </div>
+        {% endblock %}
+    </li>{#
+	<li class="media-item fr-enlarge-link">
+		{% block item_inner %}
+			{% block image %}
+				<img src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ organization.name }}" class="img-fluid media-image">
+			{% endblock %}
+			{% block title %}
+				<h2 class="media-heading">{{ organization.display_name }}</h2>
+			{% endblock %}
+			{% block description %}
+				{% if organization.description %}
+					<p class="media-description">{{ h.markdown_extract(organization.description, extract_length=80) }}</p>
+				{% endif %}
+			{% endblock %}
+			{% block datasets %}
+				{% if organization.package_count %}
+					<strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', organization.package_count).format(num=organization.package_count) }}</strong>
+				{% else %}
+					<span class="count">{{ _('0 Datasets') }}</span>
+				{% endif %}
+			{% endblock %}
+			{% block capacity %}
+				{% if show_capacity and organization.capacity %}
+					<p>
+						<span class="label label-default">{{ h.roles_translated().get(organization.capacity, organization.capacity) }}</span>
+					</p>
+				{% endif %}
+			{% endblock %}
+			{% block link %}
+				<a href="{{ url }}" title="{{ _('View {organization_name}').format(organization_name=organization.display_name) }}" class="media-view">
+					<span>{{ _('View {organization_name}').format(organization_name=organization.display_name) }}</span>
+				</a>
+			{% endblock %}
+		{% endblock %}
+	</li>#}
+{% endblock %}

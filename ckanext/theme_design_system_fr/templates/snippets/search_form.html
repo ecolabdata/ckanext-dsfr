@@ -10,7 +10,7 @@
 <form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}" method="get" data-module="select-switch">
     
     {% block search_input %}
-    <div class="fr-search-bar" id="search-850" role="search">
+    <div class="fr-search-bar {{ 'hidden' if hidesearchbar else '' }}" id="search-850" role="search">
         <input aria-label="{% block header_site_search_label %}{{ placeholder }}{% endblock %}" id="field-giant-search" type="text" class="fr-input" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
         {% block search_input_button %}
         <button class="fr-btn" title="Submit" type="submit" value="search" aria-label="{{_('Submit')}}">
@@ -41,34 +41,26 @@
                 {% block search_sortby_button %}
             </div>
         </div>
-        <button class="fr-btn js-hide" type="submit">{{ _('Go') }}</button>
+        {#<button class="fr-btn js-hide" type="submit">{{ _('Go') }}</button>#}
         {% endblock %}
-      </div>
     {% endif %}
   {% endblock %}
 
-  {% block search_title %}
-    {% if not error %}
-      <div class="fr-h5">{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type %}<div>
-    {% else %}
-      <h2>Error</h2>
-    {% endif %}
-  {% endblock %}
 
   {% block search_facets %}
-    {% if facets %}
+    {% if facets and facets.fields|length > 0 %}
       <p class="filter-list">
         {% for field in facets.fields %}
           {% set search_facets_items = facets.search.get(field)['items'] if facets.search and field in facets.search else [] %}
           <span class="facet">{{ facets.titles.get(field) }}:</span>
           {% for value in facets.fields[field] %}
-            <span class="filtered pill">
+            <span class="{#filtered pill#}fr-tag"><span>
               {%- if facets.translated_fields and (field,value) in facets.translated_fields -%}
                 {{ facets.translated_fields[(field,value)] }}
               {%- else -%}
                 {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
-              {%- endif %}
-              <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fa fa-times"></i></a>
+              {%- endif %}</span>
+              <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fr-fi-close-line"></i></a>
             </span>
           {% endfor %}
         {% endfor %}
@@ -77,6 +69,13 @@
     {% endif %}
   {% endblock %}
 
+  {% block search_title %}
+    {% if not error %}
+      <div class="fr-h5">{% snippet 'snippets/search_result_text.html', query=query, count=count, type=type %}</div>
+    {% else %}
+      <h2>Error</h2>
+    {% endif %}
+  {% endblock %}
 </form>
 
 {% if show_empty and count == 0 and not error %}

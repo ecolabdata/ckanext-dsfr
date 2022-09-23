@@ -6,7 +6,19 @@
   <li class="active">{{ h.nav_link(_('Registration'), named_route='user.register') }}</li>
 {% endblock %}
 
-{% block primary_content %}
+{% block pagebody %}
+  <section class="container-narrow">
+    <h1 class="page-heading">
+      {% block page_heading %}{{ _('Register for an Account') }}{% endblock %}
+    </h1>
+    <h2 class="module-heading">{{ _('Why Sign Up?') }}</h2>
+    <p>{% trans %}Create datasets, groups and other exciting things{% endtrans %}</p>
+    {{ form | safe }}
+  </section>
+{% endblock %}
+
+
+{#% block primary_content %}
   <article class="module">
     <div class="module-content">
       {% block primary_content_inner %}
@@ -30,4 +42,4 @@
     {% endblock %}
   </section>
   {% endblock %}
-{% endblock %}
+{% endblock %#}

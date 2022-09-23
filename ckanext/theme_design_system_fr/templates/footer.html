@@ -4,7 +4,7 @@
             <div class="fr-footer__brand fr-enlarge-link">
                 <a href="/" title="Retour à l’accueil">
                     <p class="fr-logo" title="république française">
-                        ministères<br> transition écologique<br> cohésion des territoires<br> mer
+                        ministères<br> transition écologique<br> cohésion des territoires<br> transition énergétique<br> mer
                     </p>
                 </a>
             </div>
@@ -27,12 +27,29 @@
                 </ul>
             </div>
         </div>
-        <div class="fr-footer__bottom">
+    </div>
+    <div class="fr-footer__bottom">
 
-        
+        <div class="fr-container">
+    
             {% block footer_links %}
             <ul class="fr-footer__bottom-list">
                 <li class="fr-footer__bottom-item">
+                    <a class="fr-footer__bottom-link" href="">
+                        Documentation
+                    </a>
+                </li>
+                <li class="fr-footer__bottom-item">
+                    <a class="fr-footer__bottom-link" href="">
+                        Politique de confidentialité
+                    </a>
+                </li>
+                <li class="fr-footer__bottom-item">
+                    <a class="fr-footer__bottom-link" href="">
+                        État de conformité - accessibilité
+                    </a>
+                </li>
+                <li class="fr-footer__bottom-item" style="display: none;">
                     <a class="fr-footer__bottom-link" href="{{ h.url_for(controller='home', action='about') }}">{{ _('About {0}').format(g.site_title) }}</a>
                 </li>
             </ul>
@@ -48,7 +65,9 @@
     
 
       {% if g.debug %}
+        <div class="fr-container">
         {% include 'snippets/debug.html' %}
+        </div>
       {% endif %}
     {% endblock %}
 </footer>

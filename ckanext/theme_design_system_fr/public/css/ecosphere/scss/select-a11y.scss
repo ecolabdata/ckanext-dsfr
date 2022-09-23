@@ -1,0 +1,310 @@
+// select-a11y
+// ==========================================================
+/* if you use Scampi (https://gitlab.com/pidila/scampi),
+you don't need this first part */
+
+button,
+input,
+label,
+select {
+  font-size: 1em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+/* select-a11y
+------------------------------------------------------ */
+$btn-select-a11y-bg: #f6f6f6 !default;
+$btn-select-a11y-symbol: "\25BC" !default; // ▼
+
+$tag-item-border: #f6f6f6 !default;
+$tag-item-supp-symbol: "\2715" !default; // X
+$tag-item-supp-symbol-color: red !default;
+$tag-item-supp-border: red !default;
+
+$a11y-suggestions-bg: #f6f6f6 !default;
+$a11y-suggestion-color: #000 !default;
+$a11y-suggestion-color-hover: #000 !default;
+$a11y-suggestion-bg-hover: #e3e3e3 !default;
+$a11y-suggestion-bg-selected: #f6f6f6 !default;
+$a11y-suggestion-border: #f6f6f6 !default;
+
+.select-a11y {
+  position: relative;
+
+  .btn-select-a11y {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    background-color: $btn-select-a11y-bg;
+
+    .icon-select {
+      position: absolute;
+      background-color: red;
+      top: 50%;
+      right: 0.5em;
+      line-height: 0;
+
+      &::before {
+        content: $btn-select-a11y-symbol;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+
+      .icon-select {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .tag-item {
+    border: 1px solid $tag-item-border;
+    padding: 0.2em 0.1em 0.2em 0.5em;
+  }
+
+  .tag-item-supp {
+    background-color: transparent;
+    border: 1px solid transparent;
+
+    .icon-delete:before {
+      content: $tag-item-supp-symbol;
+      color: $tag-item-supp-symbol-color;
+      line-height: 1;
+    }
+
+    &:focus {
+      outline: 1px solid $tag-item-supp-border;
+      color: $tag-item-supp-border;
+    }
+
+    &:hover {
+      color: $tag-item-supp-border;
+      border-color: $tag-item-supp-border;
+    }
+  }
+
+  .tag-hidden {
+    display: none;
+  }
+
+  &.is-open .a11y-container {
+    display: block;
+  }
+
+  .a11y-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 0 0.5em;
+    background: $a11y-suggestions-bg;
+    z-index: 10;
+    border: 1px solid $btn-select-a11y-bg;
+    & > input {
+      display: none;
+    }
+  }
+
+  // fix safari pour cacher l'autocompletion native
+  // cf http://stackoverflow.com/questions/38663578/how-to-hide-autofill-safari-icon-in-input-field
+  input::-webkit-contacts-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }
+
+  .a11y-suggestions {
+    max-height: 18.5em;
+    overflow-y: auto;
+    border: 1px solid $a11y-suggestion-border;
+    margin-top: 0.5em;
+    background-color: $a11y-suggestions-bg;
+  }
+
+  .a11y-suggestion {
+    //padding: 0 (8em/16) 0 (26em/16);
+    padding: 0.5em 0;
+    color: $a11y-suggestion-color;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid #b4b4b4;
+    a {
+      text-decoration: none;
+      box-shadow: none;
+      display: block;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+    &.grouptitle {
+      font-weight: bold;
+      color: #666;
+      &:hover {
+        color: #666 !important;
+      }
+      &[role] {
+        color: #000;
+      }
+      &:not([role]) {
+        color: #000;
+        background: none;
+        &:hover {
+          color: #000 !important;
+        }
+      }
+    }
+    &.sub {
+      margin-left: 2em;
+    }
+
+    &:focus,
+    &:hover {
+      color: $a11y-suggestion-color-hover;
+      background-color: $a11y-suggestion-bg-hover;
+    }
+    &:focus {
+      outline: 1px dotted $a11y-suggestion-color-hover !important;
+      outline-offset: -1px;
+    }
+
+    &[role]:before {
+      content: " ";
+      width: 16px;
+      height: 16px;
+      border: 1px solid;
+      //display: inline-block;
+      border-radius: 5px;
+      line-height: 13px;
+      font-size: 14px;
+      vertical-align: baseline;
+      text-align: center;
+      margin-right: 0.8em;
+      margin-bottom: -1px;
+      display: block;
+      float: left;
+      margin-top: 0.4em;
+    }
+
+    &[data-checked="true"] { // aria-selected = sélection active.
+      background-color: $a11y-suggestion-bg-selected;
+      color: $a11y-suggestion-color-hover;
+      position: relative;
+
+      &:before {
+        /*
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: (8em/16);
+        */
+        content: "✓";
+      }
+    }
+  }
+
+  .a11y-no-suggestion {
+    padding: 0 0.5em;
+    color: $a11y-suggestion-color;
+    text-align: left;
+    margin: 0;
+  }
+
+  .list-selected {
+    padding: 0.5em 0;
+    margin: 0;
+
+    li {
+      margin: 0 0.3em 0.3em 0;
+
+      &:before {
+        content: "";
+      }
+
+      span {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+/* ecospheres */
+select[data-select-a11y] {
+  display: none;
+}
+.select-a11y {
+  .btn-select-a11y {
+    display: block;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    border: 0;
+    border-radius: 0.25rem 0.25rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.5rem) 50%;
+    background-size: 1.5rem 1.5rem;
+    color: var(--g800);
+    background-color: var(--g200);
+    box-shadow: inset 0 -2px 0 0 var(--g600);
+    --data-uri-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 24 24' ><path fill='%231e1e1e' d='M12,13.1l5-4.9l1.4,1.4L12,15.9L5.6,9.5l1.4-1.4L12,13.1z'/></svg>");
+    background-image: var(--data-uri-svg);
+    .icon-select {
+      display: none;
+    }
+  }
+  .list-selected {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
+  .tag-item {
+    border: none;
+    background: #eeeeee;
+    border-radius: 8px;
+  }
+  .tag-item-supp {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    .icon-delete:before {
+      color: inherit;
+    }
+    &:focus {
+      outline: 1px solid $tag-item-supp-border;
+      color: $tag-item-supp-border;
+    }
+
+    &:hover {
+      outline: 1px solid $tag-item-supp-border;
+      color: $tag-item-supp-border;
+      border-color: transparent;
+    }
+  }
+}
+
+.select-a11y .a11y-container > input {
+  display: block;
+  width: 100%;
+  margin-top: 0.5em;
+}

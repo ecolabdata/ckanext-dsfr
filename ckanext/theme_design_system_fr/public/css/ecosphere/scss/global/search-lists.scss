@@ -1,0 +1,180 @@
+
+.fr-container.title_and_search {
+    .fr-search-bar {
+        input {
+            background: #FFF;
+            box-shadow: none;
+            height: 55px;
+        }
+        .fr-btn {
+            max-width: 55px;
+            max-height: 55px;
+            padding-left: 1rem;
+            &:before {
+                margin-right: 1rem;
+            }
+        }
+    }
+}
+.fr-search-bar.hidden {
+    display:none;
+}
+.primary .search-form {
+    padding-bottom: 1px;
+    .fr-input-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        & > * {
+            flex-basis: 100px;
+            flex-grow: 0;
+            margin: 0;
+        }
+        .fr-label {
+            line-height: 40px;
+        }
+        .fr-select {
+            width:auto;
+            flex-basis: auto;
+        }
+    }
+    /*.fr-h5 {
+        display:none;
+    }*/
+    .hide-filters { display: none;}
+
+    .filter-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 1rem;
+        .facet {
+            display: none;
+        }
+        .pill {
+
+        }
+        .fr-tag {
+            border-radius: 8px;
+            a {
+                padding-left: 4px;
+                i:before {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    & > li {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 25px;
+        padding: 0;
+        margin: 20px 0;
+        &.filter-hide {
+            display: none;
+        }
+        h2.heading {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            a {
+                text-decoration: none;
+                box-shadow: none;
+            }
+        }
+        .tags {
+            display: flex;
+            gap: 10px;
+            align-content: flex-end;
+            align-items: baseline;
+            flex-wrap: wrap;
+            padding-bottom: 1em;
+            position: relative;
+            z-index: 2;
+            a {
+                &::before {
+                    display: none;
+                }
+            }
+        }
+        border-bottom: 20px solid transparent ;
+        box-shadow: 0px 1px 0px 0px #F6F6F6;
+        &:hover {
+            background: #F6F6F6;
+            box-shadow: 0px 0px 0px 20px #F6F6F6;
+            border-bottom: none;
+            margin-bottom: 40px;
+        }
+        & > .body {
+            flex-grow: 1;
+        }
+        & > .img {
+            flex-basis: 165px;
+            flex-grow: 0;
+            font-size: 14px;
+            img {
+                width: 165px;
+                height: 165px;
+                object-fit: contain;
+                object-position: left top;
+            }
+        }
+        .footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: 1em;
+            .res-types {
+                text-align: right;
+                li span {
+                    z-index: auto;
+                    background: transparent;
+                    font-size: 12px;
+                    border: 1px solid #666666;
+                    color: #666666;
+                    min-height: 1rem;
+                    height: 2em;
+                    border-radius: 4px;
+                    padding: 0 10px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+        .heading-block {
+            display: flex;
+            flex-direction: row;
+            gap: 2em;
+            padding-bottom: 1em;
+            & > :first-child {
+                flex-grow: 1;
+            }
+            .img-zone {
+                flex-basis: 180px;
+                flex-grow: 0;
+                img {
+                    width: 180px;
+                }
+            }
+        }
+    }
+    ul.dataset-resources {
+
+    }
+}
+.isopen {
+    i {
+        vertical-align: text-top;
+        padding-right: 3px;
+        &.ri-checkbox-circle-fill {
+            color: #0078F3;
+        }
+    }
+}

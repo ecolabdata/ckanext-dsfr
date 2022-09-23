@@ -6,8 +6,36 @@
   <li class="active">{{ h.nav_link(_('Login'), named_route='user.login') }}</li>
 {% endblock %}
 
+{% block flash %}{% endblock %}
+
+{% block pagebody %}
+  <section class="container-narrow">
+    <h1 class="page-heading">{% block page_heading %}{{ _('Login') }}{% endblock %}</h1>
+          {% block flash_ %}
+            <div class="flash-messages">
+              {% block flash_inner %}
+                {% for message in h.flash.pop_messages() | list %}
+                  <div class="fr-alert fade in {{ message.category }} fr-alert--error">
+                    {{ h.literal(message) }}
+                  </div>
+                {% endfor %}
+              {% endblock %}
+            </div>
+          {% endblock %}
+    {% block form %}
+      {% snippet "user/snippets/login_form.html", action=g.login_handler, error_summary=error_summary %}
+    {% endblock %}
+    
+  </section>
+  <section class="sub-narrow">
+  {{ _('Pas encore de compte ?') }} <br>
+  <a class="btn btn-default signup" href="{{ h.url_for('user.register') }}">{{ _('Inscrivez-vous ici') }} <span class="fr-fi-arrow-right-line"></span></a>
+  </section>
+{% endblock %}
+
+{#
 {% block primary_content %}
-  <section class="module">
+  <section class="module">lecacacedelicieu
     <div class="module-content">
       <h1 class="page-heading">{% block page_heading %}{{ _('Login') }}{% endblock %}</h1>
       {% block form %}
@@ -17,7 +45,7 @@
   </section>
 {% endblock %}
 
-{% block secondary_content %}
+{% block secondary_content %}lecacacefabuleu
   {% if h.check_access('user_create') %}
   {% block help_register %}
     <div class="fr-grid-row fr-py-1w">
@@ -42,7 +70,7 @@
   {% endblock %}
   {% endif %}
 
-  {% block help_forgotten %}
+  {% block help_forgotten %}lecacacemonstrueu
   <div class="fr-grid-row">
         <div class="fr-col-12">
             <section class="fr-card fr-enlarge-link">
@@ -64,3 +92,4 @@
     </div>
   {% endblock %}
 {% endblock %}
+#}

@@ -21,7 +21,12 @@
     
       {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["fr-input-group"]) }}
     
-      {{ form.checkbox('remember', label=_("Remember me"), id='field-remember', checked=true, value="63072000", classes=["fr-checkbox-group"]) }}
+      <div class="rememberme-passwordrequest">
+        {{ form.checkbox('remember', label=_("Remember me"), id='field-remember', checked=true, value="63072000", classes=["fr-checkbox-group"]) }}
+        {% block help_forgotten_button %}
+          <a class="btn btn-default" href="{{ h.url_for('user.request_reset') }}">{{ _('Forgot your password?') }}</a>
+        {% endblock %}
+      </div>
     
       <div class="form-actions">
         {% block login_button %}

@@ -1,0 +1,22 @@
+{% extends "page.html" %}
+
+{% block secondary %}{% endblock %}
+
+
+{% block pagebody %}
+
+
+<section class="wrapper white">
+  <div class="fr-container">
+      <div class="fr-grid-row fr-grid-row--gutters">
+          <div class="fr-col-xs-12 fr-col-md-3 fr-col-lg-2">
+          </div>
+          <div class="fr-col-xs-12 fr-col-md-9 fr-col-lg-10 package-title-info">
+              {% block pre_primary %}{% endblock %}
+              
+              {% block resource_additional_information %}{% endblock %}
+          </div>
+      </div>
+  </div>
+</section>
+{% endblock %}

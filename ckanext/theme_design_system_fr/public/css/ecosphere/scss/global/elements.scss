@@ -1,0 +1,121 @@
+.fr-btn.fr-btn--rounded {
+    border-radius: 1.5em;
+}
+
+.fr-btn.fr-btn--white {
+    background-color: var(--t-plain);
+    color: #000;
+    box-shadow: inset 0 0 0 1px #000;
+}
+:root:not([data-fr-theme="dark"]) .fr-btn.fr-btn--white {
+    --color-hover: var(--block-color-hover);
+    --color-active: var(--block-color-active);
+}
+
+/* ckan default pager */
+.pagination-wrapper {
+    opacity: 0;
+    &.fr-pagination {
+        opacity: 1;
+    }
+}
+
+table {
+    border-spacing: 0;
+}
+
+.info-table {
+    width: 100%;
+    th, td {
+        border-top: 1px solid #E5E5E5;
+        padding: 1.2rem;
+    }
+    th {
+        vertical-align: top;
+    }
+    tr:last-child {
+        th, td {
+            border-bottom: 1px solid #E5E5E5;
+        }
+    }
+    th:first-child {
+        padding-left: 0;
+    }
+    td:last-child {
+        padding-right: 0;
+    }
+    tbody {
+        tr:nth-child(2n) {
+            background: none;
+        }
+    }
+    dl {
+        margin-top: 0;
+    }
+}
+
+.fr-enlarge-link {
+    a.enlarge-link-inside {
+        &:before {
+            display: none;
+        }
+        position: relative;
+        z-index: 2;
+    }
+}
+span.count {
+    span.ri-database-2-line {
+        vertical-align: bottom;
+    }
+}
+
+.img-preview {
+    .open-btn {
+
+    }
+    .dots {
+        
+    }
+}
+
+.desc-unwrap {
+    &:not(.open) {
+        .hidden {
+            display: none;
+        }
+    }
+}
+
+/* modal slider */
+#fr-modal-imgzoom {
+    .fr-modal__content {
+        margin-bottom: 0;
+    }
+}
+.fr-modal {
+    .swiper {
+        margin-top: 2em;
+        .swiper-wrapper {
+            align-content: center;
+            align-items: center;
+            .swiper-slide {
+                & > * {
+                    display: block;
+                }
+                object {
+                    background: #F6F6F6;
+                    padding: 1em;
+                }
+            }
+        }
+        .swiper-pagination {
+            position: relative;
+            bottom: 0;
+            height: 2em;
+            line-height: 1.6em;
+        }
+    }
+    .swiper-pagination-lock {
+        display: block;
+    }
+}

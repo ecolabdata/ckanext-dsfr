@@ -1,0 +1,132 @@
+header.fr-header {
+    box-shadow: none;
+    .fr-header__service {
+        display: none;
+    }
+
+    .fr-link {
+        color: #000091;
+    }
+    .fr-header__tools {
+        .fr-nav__langselect {
+            padding-left:3px;
+            button.fr-nav__btn {
+                font-size: .875rem;
+                line-height: 1.5rem;
+                min-height: 2rem;
+                padding: .25rem .75rem;
+                border-radius: 1rem;
+                flex-direction: row;
+                overflow: initial;
+                max-width: none;
+                max-height: none;
+                color: #000091;
+            }
+            & > .fr-collapse {
+                top: auto;
+                margin-right: 0;
+                padding-right: 0;
+            }
+        }
+    }
+    .fr-nav__btn[aria-current], .fr-nav__link[aria-current] {
+        color: inherit;
+        &:before {
+            background: #000091;
+        }
+    }
+}
+
+.fr-breadcrumb {
+    margin-bottom: 1.5rem;
+}
+
+
+.wrapper {
+    padding: 40px 0;
+    &.white {
+        background-color: #FFF;
+    }
+    h1 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+    h2 {
+        font-weight: 400;
+    }
+}
+.container-narrow {
+    max-width: 674px;
+    background: #FFF;
+    margin: 0 auto;
+    padding: 32px;
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    h2 {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+    }
+    .flash-messages {
+        & > *:last-child {
+            margin-bottom: 1em;
+        }
+    }
+}
+.sub-narrow {
+    text-align: center;
+    font-size: 20px;
+    line-height: 28px;
+    padding-top: 1em;
+    a {
+        color: var(--bf500);
+        box-shadow: none;
+        &.signup {
+            span {
+                &:before {
+                    font-size: 0.9em;
+                }
+            }
+        }
+    }
+}
+.fr-container.title_and_search {
+    & + .wrapper {
+        margin-top: 40px;
+    }
+}
+.main {
+    background: #F6F6F6;
+    padding-bottom: 134px;
+}
+
+div.main-row > aside.fr-col-md-3 {
+    h3 {
+        font-size: 22px;
+        line-height: 40px;
+    }
+    & + .primary {
+        padding-left: 62px;
+    }
+}
+
+footer.fr-footer {
+    border: none;
+}
+.fr-footer__brand .fr-logo {
+    font-size: .7875rem;
+}
+
+@media (max-width: 1680px) {
+    header.fr-header {
+        .fr-header__tools {
+            .fr-nav__langselect {
+                & > .fr-collapse {
+                    right: 0;
+                }
+            }
+        }
+    }
+}
