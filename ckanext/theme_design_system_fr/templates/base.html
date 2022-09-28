@@ -4,7 +4,11 @@
 {% block styles %}
 
   {# {{ super() }} #}
-
+  <title>
+    {%- block title -%}
+      {{ h.get_localized_value_for_display(g.site_title) }}
+    {%- endblock -%}
+  </title>
   <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="/css/dsfr.min.css" />
   {#<link rel="stylesheet" href="/css/custom.css" />#}
