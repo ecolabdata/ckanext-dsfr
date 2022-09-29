@@ -167,6 +167,8 @@ class Select {
       const suggestion = document.createElement('div');
       if(!option.hasAttribute('disabled'))
         suggestion.setAttribute('role', 'option');
+      if(option.hasAttribute('data-checked'))
+        suggestion.setAttribute('data-checked', 'true');
       suggestion.setAttribute('tabindex', 0);
       suggestion.setAttribute('data-index', index)
       suggestion.classList.add('a11y-suggestion');

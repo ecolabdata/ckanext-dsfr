@@ -60,6 +60,7 @@ var orgsearch = {
         if(orgsearch.data)
             orgsearch.drawList();
         orgsearch.filters.initTypes();
+        orgsearch.updatelist();
     },
     drawList: function() {
         var listHTML = "";
@@ -100,11 +101,9 @@ var orgsearch = {
             console.log('test', item);
             if(type != "" && item.getAttribute('data-type').indexOf(type) < 0) {
                 filterShow = false;
-                console.log(type, "type va pas");
             }
             if(territoire != "" && item.getAttribute('data-territoire').indexOf(territoire) < 0) {
                 filterShow = false;
-                console.log(territoire, "territoire va pas");
             }
             console.log(type, territoire, filterShow);
             if(filterShow)
@@ -112,5 +111,8 @@ var orgsearch = {
             else
                 item.classList.add('filter-hide');
         }
+        var found = document.querySelectorAll('.search-results > li:not(.filter-hide)').length;
+        var foundStr = found > 1 ? orgsearch.i18n.plural : orgsearch.i18n.singular;
+        document.querySelector('.fr-h5').innerHTML = foundStr.replace('{number}', found);
     }
 }

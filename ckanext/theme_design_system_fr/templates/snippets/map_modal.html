@@ -1,0 +1,46 @@
+
+  <div class="swiper imglist">
+    <div class="swiper-wrapper">
+        {% if preview %}
+        <div class="swiper-slide">
+            <img class="fr-responsive-img" src="{{ pkg.graphic_preview_file }}" alt="">
+        </div>
+        {% endif %}
+        <div class="swiper-slide">
+          <div class="imgmap" data-territory="{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
+            <object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="imgmap" data-territory="GES,{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
+            <object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
+          </div>
+        </div>
+        {% set om = [
+            { "id": "mayotte", "title": "Mayotte" },
+            { "id": "guadeloupe", "title": "Guadeloupe" },
+            { "id": "martinique", "title": "Martinique" },
+            { "id": "la-reunion", "title": "La Réunion" },
+            { "id": "guyane", "title": "Guyane" },
+            { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
+            { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
+            { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
+            { "id": "saint-martin", "title": "Saint-Martin" },
+            { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
+            { "id": "polynesie-francaise", "title": "Polynésie Française" },
+            { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
+        ] %}
+        {% for territoire in om %}
+        <div class="swiper-slide">
+          <div class="img-zone">
+            <div class="imgmap" data-territory="{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
+                      <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>

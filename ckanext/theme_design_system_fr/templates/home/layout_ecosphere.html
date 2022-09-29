@@ -26,17 +26,17 @@
     <section class="home-searchby">
         <div class="fr-container title">
             <p>
-                Vous pouvez également effectuer une rechercher par
+                {{ _("Vous pouvez également effectuer une rechercher par") }}
             </p>
             <ul>
                 <li>
-                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="territoire"><span>Territoire</span><span class="arrow-down"></span></button>
+                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="territoire"><span>{{ _("Territoire") }}</span><span class="arrow-down"></span></button>
                 </li>
                 <li>
-                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="thematique"><span>Thématique</span><span class="arrow-down"></span></button>
+                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="thematique"><span>{{ _("Thématique") }}</span><span class="arrow-down"></span></button>
                 </li>
                 <li>
-                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="organisation"><span>Organisation</span><span class="arrow-down"></span></button>
+                    <button class="fr-btn fr-btn--secondary fr-btn--rounded" data-section="organisation"><span>{{ _("Organisation") }}</span><span class="arrow-down"></span></button>
                 </li>
             </ul>
         </div>
@@ -46,15 +46,15 @@
                     <ul class="fr-tabs__list" role="tablist" aria-label="Territoires">
                         <li role="presentation">
                             <button id="tabpanel-404" class="fr-tabs__tab" tabindex="0" role="tab" aria-selected="true"
-                                aria-controls="tabpanel-404-panel">Régions métropolitaines</button>
+                                aria-controls="tabpanel-404-panel">{{ _("Régions métropolitaines") }}</button>
                         </li>
                         <li role="presentation">
                             <button id="tabpanel-405" class="fr-tabs__tab" tabindex="-1" role="tab"
-                                aria-selected="false" aria-controls="tabpanel-405-panel">Départements métropolitains</button>
+                                aria-selected="false" aria-controls="tabpanel-405-panel">{{ _("Départements métropolitains") }}</button>
                         </li>
                         <li role="presentation">
                             <button id="tabpanel-406" class="fr-tabs__tab" tabindex="-1" role="tab"
-                                aria-selected="false" aria-controls="tabpanel-406-panel">Outre-mer</button>
+                                aria-selected="false" aria-controls="tabpanel-406-panel">{{ _("Outre-mer") }}</button>
                         </li>
                     </ul>
                     <div id="tabpanel-404-panel" class="fr-tabs__panel fr-tabs__panel--selected" role="tabpanel"
@@ -94,13 +94,13 @@
                     </div>
                 </div>
                 <div class="search-selection">
-                    <h3>Sélection</h3>
+                    <h3>{{ _("Sélection") }}</h3>
                     <div class="content">
                         <div class="list-selected">
                         </div>
                         <div class="action-buttons">
-                            <button class="fr-btn back" id="thematiques-back"><span class="fr-fi-arrow-left-s-line"></span> Retour aux thèmes</button>
-                            <a class="fr-btn search" id="thematiques-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> Rechercher</a>
+                            <button class="fr-btn back" id="thematiques-back"><span class="fr-fi-arrow-left-s-line"></span> {{ _("Retour aux thèmes") }}</button>
+                            <a class="fr-btn search" id="thematiques-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> {{ _("Search") }}</a>
                         </div>
                     </div>
 
@@ -110,142 +110,13 @@
             <div class="type" id="thematique">
                 <div class="thematiques-header type-header hidden">
                     <div class="thematique-name title">
-                        <span class="color" style="--tile-color: #000">&nbsp;</span> <span class="name">Sélectionner une thématique</span>
+                        <span class="color" style="--tile-color: #000">&nbsp;</span> <span class="name">{{ _("Sélectionner une thématique") }}</span>
                     </div>
                     <div class="thematique-super-select">
-                        <button class="fr-btn fr-btn--secondary fr-btn--rounded fr-btn--white">Sélectionner la thématique</button>
+                        <button class="fr-btn fr-btn--secondary fr-btn--rounded fr-btn--white">{{ _("Sélectionner la thématique") }}</button>
                     </div>
                 </div>
                 <div class="level1 tiles">
-                    {% set themes = [
-                        {"title": "Climat", "id": "climat", "color": "#E6EEFE", "subthemes": [
-                            {"title": "Changement climatique", "id": "changement-climatique"},
-                            {"title": "Météorologie", "id": "meteorologie"},
-                        ]},
-                        {"title": "Aménagement et urbanisme", "id": "amenagement-et-urbanisme", "color": "#BAFAEE", "subthemes": [
-                            {"title": "Servitudes d'utilité publique", "id": "servitudes-d-utilite-publique"},
-                            {"title": "Politique européenne d'aménagement", "id": "politique-europeenne-d-amenagement"},
-                            {"title": "Zonages d'aménagement", "id": "zonages-d-amenagement"},
-                            {"title": "Planification", "id": "planification"},
-                            {"title": "Études", "id": "etudes"},
-                        ]},
-                        {"title": "Établissements d'activités", "id": "etablissements-d-activites", "color": "#FEE7FC", "subthemes": [
-                            {"title": "Établissements d'enseignement", "id": "etablissements-d-enseignement"},
-                            {"title": "Équipements sportifs ou culturels", "id": "equipements-sportifs-ou-culturels"},
-                            {"title": "Patrimoine culturel", "id": "patrimoine-culturel"},
-                            {"title": "Établissements de santé et médico-sociaux", "id": "etablissements-de-sante-et-medico-sociaux"},
-                            {"title": "Équipements de tourisme", "id": "equipements-de-tourisme"},
-                            {"title": "Autres établissements recevant du public", "id": "Autres-établissements-recevant-du-public"},
-                        ]},
-                        {"title": "Eau", "id": "eau", "color": "#A6F2FA", "subthemes": [
-                            {"title": "Alimentation en eau potable", "id": "alimentation-en-eau-potable"},
-                            {"title": "Assainissement", "id": "assainissement"},
-                            {"title": "Masses d'eau", "id": "Masses-d-eau"},
-                            {"title": "Ouvrages hydrauliques", "id": "ouvrages-hydrauliques"},
-                            {"title": "Pêche en eaux intérieures", "id": "peche-en-eaux-intérieures"},
-                            {"title": "Surveillance de la ressource en eau", "id": "surveillance-de-la-ressource-en-eau"},
-                            {"title": "Interventions sur les cours d'eau", "id": "interventions-sur-les-cours-d-eau"},
-                            {"title": "Protection de l'eau", "id": "protection-de-l-eau"},
-                        ]},
-                        {"title": "Foncier et occupation du sol", "id": "foncier-et-occupation-du-sol", "color": "#C3FAD5", "subthemes": [
-                            {"title": "Foncier agricole", "id": "foncier-agricole"},
-                            {"title": "Mutation foncière", "id": "mutation-fonciere"},
-                            {"title": "Occupation du sol", "id": "occupation-du-sol"},
-                            {"title": "Propriété foncière", "id": "propriete-fonciere"},
-                        ]},
-                        {"title": "Habitat et politique de la ville", "id": "habitat-et-politique-de-la-ville", "color": "#F7ECDB", "subthemes": [
-                            {"title": "Accession à la propriété", "id": "accession-a-la-propriete"},
-                            {"title": "Besoins en logements", "id": "besoins-en-logements"},
-                            {"title": "Construction", "id": "bonstruction"},
-                            {"title": "Habitat indigne", "id": "habitat-indigne"},
-                            {"title": "Occupation des logements", "id": "occupation-des-logements"},
-                            {"title": "Parc locatif social", "id": "parc-locatif-social"},
-                            {"title": "Parc de logements", "id": "parc-de-logements"},
-                            {"title": "Politique de la ville", "id": "politique-de-la-ville"},
-                            {"title": "Rénovation urbaine", "id": "renovation-urbaine"},
-                        ]},
-                        {"title": "Mer et littoral", "id": "mer-et-littoral", "color": "#DDE5FF", "subthemes": [
-                            {"title": "Écologie du littoral", "id": "ecologie-du-littoral"},
-                            {"title": "Limite administrative spéciale en mer et sur le littoral", "id": "limite-administrative-speciale-en-mer-et-sur-le-littoral"},
-                            {"title": "Lutte anti-pollution en mer et sur le littoral", "id": "lutte-anti-pollution-en-mer-et-sur-le-littoral"},
-                            {"title": "Navigation maritime", "id": "navigation-maritime"},
-                            {"title": "Topographie en mer et sur le littoral", "id": "topographie-en-mer-et-sur-le-littoral"},
-                            {"title": "Chasse maritime", "id": "chasse-maritime"},
-                        ]},
-                        {"title": "Nature, paysages et biodiversité", "id": "nature-paysages-et-biodiversite", "color": "#B8FEC9", "subthemes": [
-                            {"title": "Inventaires nature et biodiversité", "id": "inventaires-nature-et-biodiversite"},
-                            {"title": "Inventaires des paysages", "id": "inventaires-des-paysages"},
-                            {"title": "Protection et gestion de la nature", "id": "protection-et-gestion-de-la-nature"},
-                            {"title": "Protection et gestion des paysages", "id": "protection-et-gestion-des-paysages"},
-                            {"title": "Chasse", "id": "Chasse"},
-                        ]},
-                        {"title": "Nuisances, déchets et pollution", "id": "nuisances-dechets-et-pollution", "color": "#FEE9E7", "subthemes": [
-                            {"title": "Bruit", "id": "bruit"},
-                            {"title": "Déchets", "id": "dechets"},
-                            {"title": "Perturbations électromagnétiques", "id": "perturbations-electromagnetiques"},
-                            {"title": "Pollution des sols", "id": "pollution-des-sols"},
-                            {"title": "Qualité de l'air", "id": "qualite-de-l-air"},
-                        ]},
-                        {"title": "Réseaux d'énergie et de communication", "id": "reseaux-d-energie-et-de-communication", "color": "#BAFAEE", "subthemes": [
-                            {"title": "Aménagement numérique des territoires", "id": "Aménagement numérique des territoires"},
-                            {"title": "Réseau électrique", "id": "Réseau électrique"},
-                            {"title": "Réseau de transport et de stockage des hydrocarbures", "id": "Réseau de transport et de stockage des hydrocarbures"},
-                            {"title": "Réseau de télécommunication", "id": "Réseau de télécommunication"},
-                        ]},
-                        {"title": "Risques", "id": "risques", "color": "#FEEBD0", "subthemes": [
-                            {"title": "Prévention des avalanches", "id": "prevention-des-avalanches"},
-                            {"title": "Prévention des éruptions volcaniques", "id": "prevention-des-eruptions-volcaniques"},
-                            {"title": "Prévention des inondations", "id": "prevention-des-inondations"},
-                            {"title": "Prévention du risque mouvement de terrain", "id": "prevention-du-risque-mouvement-de-terrain"},
-                            {"title": "Prévention du risque radon", "id": "prevention-du-risque-radon"},
-                            {"title": "Prévention du risque minier", "id": "prevention-du-risque-minier"},
-                            {"title": "Prévention des risques technologiques", "id": "prevention-des-risques-technologiques"},
-                            {"title": "Prévention du risque sismique", "id": "prevention-du-risque-sismique"},
-                            {"title": "Réglementation de prévention des risques naturels", "id": "reglementation-de-prevention-des-risques-naturels"},
-                            {"title": "Réglementation de prévention des risques technologiques", "id": "reglementation-de-prevention-des-risques-technologiques"},
-                            {"title": "Gestion du risque", "id": "gestion-du-risque"},
-                        ]},
-                        {"title": "Industrie, production d'énergie et exploitation du sol", "id": "industrie-production-d-energie-et-exploitation du-sol", "color": "#FFE9E9", "subthemes": [
-                            {"title": "Mines, carrières et extraction de granulats", "id": "mines-carrières-et-extraction-de-granulats"},
-                            {"title": "Sites industriels", "id": "sites-industriels"},
-                            {"title": "Parcs éoliens", "id": "parcs-eoliens"},
-                            {"title": "Production d'énergie hors éolien", "id": "production-d-energie-hors-eolien"},
-                        ]},
-                        {"title": "Transport et déplacements", "id": "transport-et-deplacements", "color": "#FCD4F8", "subthemes": [
-                            {"title": "Sécurité routière", "id": "securite-routiere"},
-                            {"title": "Trafic routier et exploitation de la route", "id": "trafic-routier-et-exploitation-de-la-route"},
-                            {"title": "Transport collectif", "id": "transport-collectif"},
-                            {"title": "Transport exceptionnel", "id": "transport-exceptionnel"},
-                            {"title": "Transport de marchandises", "id": "transport-de-marchandises"},
-                            {"title": "Transport de matières dangereuses", "id": "transport-de-matieres-dangereuses"},
-                        ]},
-                        {"title": "Infrastructures de transport", "id": "infrastructures-de-transport", "color": "#FEECC2", "subthemes": [
-                            {"title": "Infrastructure aéroportuaire", "id": "infrastructure-aeroportuaire"},
-                            {"title": "Circulation douce", "id": "circulation-douce"},
-                            {"title": "Infrastructure ferrée, gares et ouvrages d'art", "id": "infrastructure-ferree-gares-et-ouvrages-d-art"},
-                            {"title": "Réseau navigable et ouvrages de navigation", "id": "reseau-navigable-et-ouvrages-de-navigation"},
-                            {"title": "Infrastructure portuaire", "id": "infrastructure-portuaire"},
-                            {"title": "Infrastructure routière", "id": "infrastructure-routiere"},
-                        ]},
-                    ] %}
-                    {% if 1 == 0 %}
-                    {% for theme in themes %}
-                        {# Tuile verticale avec description #}
-                        <div class="fr-tile fr-enlarge-link" style="--color-hover: {# #ECECFE#}{{ theme.color }}; --tile-color: {{ theme.color }};">
-                            <div class="fr-tile__body">
-                                <h4 class="fr-tile__title">
-                                <a class="fr-tile__link" href data-id="{{ theme.id }}"  data-name="{{ theme.title }}" data-color="{{ theme.color }}">
-                                    {% if theme.subthemes|length < 0 %}
-                                        <span class="fr-fi-arrow-down-s-line" aria-hidden="true"></span>
-                                    {% endif %}
-                                    {{ theme.title }}
-                                </a>
-                                </h4>
-                                <p class="fr-tile__desc"><span class="ri-database-2-line"></span><span>{{ range(800, 45000) | random }}</span><span class="selected-num hidden">0</span></p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {% endif %}
                 </div>
                 <div class="level2-container hidden">
                     {% if 1 == 0 %}
@@ -274,8 +145,8 @@
                         <div class="list-selected">
                         </div>
                         <div class="action-buttons">
-                            <button class="fr-btn back" id="thematiques-back"><span class="fr-fi-arrow-left-s-line"></span> Retour aux thèmes</button>
-                            <a class="fr-btn search" id="thematiques-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> Rechercher</a>
+                            <button class="fr-btn back" id="thematiques-back"><span class="fr-fi-arrow-left-s-line"></span>  {{ _("Retour aux thèmes") }}</button>
+                            <a class="fr-btn search" id="thematiques-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> {{ _("Search") }}</a>
                         </div>
                     </div>
 
@@ -285,47 +156,33 @@
             <div class="type" id="organisation">
                 <div class="organisations-header type-header hidden">
                     <div class="organisation-cat-name title">
-                        <span class="name">Sélectionner une organisation</span>
+                        <span class="name">{{ _("Sélectionner une organisation") }}</span>
                     </div>
                     <div class="org-display-select hidden">
-                        <button class="btn-maps fr-btn fr-btn--secondary fr-btn--rounded">Carte</button>
-                        <button class="btn-list fr-btn fr-btn--rounded">Liste</button>
+                        <button class="btn-maps fr-btn fr-btn--secondary fr-btn--rounded">{{ _("Carte") }}</button>
+                        <button class="btn-list fr-btn fr-btn--rounded">{{ _("Liste") }}</button>
                     </div>
                 </div>
                 <div class="level1 tiles">
                     {% set orgArr = ["Administration centrale", "Directions régionales", "Directions inter-régionales et inter-départementales", "Directions départementales", "Services d'Outre-Mer", "Opérateurs"] %}
                 </div>
-                <div class="level2-container hidden">
-                    {#% for i in range(6) %}
-                    <div class="level2 tiles hidden" data-id="orgc-{{ i }}">
-                        {% for j in range(39) %}
-                        <div class="fr-tile fr-enlarge-link">
-                            <div class="fr-tile__body">
-                                <h4 class="fr-tile__title">
-                                <a class="fr-tile__link" href data-id="th-{{ i }}-sth-{{ j }}"  data-name="{{ orgArr[i] }} - {{ j }}">{{ orgArr[i] }} - {{ j }}</a>
-                                </h4>
-                                <p class="fr-tile__desc"><span class="ri-database-2-line"></span><span>{{ range(800, 45000) | random }}</span></p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <nav role="navigation" class="fr-pagination" aria-label="Pagination" >
-                            <ul class="fr-pagination__list">
-                            </ul>
-                        </nav>
-                    </div>
-                    {% endfor %#}
+                <div class="level2-container hidden" data-prev="{{ _("Précédent") }}" data-next="{{ _("Suivant") }}">
+                    <nav role="navigation" class="fr-pagination" aria-label="Pagination" >
+                        <ul class="fr-pagination__list">
+                        </ul>
+                    </nav>
                 </div>
                 <div class="level2 map hidden">
                     <object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
                 </div>
                 <div class="search-selection">
-                    <h3>Sélection</h3>
+                    <h3>{{ _("Sélection") }}</h3>
                     <div class="content">
                         <div class="list-selected">
                         </div>
                         <div class="action-buttons">
-                            <button class="fr-btn back" id="organisations-back"><span class="fr-fi-arrow-left-s-line"></span> Retour aux organisations</button>
-                            <a class="fr-btn search" id="organisations-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> Rechercher</a>
+                            <button class="fr-btn back" id="organisations-back"><span class="fr-fi-arrow-left-s-line"></span> {{ _("Retour aux organisations") }}</button>
+                            <a class="fr-btn search" id="organisations-search" data-href="{{ h.url_for('dataset.search') }}?q=" href="#"><span class="fr-fi-search-line"></span> {{ _("Search") }}</a>
                         </div>
                     </div>
 
@@ -336,6 +193,22 @@
 
 </div>
 <script>
+    {% set themes = [
+        {"title": "Climat", "id": "climat", "color": "#E6EEFE"},
+        {"title": "Aménagement et urbanisme", "id": "amenagement-et-urbanisme", "color": "#BAFAEE"},
+        {"title": "Établissements d'activités", "id": "etablissements-d-activites", "color": "#FEE7FC"},
+        {"title": "Eau", "id": "eau", "color": "#A6F2FA"},
+        {"title": "Foncier et occupation du sol", "id": "foncier-et-occupation-du-sol", "color": "#C3FAD5"},
+        {"title": "Habitat et politique de la ville", "id": "habitat-et-politique-de-la-ville", "color": "#F7ECDB"},
+        {"title": "Mer et littoral", "id": "mer-et-littoral", "color": "#DDE5FF"},
+        {"title": "Nature, paysages et biodiversité", "id": "nature-paysages-et-biodiversite", "color": "#B8FEC9"},
+        {"title": "Nuisances, déchets et pollution", "id": "nuisances-dechets-et-pollution", "color": "#FEE9E7"},
+        {"title": "Réseaux d'énergie et de communication", "id": "reseaux-d-energie-et-de-communication", "color": "#BAFAEE"},
+        {"title": "Risques", "id": "risques", "color": "#FEEBD0"},
+        {"title": "Industrie, production d'énergie et exploitation du sol", "id": "industrie-production-d-energie-et-exploitation du-sol", "color": "#FFE9E9"},
+        {"title": "Transport et déplacements", "id": "transport-et-deplacements", "color": "#FCD4F8"},
+        {"title": "Infrastructures de transport", "id": "infrastructures-de-transport", "color": "#FEECC2"},
+    ] %}
     var themecolors = {
         {% for theme in themes %}
         "{{ theme.title|safe }}": {

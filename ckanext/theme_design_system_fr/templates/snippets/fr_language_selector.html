@@ -16,7 +16,7 @@
           {% for locale in h.get_available_locales() %}
             {% if locale.short_name == "fr" or locale.short_name == "en"%}
             <li>
-                <a class="fr-nav__link" href="{% if locale.short_name == "aa" %}{{ h.url_for(current_url, locale=locale) }}{% else %}#{% endif %}" target="_self">
+                <a class="fr-nav__link" href="{% if locale.short_name != current_lang %}{{ h.url_for(current_url, locale=locale) }}{% else %}#{% endif %}" target="_self">
                   {{ (locale.display_name or locale.english_name) | capitalize }}
                 </a>
             </li> {% endif %}

@@ -13,8 +13,8 @@
     <div class="fr-search-bar {{ 'hidden' if hidesearchbar else '' }}" id="search-850" role="search">
         <input aria-label="{% block header_site_search_label %}{{ placeholder }}{% endblock %}" id="field-giant-search" type="text" class="fr-input" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
         {% block search_input_button %}
-        <button class="fr-btn" title="Submit" type="submit" value="search" aria-label="{{_('Submit')}}">
-            Submit
+        <button class="fr-btn" title="{{_('Submit')}}" type="submit" value="search" aria-label="{{_('Submit')}}">
+          {{_('Submit')}}
         </button>
         {% endblock %}
     </div>
@@ -54,11 +54,16 @@
           {% set search_facets_items = facets.search.get(field)['items'] if facets.search and field in facets.search else [] %}
           <span class="facet">{{ facets.titles.get(field) }}:</span>
           {% for value in facets.fields[field] %}
-            <span class="{#filtered pill#}fr-tag"><span>
+            <span class="{#filtered pill#}fr-tag" data-type="{{ field }}"><span>
               {%- if facets.translated_fields and (field,value) in facets.translated_fields -%}
                 {{ facets.translated_fields[(field,value)] }}
               {%- else -%}
-                {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+                {% if field == "res_format" %}
+                  {{ h.get_vocabulary_label_by_uri("iana_media_type", value) }}
+                  {#{{ h.list_dict_filter(search_facets_items, 'name', 'title', value) }}#}
+                {% else %}
+                  {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+                {% endif %}
               {%- endif %}</span>
               <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fr-fi-close-line"></i></a>
             </span>

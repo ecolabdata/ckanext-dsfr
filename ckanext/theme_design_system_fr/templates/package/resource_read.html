@@ -11,7 +11,7 @@
   <meta property="og:description" content="{{ description|forceescape }}">
 {% endblock -%}
 
-{% block subtitle %}{{ h.dataset_display_name(package) }} {{ g.template_title_delimiter }} {{ h.resource_display_name(res) }}{% endblock %}
+{% block subtitle %}{{ h.get_localized_value_for_display(h.resource_display_name(res)) }}{% endblock %}
 
 {% block breadcrumb_content_selected %}{% endblock %}
 
@@ -47,8 +47,8 @@
               <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn btn-default fr-btn fr-btn--secondary', icon='wrench' %}</li>
             {% endif %}
               <li>
-                <a href="#" class="fr-btn fr-btn--rounded fr-btn--secondary">
-                  <i class="fr-fi-arrow-left-s-line"></i> Retour
+                <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}" class="fr-btn fr-btn--rounded fr-btn--secondary">
+                  <i class="fr-fi-arrow-left-s-line"></i> {{ _("Retour") }}
                 </a>
               </li>
             {% if res.url and h.is_url(res.url) %}

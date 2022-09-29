@@ -6,6 +6,7 @@
 {% block breadcrumb_content %}
   <li class="active">{% link_for _('Organizations'), named_route=group_type+'.index' %}</li>
 {% endblock %}
+{% block aside_class %}mobile-drawer{% endblock %}
 
 {% block page_title_and_search %}
 <h1 class="hide-heading">{% block page_heading %}{{ _('Rechercher une organisation') }}{% endblock %}</h1>
@@ -28,6 +29,7 @@
 {% endblock %}
 
 {% block primary_content_inner %}
+    <a href="#" aria-controls="main-aside-toggler" class="mobile-drawer-toggle"><h3>Filtres</h3></a>
   {#<h1 class="hide-heading">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>#}
   {% block organizations_search_form %}
     {% snippet 'snippets/search_form.html', form_id='organization-search-form', type='organization', query=q, sorting_selected=sort_by_selected, count=page.item_count, placeholder=_('Search organizations...'), show_empty=request.params, no_bottom_border=true if page.items, sorting = [(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')], hidesearchbar = 1 %}
@@ -64,7 +66,14 @@
 {%- block scripts %}
   {{ super() }}
   <script src="/js/ecosphere/orgsearch.js" type="text/javascript"></script>
+  {% set searchTxt = "[query]" %}
+  {% set text_query_singular = ungettext('{number} organization found', '{number} organizations found', 1) %}
+  {% set text_query_plural = ungettext('{number} organization found', '{number} organizations found', 4) %}
   <script>
     orgsearch.orgBaseUrl = "{{ h.url_for('organization.index') }}";
+    orgsearch.i18n = {
+      "singular": "{{ text_query_singular }}",
+      "plural": "{{ text_query_plural }}",
+    }
   </script>
 {% endblock %}

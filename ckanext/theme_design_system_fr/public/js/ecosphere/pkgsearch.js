@@ -2,7 +2,6 @@ var pkgsearch = {
     filters: {
         themes: {},
         initThemes: function() {
-            //document.querySelector('#filter-subcategory').closest('section.module').remove();
             fetch('/api/themes').then(function(data) {return data.json()})
             .then(function(data) {
                 pkgsearch.filters.themes = data;
@@ -13,12 +12,14 @@ var pkgsearch = {
             var list = "";
             for(var key in pkgsearch.filters.themes) {
                 var theme = pkgsearch.filters.themes[key];
-                var thref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&subcategory=" + theme.label;
-                list += '<option class="grouptitle" value="' + theme.label + '" data-href="' + thref + '">' + theme.label + '</option>';
+                var thref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&category=" + theme.label;
+                list += pkgsearch.filters.makeOption("category", theme.label, theme.label, "grouptitle" );
                 if(theme.child.length > 0) {
                     for(var i = 0; i < theme.child.length; i++) {
-                        var shref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&subcategory=" + theme.child[i].label;
-                        list += '<option class="sub" value="' + theme.child[i].label + '" data-href="' + shref + '">' + theme.child[i].label + '</option>';
+                        //var shref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&category=" + theme.child[i].label;
+                        //list += '<option class="sub" value="' + theme.child[i].label + '" data-href="' + shref + '">' + theme.child[i].label + '</option>';
+
+                        list += pkgsearch.filters.makeOption("category", theme.child[i].label, theme.child[i].label, "sub" );
                     }
                 }
             }
@@ -36,8 +37,7 @@ var pkgsearch = {
             var list = '';
             for(var i = 0; i < pkgsearch.filters.territoires.length; i++) {
                 var territoire = pkgsearch.filters.territoires[i];
-                var thref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&territory=" + territoire.label;
-                list += '<option value="' + territoire.label + '" data-href="' + thref + '">' + territoire.label + '</option>';
+                list += pkgsearch.filters.makeOption("territory", territoire.label, territoire.label, "sub" );
             }
             document.querySelector("#filter-territory").innerHTML = list;
             new Select(document.querySelector("#filter-territory"));
@@ -55,14 +55,27 @@ var pkgsearch = {
                 list += '<option class="grouptitle" value="' + cat + '" disabled>' + cat + '</option>';
                 for(var i = 0; i < pkgsearch.filters.organisations[cat].orgs.length; i++) {
                     var org = pkgsearch.filters.organisations[cat].orgs[i];
-                    var ohref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&organization=" + org.name;
-                    list += '<option class="sub" value="' + org.name + '" data-href="' + ohref + '">' + org.title + '</option>';
+                    list += pkgsearch.filters.makeOption("organization", org.title, org.name, "sub" );
                 }
             }
             document.querySelector("#filter-organization").innerHTML = list;
             new Select(document.querySelector("#filter-organization"));
+        },
+        makeOption: function(type, label, value, itemClass, disabled) {
+            var oHref = "";
+            if(pkgsearch.search.hasParam(type, value)) {
+                var sp2 = new URLSearchParams(pkgsearch.searchParams);
+                var searchUrl = pkgsearch.search.deleteOne(sp2, type, value).toString();
+                oHref = pkgsearch.baseUrl + "?" + searchUrl;
+                var dataChecked = ' data-checked="true"';
+            }
+            else {
+                oHref = pkgsearch.baseUrl + "?" + pkgsearch.searchParams.toString() + "&" + type + "=" + value;
+                var dataChecked = '';
+            }
+            var txtDisabled = typeof disabled != "undefined" && disabled == true ? ' disabled ' : '';
+            return '<option' + dataChecked + ' class="' + itemClass + '" value="' + value + '" data-href="' + oHref + '" ' + txtDisabled + '>' + label + '</option>';
         }
-
     },
     filterlist: [
         "organization",
@@ -73,7 +86,6 @@ var pkgsearch = {
     ],
     init: function () {
         this.searchParams = new URLSearchParams(window.location.search);
-        this.initSearchParams();
         this.form = document.querySelector('form.filterblock');
         this.filters["ext_startdate"] = document.querySelector('#filter-ext_startdate');
         this.filters["ext_enddate"] = document.querySelector('#filter-ext_enddate');
@@ -84,15 +96,29 @@ var pkgsearch = {
         if(document.querySelector("#filter-res_format"))
             new Select(document.querySelector("#filter-res_format"));
     },
-    initSearchParams: function() {
-        pkgsearch.searchParams.deleteOne = function(key, value) {
-            var items = pkgsearch.searchParams.getAll(key);
-            pkgsearch.searchParams.delete(key);
+    search: {
+        hasParam: function(type, value) {
+            var list = pkgsearch.searchParams.getAll(type);
+            for(var i = 0; i < list.length; i++) {
+                if(list[i] == value)
+                    return true;
+            }
+            return false;
+        },
+        deleteOne: function(usp, key, value) { // usp : a URLSearchParams object
+            console.log('deleting', key, value, usp);
+            var items = usp.getAll(key);
+            usp.delete(key);
+            console.log("removed all", key, usp)
             for(var i = 0; i < items.length; i++) 
             {
                 if(items[i] != value)
-                pkgsearch.searchParams.append(key, items[i]);
+                    usp.append(key, items[i]);
+                else
+                    console.log('no append', items[i]);
             }
+            console.log(usp, usp.toString());
+            return usp;
         }
     },
     date: {

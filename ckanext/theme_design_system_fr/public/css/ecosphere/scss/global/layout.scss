@@ -102,7 +102,7 @@ header.fr-header {
     padding-bottom: 134px;
 }
 
-div.main-row > aside.fr-col-md-3 {
+div.main-row > aside.fr-col-md-4 {
     h3 {
         font-size: 22px;
         line-height: 40px;
@@ -127,6 +127,42 @@ footer.fr-footer {
                     right: 0;
                 }
             }
+        }
+    }
+}
+
+
+@media (max-width: 1247px) {
+}
+@media (max-width: 991px) {
+    div.main-row > aside.fr-col-md-4 + .primary {
+        padding-left: 32px;
+    }
+}
+
+@media (max-width: 767px) {
+    div.main-row > aside.fr-col-md-4 + .primary {
+        padding-left: .5rem;
+    }
+    
+    .mobile-drawer-toggle {
+        display: block;
+        position: absolute;
+        z-index: 3;
+        box-shadow: none;
+    }
+    .mobile-drawer.active {
+        position: absolute;
+        z-index: 2;
+        background: #FFF;
+        left: -100vw;
+        transition: left 0.3s;
+        &.open {
+            left: 0;
+            right: 0;
+        }
+        & > h3:first-child {
+            opacity: 0;
         }
     }
 }

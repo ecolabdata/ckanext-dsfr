@@ -416,13 +416,21 @@ svg > g {
         }
         .search-selection {
             .content {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 justify-content: space-between;
                 gap: 16px;
                 margin-top: -54px;
             }
             .action-buttons {
                 flex-basis: auto;
+            }
+            .list-selected, .action-buttons {
+                justify-content: center;
+            }
+        }
+        #territoire {
+            .om-container {
+                justify-content: space-evenly;
             }
         }
     }
@@ -459,6 +467,30 @@ svg > g {
         .search-selection {
             .content {
                 margin-top: 0;
+            }
+        }
+        
+        object.map-large {
+            height: auto;
+            max-height: 525px;
+        }
+        .type-header {
+            flex-direction: column;
+            gap: 2em;
+            .title {
+                line-height: 1.2em;
+            }
+            .thematique-super-select {
+                text-align: center;
+            }
+        }
+        #organisation {
+            .search-selection {
+                .action-buttons {
+                    flex-basis: 0;
+                    flex-direction: column;
+                    align-items: center;
+                }
             }
         }
     }

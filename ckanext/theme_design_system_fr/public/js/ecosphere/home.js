@@ -266,7 +266,7 @@ var home = {
             for(var i = 0; i < home.selection.content["thematique"].length; i++) {
                 var item = home.selection.content["thematique"][i];
                 //console.log('adding item', item, 'to link');
-                var type = item.level == 1 ? 'category' : 'subcategory';
+                var type = /*item.level == 1*/true ? 'category' : 'subcategory';
                 query += "&"+type+"=" + item.name;
 
             }
@@ -298,13 +298,13 @@ var home = {
                 mapswitchBtns[i].addEventListener('click', function(e) {
                     if(e.currentTarget.classList.contains('btn-maps')) {
                         document.querySelector('#organisation .level2.map').classList.remove('hidden');
-                        document.querySelector('#organisation .level2[data-id="DD"').classList.add('hidden');
+                        document.querySelector('#organisation .level2[data-id="Directions départementales"').classList.add('hidden');
                         document.querySelector('.org-display-select .btn-list').classList.add('fr-btn--secondary');
                         document.querySelector('.org-display-select .btn-maps').classList.remove('fr-btn--secondary');
                     }
                     else{
                         document.querySelector('#organisation .level2.map').classList.add('hidden');
-                        document.querySelector('#organisation .level2[data-id="DD"').classList.remove('hidden');
+                        document.querySelector('#organisation .level2[data-id="Directions départementales"').classList.remove('hidden');
                         document.querySelector('.org-display-select .btn-list').classList.remove('fr-btn--secondary');
                         document.querySelector('.org-display-select .btn-maps').classList.add('fr-btn--secondary');
                     }
@@ -313,6 +313,7 @@ var home = {
         },
         initAsync: function() {
             var list = home.organisation.data.list;
+            console.log('list loaded:', list);
 
             var tiles = "";
             var lv2content = "";
@@ -347,9 +348,36 @@ var home = {
             else
                 home.organisation.initMap();
         },
-        initMap: function() {
+        initMap: function(le) {
             var ddMapContainer = document.querySelector('#organisation .level2.map object');
             console.log('orga map loaded', ddMapContainer.contentDocument.readyState);
+            
+            ddMapContainer.contentDocument.querySelector('svg').addEventListener('click', function(e) {
+                var type = e.target.closest('svg').hasAttribute('data-type') ? e.target.closest('svg').getAttribute('data-type') : "outre-mer";
+                var area = e.target.closest('g[id]');
+                var org = area ? home.organisation.getOrgFromDpt(area.getAttribute('id')) : false;
+                if(area && org) {
+                    if(area.classList.contains('selected')) {
+                        home.organisation.removeSelection(org.name);
+                        area.classList.remove('selected');
+                    }
+                    else {
+                        area.classList.add('selected');
+                        home.selection.add({id: org.name, name: org.title}, "organisation");
+                    }
+                }
+            })
+        },
+        getOrgFromDpt: function(dpt) {
+            var dds = home.organisation.data.list["Directions départementales"].orgs;
+            if(dds.length == 0)
+                return false;
+            for(var i = 0; i < dds.length; i++) {
+                if(dds[i].Territoire && dds[i].Territoire.indexOf(dpt) >=0)
+                    return dds[i];
+                console.log(dds[i].Territoire);
+            }
+            return false;
         },
         back: function() {
             home.organisation.currentLevel = 1;
@@ -362,19 +390,24 @@ var home = {
             home.selection.updateBlock("organisation");
         },
         addSelection: function(element) {
+            console.log('org addselection');
             home.selection.add(element, "organisation")
             home.selection.updateBlock("organisation", true);
             home.organisation.buildLink();
         },
         removeSelection: function(id) {
+            console.log('org rmselection', id);
             home.selection.remove(id, "organisation");
             home.selection.updateBlock("organisation", true);
             home.organisation.buildLink();
         },
         sub: {
             navigate: function(element) {
-                if(element.getAttribute('data-id') == "DD")
+                console.log("navigate", element.getAttribute('data-id'));
+                if(element.getAttribute('data-id') == "Directions départementales") {
                     document.querySelector('.org-display-select').classList.remove('hidden');
+                    document.querySelector('.level2.map').classList.remove('hidden');
+                }
                 else {
                     document.querySelector('.org-display-select').classList.add('hidden');
                     document.querySelector('.level2.map').classList.add('hidden');
@@ -444,14 +477,16 @@ var home = {
 
             },
             draw: function(list) {
+                var strPrevious = document.querySelector('#organisation .level2-container').getAttribute('data-prev');
+                var strNext = document.querySelector('#organisation .level2-container').getAttribute('data-next');
                 var nav = document.querySelector('#organisation .level2[data-id="'+list.id+'"] nav ul');
                 var prevDisabled = list.currentPage == 0 ? ' aria-disabled="true" role="link"' : ' href="#"';
-                var navcontent = '<li><a class="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label"'+prevDisabled+'>Précédent</a></li>';
+                var navcontent = '<li><a class="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label"'+prevDisabled+'>'+strPrevious+'</a></li>';
                 for(var i = 0; i < list.maxPages; i++) {
                     navcontent += home.organisation.pagination.drawlink(list, i);
                 }
                 var nextDisabled = list.currentPage == list.maxPages - 1 ? ' aria-disabled="true" role="link"' : ' href="#"';
-                nav.innerHTML = navcontent + '<li><a class="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label"'+nextDisabled+'>Suivant</a></li>';
+                nav.innerHTML = navcontent + '<li><a class="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label"'+nextDisabled+'>'+strNext+'</a></li>';
             },
             drawlink: function(list, page) {
                 var text = (page + 1) ;
@@ -468,7 +503,8 @@ var home = {
                 var item = home.selection.content["organisation"][i];
                 //console.log('adding item', item, 'to link');
                 var type = 'organization';
-                query += "&"+type+"=" + item.name;
+                query += "&"+type+"=" + item.id;
+                console.log(item)
 
             }
             var linkElt = document.querySelector('#organisation .search');
@@ -628,9 +664,12 @@ var home = {
             var label = territoires[type][zoneId].name;
             if(zoneId[0] == "D")
                 label = zoneId.slice(1) + " " + label;
-            if(le.target.closest('#organisation'))
-                label = home.organisation.getOrgFromDpt(zoneId);
-            home.maps.setRollover(pos, label, e);
+            if(le.target.closest('#organisation')) {
+                var org = home.organisation.getOrgFromDpt(zoneId);
+                label = org ? org.title : false;
+            }
+            if(label)
+                home.maps.setRollover(pos, label, e);
 
             //console.log("enters", e.currentTarget, le.target);
         },

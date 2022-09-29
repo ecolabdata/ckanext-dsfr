@@ -6,6 +6,7 @@
 {% block breadcrumb_content %}
   <li class="active">{{ h.nav_link(_(dataset_type.title() + 's'), named_route='%s.search' % dataset_type, highlight_actions = 'new index') }}</li>
 {% endblock %}
+{% block aside_class %}mobile-drawer{% endblock %}
 
 {% block page_title_and_search %}
 <h1 class="hide-heading">{% block page_heading %}{{ _('Recherche de jeux de données') }}{% endblock %}</h1>
@@ -21,6 +22,7 @@
 
 {% block primary_content %}
   <section class="module">
+    <a href="#" aria-controls="main-aside-toggler" class="mobile-drawer-toggle"><h3>Filtres</h3></a>
     <div class="module-content">
       {% block page_primary_action %}
         {% if h.check_access('package_create') %}
@@ -56,7 +58,7 @@
     {% endblock %}
   </section>
 
-  {% block package_search_results_api %}
+  {% block package_search_results_api %}{#
     <section class="module">
       <div class="module-content">
         {% block package_search_results_api_inner %}
@@ -76,7 +78,7 @@
           </small>
         {% endblock %}
       </div>
-    </section>
+    </section>#}
   {% endblock %}
 {% endblock %}
 
@@ -99,24 +101,32 @@
 
       {# filtres dates #}
       <section class="module module-narrow module-shallow">
-        <nav aria-label="Date de mise à jour">
-          <label>Date de mise à jour</label>
+        <nav aria-label="{{ _("Date de mise à jour") }}">
+          <label>{{ _("Date de mise à jour") }}</label>
           <div class="item item-part">
-            <label for="filter-ext_startdate" id="filter-ext_startdate-label">Date de début</label>
+            <label for="filter-ext_startdate" id="filter-ext_startdate-label">{{ _("Date de début") }}</label>
             <input type="date" class="fr-input" id="filter-ext_startdate" name="filter-ext_startdate"/>
           </div>
           <div class="item item-part">
-            <label for="filter-ext_enddate" id="filter-ext_enddate-label">Date de fin</label>
+            <label for="filter-ext_enddate" id="filter-ext_enddate-label">{{ _("Date de fin") }}</label>
             <input type="date" class="fr-input" id="filter-ext_enddate" name="filter-ext_enddate"/>
           </div>
         </nav>
 
-        <nav aria-label="Date de mise à jour">
+        <nav aria-label="{{ _("Inclure les données à accès restreint") }}">
           <div class="fr-checkbox-group item">
-            <a href="./">
-                <input type="checkbox" id="checkbox" name="checkbox">
-                <label class="fr-label" >Inclure les données à accès restreint</label>
+            
+            {% if "ext_restricted_access" in h.add_url_param(new_params={}) %}
+            <a href="{{ h.remove_url_param('ext_restricted_access') }}">
+                <input type="checkbox" id="checkbox" name="checkbox" >
+                <label class="fr-label" >{{ _("Inclure les données à accès restreint") }}</label>
             </a>
+            {% else %}
+            <a href="{{ h.add_url_param(new_params={'ext_restricted_access': 'false'}) }}">
+                <input type="checkbox" id="checkbox" name="checkbox" checked>
+                <label class="fr-label" >{{ _("Inclure les données à accès restreint") }}</label>
+            </a>
+            {% endif %}
             <a href="#" class="i-right"><span class="fr-fi-information-line"></span></a>
         </div>
         </nav>

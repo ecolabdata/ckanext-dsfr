@@ -156,33 +156,7 @@ Example:
 						{% endif %}
 					</div>
 				</div>
-				<div class="img-zone">
-					{% if packageimagefieldnametbd %}
-					{% else %}
-					<div class="imgmap" data-territory="{% for t in package.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
-						<object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
-						<object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
-						
-                        {% set om = [
-                            { "id": "mayotte", "title": "Mayotte" },
-                            { "id": "guadeloupe", "title": "Guadeloupe" },
-                            { "id": "martinique", "title": "Martinique" },
-                            { "id": "la-reunion", "title": "La Réunion" },
-                            { "id": "guyane", "title": "Guyane" },
-                            { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
-                            { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
-                            { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
-                            { "id": "saint-martin", "title": "Saint-Martin" },
-                            { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
-                            { "id": "polynesie-francaise", "title": "Polynésie Française" },
-                            { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
-                        ] %}
-                            {% for territoire in om %}
-                                <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
-                            {% endfor %}
-					</div>
-					{% endif %}
-				</div>
+				{% snippet "snippets/map_mini.html", territories=package.territory, preview=null %}
 			</div>
 			{% block notes %}
 				{% if notes %}

@@ -59,8 +59,8 @@
       <p>
         <span class="ri-stack-fill" aria-hidden="true"></span> Série de {{ pkg.series_member|length }} jeux de données
         <a class="toggle" href="#">
-        <span class="link-open">Voir la liste <span class="fr-fi-arrow-down-s-line"></span></span>
-        <span class="link-close">Fermer la liste <span class="fr-fi-arrow-up-s-line"></span></span>
+        <span class="link-open">{{ _("Voir la liste") }} <span class="fr-fi-arrow-down-s-line"></span></span>
+        <span class="link-close">{{ _("Fermer la liste") }} <span class="fr-fi-arrow-up-s-line"></span></span>
         </a>
       </p>
       <div class="list">
@@ -76,7 +76,7 @@
     <div class="pkg-org-series-container">
       {% for i_s in pkg.in_series %}
       <p>
-        <span class="ri-stack-line" aria-hidden="true"></span> Inclus dans la série&nbsp;:
+        <span class="ri-stack-line" aria-hidden="true"></span> {{ _("Inclus dans la série") }}&nbsp;:
         <a href="{{ h.url_for('%s.read' % pkg.type, id=i_s.url) }}">
           {{ i_s.title }}
         </a>
@@ -130,7 +130,7 @@
     <div class="fr-grid-row">
       <div class="fr-col-5"><strong>{{ _('Source') }}</strong></div>
       <div class="fr-col-7">
-        Nom du catalogue <a href="{{ pkg.url }}" class="fr-btn fr-btn--rounded fr-btn--white fr-btn--sm" target="_blank"><span class="fr-fi-external-link-line" aria-hidden="true"></span> Lien du catalogue</a>
+        <a href="{{ pkg.landing_page or pkg.url }}" class="fr-btn fr-btn--rounded fr-btn--white fr-btn--sm" target="_blank"><span class="fr-fi-external-link-line" aria-hidden="true"></span> {{ _("Lien du catalogue") }}</a>
       </div>
     </div>
     <div class="fr-grid-row">
@@ -140,40 +140,11 @@
       </div>
     </div>
   </div>
-  <div>
-    {{ pkg if 1==0 }}
-  </div>
 {% endblock %}
 
 {# Zone d'application #}
 {% block package_zone %}
-				<div class="img-zone">
-					{% if packageimagefieldnametbd %}
-					{% else %}
-					<div class="imgmap" data-territory="{% for t in pkg.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
-						<object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
-						<object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
-						
-            {% set om = [
-                { "id": "mayotte", "title": "Mayotte" },
-                { "id": "guadeloupe", "title": "Guadeloupe" },
-                { "id": "martinique", "title": "Martinique" },
-                { "id": "la-reunion", "title": "La Réunion" },
-                { "id": "guyane", "title": "Guyane" },
-                { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
-                { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
-                { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
-                { "id": "saint-martin", "title": "Saint-Martin" },
-                { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
-                { "id": "polynesie-francaise", "title": "Polynésie Française" },
-                { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
-            ] %}
-                {% for territoire in om %}
-                    <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
-                {% endfor %}
-					</div>
-					{% endif %}
-				</div>
+  {% snippet "snippets/map_mini.html", territories=pkg.territory, preview=null %}
 
 <button class="btn-map-enlarge" data-fr-opened="false" aria-controls="fr-modal-imgzoom" title="zoom">
     +
@@ -181,49 +152,7 @@
 {% endblock %}
 
 {% block imgmodalcontent %}
-  <div class="swiper imglist">
-      <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="img-zone">
-              {% if packageimagefieldnametbd %}
-              {% else %}
-              <div class="imgmap" data-territory="{% for t in pkg.territory %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}">
-                <object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
-                <object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
-                
-                {% set om = [
-                    { "id": "mayotte", "title": "Mayotte" },
-                    { "id": "guadeloupe", "title": "Guadeloupe" },
-                    { "id": "martinique", "title": "Martinique" },
-                    { "id": "la-reunion", "title": "La Réunion" },
-                    { "id": "guyane", "title": "Guyane" },
-                    { "id": "saint-pierre-et-miquelon", "title": "Saint-Pierre-et-Miquelon" },
-                    { "id": "nouvelle-caledonie", "title": "Nouvelle Calédonie" },
-                    { "id": "wallis-et-futuna", "title": "Wallis et Futuna" },
-                    { "id": "saint-martin", "title": "Saint-Martin" },
-                    { "id": "saint-barthelemy", "title": "Saint-Barthelemy" },
-                    { "id": "polynesie-francaise", "title": "Polynésie Française" },
-                    { "id": "taaf", "title": "Terres australes et antarctiques françaises" }
-                ] %}
-                    {% for territoire in om %}
-                        <object class="map-list-item" id="om-{{ territoire.id }}" type="image/svg+xml" data="/map/om/{{ territoire.id }}.svg"></object>
-                    {% endfor %}
-              </div>
-              {% endif %}
-            </div>
-          </div>
-          {#
-          <div class="swiper-slide">
-            <img class="fr-responsive-img" src="/_tmp/800x500.png" alt="" >
-          </div>
-          <div class="swiper-slide">
-            <img class="fr-responsive-img" src="https://via.placeholder.com/800x800" alt="" >
-          </div>#}
-      </div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-pagination"></div>
-  </div>
+  {% snippet "snippets/map_modal.html", territories=pkg.territory, preview=null %}
 {% endblock %}
 
 {# description#}
@@ -232,7 +161,7 @@
     <!--div class="notes embedded-content" style="display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
       {{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}
     </div-->
-    <div class="package-description desc-unwrap">{{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}</div>
+    <div class="package-description desc-unwrap" data-readmore="{{ _("Lire plus") }}">{{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}</div>
   {% endif %}
 {% endblock %}
 
