@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="swiper-slide">
-          <div class="imgmap" data-territory="GES,{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
+          <div class="imgmap" data-territory="{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
             <object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg" ></object>
           </div>
         </div>

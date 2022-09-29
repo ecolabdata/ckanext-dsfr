@@ -67,47 +67,41 @@
    r="34.5"
    id="circle52" />
 	<g
-   transform="translate(12.036,13.027)"
-   id="g76">
+   transform="translate(12.036,13.027)">
 		<path
    class="st2"
    d="m 23.7,16.9 2.6,4.1 h 7.3 V 35.2 L 28,26.6 20.7,38.3 h 3.6 l 3.8,-6.7 7.7,13.9 7.7,-13.9 3.8,6.7 h 3.6 L 43.6,26.6 38,35.2 v -7.8 h 3.3 l 2.4,-3.9 H 38 V 21 h 7.3 l 2.6,-4.1 z m 8.5,17.4 H 24.3 V 37 h 7.9 z m 15.1,0 H 39.4 V 37 h 7.9 z"
    id="path54" />
 		<g
-   transform="translate(19.41,35.279)"
-   id="g58">
+   transform="translate(19.41,35.279)">
 			<path
    class="st2"
    d="m 16.4,13 2.4,7.5 -6.4,-4.7 h 7.9 l -6.4,4.7 z"
    id="path56" />
 		</g>
 		<g
-   transform="translate(10.494,28.542)"
-   id="g62">
+   transform="translate(10.494,28.542)">
 			<path
    class="st2"
    d="m 16.4,13 2.4,7.5 -6.4,-4.7 h 7.9 l -6.4,4.7 z"
    id="path60" />
 		</g>
 		<g
-   transform="translate(28.326,28.542)"
-   id="g66">
+   transform="translate(28.326,28.542)">
 			<path
    class="st2"
    d="m 16.4,13 2.4,7.5 -6.4,-4.7 h 7.9 l -6.4,4.7 z"
    id="path64" />
 		</g>
 		<g
-   transform="translate(2.964,8.53)"
-   id="g70">
+   transform="translate(2.964,8.53)">
 			<path
    class="st2"
    d="m 16.4,13 2.4,7.5 -6.4,-4.7 h 7.9 l -6.4,4.7 z"
    id="path68" />
 		</g>
 		<g
-   transform="translate(35.856,8.53)"
-   id="g74">
+   transform="translate(35.856,8.53)">
 			<path
    class="st2"
    d="m 16.4,13 2.4,7.5 -6.4,-4.7 h 7.9 l -6.4,4.7 z"

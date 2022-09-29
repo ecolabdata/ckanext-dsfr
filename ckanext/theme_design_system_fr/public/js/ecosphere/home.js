@@ -203,18 +203,6 @@ var home = {
             }
             document.querySelector('#thematique .level1.tiles').innerHTML = tiles;
             document.querySelector('#thematique .level2-container').innerHTML = lv2content;
-            /*
-            var lv2content = "";
-            for(var tId in types) {
-                lv2content += '<div class="level2 tiles hidden" data-id="'+tId+'">';
-                for(var lId in home.organisation.data.typedList[tId]) {
-                    var item = home.organisation.data.typedList[tId][lId];
-                    lv2content += '<div class="fr-tile fr-enlarge-link"><div class="fr-tile__body"><h4 class="fr-tile__title"><a class="fr-tile__link" href data-id="'+item.id+'" title="'+item.label+'" data-name="'+item.title+'">'+item.title+'</a></h4><p class="fr-tile__desc"><span class="ri-database-2-line"></span><span>0000</span></p></div></div>';
-                }
-                lv2content += '<nav role="navigation" class="fr-pagination" aria-label="Pagination" ><ul class="fr-pagination__list"></ul></nav></div>';
-            }
-            document.querySelector('#organisation .level2-container').innerHTML = lv2content;
-            */
             document.querySelector('.thematique-super-select button').addEventListener('click', function(e) {
                 var id = e.currentTarget.getAttribute('data-id');
                 home.thematique.addSelection({id: id, name: e.currentTarget.getAttribute('data-name'), color: home.thematique.selectedColor, level: 1});
@@ -265,7 +253,6 @@ var home = {
             var query = "";
             for(var i = 0; i < home.selection.content["thematique"].length; i++) {
                 var item = home.selection.content["thematique"][i];
-                //console.log('adding item', item, 'to link');
                 var type = /*item.level == 1*/true ? 'category' : 'subcategory';
                 query += "&"+type+"=" + item.name;
 
@@ -313,7 +300,6 @@ var home = {
         },
         initAsync: function() {
             var list = home.organisation.data.list;
-            console.log('list loaded:', list);
 
             var tiles = "";
             var lv2content = "";
@@ -340,17 +326,17 @@ var home = {
             home.organisation.pagination.init();
 
             var ddMapContainer = document.querySelector('#organisation .level2.map object');
-            if(typeof ddMapContainer.contentDocument == "undefined" || ddMapContainer.contentDocument.readyState != "complete") {
+            if(typeof ddMapContainer.contentDocument == "undefined" || ddMapContainer.contentDocument == null ||  ddMapContainer.contentDocument.readyState != "complete") {
                 document.querySelector('#organisation .level2.map object').addEventListener('load', function(le){
                     home.organisation.initMap();
                 });
             }
-            else
+            else {
                 home.organisation.initMap();
+            }
         },
         initMap: function(le) {
             var ddMapContainer = document.querySelector('#organisation .level2.map object');
-            console.log('orga map loaded', ddMapContainer.contentDocument.readyState);
             
             ddMapContainer.contentDocument.querySelector('svg').addEventListener('click', function(e) {
                 var type = e.target.closest('svg').hasAttribute('data-type') ? e.target.closest('svg').getAttribute('data-type') : "outre-mer";
@@ -375,7 +361,6 @@ var home = {
             for(var i = 0; i < dds.length; i++) {
                 if(dds[i].Territoire && dds[i].Territoire.indexOf(dpt) >=0)
                     return dds[i];
-                console.log(dds[i].Territoire);
             }
             return false;
         },
@@ -390,20 +375,17 @@ var home = {
             home.selection.updateBlock("organisation");
         },
         addSelection: function(element) {
-            console.log('org addselection');
             home.selection.add(element, "organisation")
             home.selection.updateBlock("organisation", true);
             home.organisation.buildLink();
         },
         removeSelection: function(id) {
-            console.log('org rmselection', id);
             home.selection.remove(id, "organisation");
             home.selection.updateBlock("organisation", true);
             home.organisation.buildLink();
         },
         sub: {
             navigate: function(element) {
-                console.log("navigate", element.getAttribute('data-id'));
                 if(element.getAttribute('data-id') == "Directions départementales") {
                     document.querySelector('.org-display-select').classList.remove('hidden');
                     document.querySelector('.level2.map').classList.remove('hidden');
@@ -433,7 +415,6 @@ var home = {
                         var navLink = e.target.closest('.fr-pagination__link');
                         if(navLink && listIdx >= -1) {
                             var currentList = home.organisation.pagination.lists[listIdx];
-                            console.log('navlink:', navLink, ' - listId:', listId);
                             var targetPage = 0;
                             if(navLink.classList.contains("fr-pagination__link--first"))
                                 targetPage = 0;
@@ -501,10 +482,8 @@ var home = {
             var query = "";
             for(var i = 0; i < home.selection.content["organisation"].length; i++) {
                 var item = home.selection.content["organisation"][i];
-                //console.log('adding item', item, 'to link');
                 var type = 'organization';
                 query += "&"+type+"=" + item.id;
-                console.log(item)
 
             }
             var linkElt = document.querySelector('#organisation .search');
@@ -642,19 +621,20 @@ var home = {
             var maps = document.querySelectorAll('object');
             for(var i = 0; i<maps.length; i++) {
                 maps[i].addEventListener('load', function(le){
-                    //console.log('home.maps init:', le.target.contentDocument.querySelectorAll('svg g[id]'));
                     var zones = le.target.contentDocument.querySelectorAll('svg g[id]');
+                    le.target.contentDocument.querySelector('svg').setAttribute('objid',le.target.getAttribute('id'));
                     for(var j= 0; j < zones.length; j++) {
-                        zones[j].addEventListener('mouseenter', function(e) {home.maps.hover(e, le)});
-                        zones[j].addEventListener('mouseleave', function(e) {home.maps.out(e, le)});
+                        zones[j].addEventListener('mouseenter', function(e) {home.maps.hover(e)});
+                        zones[j].addEventListener('mouseleave', function(e) {home.maps.out(e)});
                     }
                 })
             }
         },
-        hover: function(e, le) {
+        hover: function(e) {
             var zone = e.currentTarget;
             var rect = zone.getBoundingClientRect();
-            var objpos = le.target.getBoundingClientRect();
+            var objectParent = document.querySelector("object#" + e.currentTarget.closest('svg').getAttribute('objid'));
+            var objpos = objectParent.getBoundingClientRect();
             var pos = {
                 left: rect.left + objpos.left + window.scrollX + rect.width / 2,
                 top: rect.top + objpos.top + window.scrollY + rect.height / 2
@@ -664,18 +644,16 @@ var home = {
             var label = territoires[type][zoneId].name;
             if(zoneId[0] == "D")
                 label = zoneId.slice(1) + " " + label;
-            if(le.target.closest('#organisation')) {
+            if(objectParent.closest('#organisation')) {
                 var org = home.organisation.getOrgFromDpt(zoneId);
                 label = org ? org.title : false;
             }
             if(label)
                 home.maps.setRollover(pos, label, e);
 
-            //console.log("enters", e.currentTarget, le.target);
         },
         out: function(e) {
             home.maps.rollover.style.display = 'none';
-            //console.log("leaves", e.currentTarget);
         },
         setRollover: function(pos, text) {
             home.maps.rollover.innerHTML = text;

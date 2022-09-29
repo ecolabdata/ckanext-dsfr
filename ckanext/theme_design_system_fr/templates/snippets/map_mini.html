@@ -5,7 +5,7 @@
     </div>
     {% else %}
     <div class="imgmap"
-        data-territory="GES,{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
+        data-territory="{% if territories is string %}{{ territories }}{% else %}{% for t in territories %}{{ t.uri }}{%if loop.index != loop.last %},{% endif %}{% endfor %}{% endif %}">
         <object class="map-large" id="depts" type="image/svg+xml" data="/map/departements.svg"></object>
         <object class="map-large" id="regions" type="image/svg+xml" data="/map/regions.svg"></object>
 
