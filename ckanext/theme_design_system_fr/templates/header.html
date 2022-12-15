@@ -92,38 +92,38 @@
             <nav class="fr-nav" id="header-navigation" role="navigation" aria-label="Menu principal">
                 <ul class="fr-nav__list">
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('home.index') }}" title="{{ _('Home') }}" target="_self" {% if h.current_url() == h.url_for('home.index') %}aria-current="page"{% endif %} >{{ _('Home') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('home.index') }}" title="{{ _('Home') }}" target="_self" {% if h.current_url() == h.url_for('home.index') or ''.join(['/',h.lang(),h.current_url()]) == h.url_for('home.index') %}aria-current="page"{% endif %} >{{ _('Home') }}</a>
                     </li>
                 {% if c.userobj %}
                   {% block header_account_logged %} 
                     {% if c.userobj.sysadmin %}
                   <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for(controller='admin', action='index') }}" target="_self" title="{{ _('Sysadmin settings') }}" {% if h.current_url().startswith(h.url_for(controller='admin', action='index')) %}aria-current="page"{% endif %} >{{ _('Admin') }}</a>
+                      <a class="fr-nav__link" href="{{ h.url_for(controller='admin', action='index') }}" target="_self" title="{{ _('Sysadmin settings') }}" {% if h.current_url().startswith(h.url_for(controller='admin', action='index')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for(controller='admin', action='index'))}aria-current="page"{% endif %} >{{ _('Admin') }}</a>
                   </li>
                   <li class="fr-nav__item">
-                    <a class="fr-nav__link" href="{{ h.url_for(controller='harvest', action='search') }}" target="_self" title="Moissonnage" {% if h.current_url().startswith(h.url_for(controller='harvest', action='search')) %}aria-current="page"{% endif %} >{{ _('Moissonnage') }}</a>
+                    <a class="fr-nav__link" href="{{ h.url_for(controller='harvest', action='search') }}" target="_self" title="Moissonnage" {% if h.current_url().startswith(h.url_for(controller='harvest', action='search')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for(controller='harvest', action='search'))}aria-current="page"{% endif %} >{{ _('Moissonnage') }}</a>
                 </li>
                
                     {% endif %}
                   {#% block header_account_settings_link %}
                   <li class="fr-nav__item">
-                      <a class="fr-nav__link" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.edit', id=c.userobj.name)) %}aria-current="page"{% endif %} >{{ _('Profile settings') }}</a>
+                      <a class="fr-nav__link" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" target="_self" {% if h.current_url().startswith(h.url_for('user.edit', id=c.userobj.name)) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for('user.edit', id=c.userobj.name))%}aria-current="page"{% endif %} >{{ _('Profile settings') }}</a>
                   </li>
                   {% endblock %#} 
                   {% endblock %}
                 {% endif %} 
                 {% block header_site_navigation %}
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}{#?_organization_limit=0&_tags_limit=0&_res_format_limit=0#}" title="{{ _('Datasets') }}" target="_self" {% if h.current_url().startswith(h.url_for('dataset.search')) %}aria-current="page"{% endif %} >{{ _('Datasets') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('dataset.search') }}{#?_organization_limit=0&_tags_limit=0&_res_format_limit=0#}" title="{{ _('Datasets') }}" target="_self" {% if h.current_url().startswith(h.url_for('dataset.search')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for('dataset.search')) %}aria-current="page"{% endif %} >{{ _('Datasets') }}</a>
                     </li>
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self" {% if h.current_url().startswith(h.url_for('organization.index')) %}aria-current="page"{% endif %} >{{ _('Organizations') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('organization.index') }}" title="{{ _('Organizations') }}" target="_self" {% if h.current_url().startswith(h.url_for('organization.index')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for('organization.index')) %}aria-current="page"{% endif %} >{{ _('Organizations') }}</a>
                     </li>
                     <!-- <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('group.index') }}" title="{{ _('Groups') }}" target="_self" {% if h.current_url().startswith(h.url_for('group.index')) %}aria-current="page"{% endif %} >{{ _('Groups') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('group.index') }}" title="{{ _('Groups') }}" target="_self" {% if h.current_url().startswith(h.url_for('group.index')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for('group.index')) %}aria-current="page"{% endif %} >{{ _('Groups') }}</a>
                     </li> -->
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
+                        <a class="fr-nav__link" href="{{ h.url_for('home.about') }}" title="{{ _('About') }}" target="_self" {% if h.current_url().startswith(h.url_for('home.about')) or ''.join(['/', h.lang(), h.current_url()]).startswith(h.url_for('home.about')) %}aria-current="page"{% endif %} >{{ _('About') }}</a>
                     </li>
                     {#<li class="fr-nav__item">
                         {% snippet "snippets/fr_language_selector.html" %}
