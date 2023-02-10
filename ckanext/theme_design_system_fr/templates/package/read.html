@@ -176,9 +176,9 @@
 {% endfor %}
 {% for item in schema.dataset_fields %}
   {% if "tab" in item %}
-    {% set title = h.scheming_language_text(item.tab, prefer_lang="fr") %}
-    {% do infoArr[title].content.append(item) %}
-    {% if pkg[item.field_name] %}
+    {% if not h.ecospheres_is_empty(pkg, item) %}
+      {% set title = h.scheming_language_text(item.tab, prefer_lang="fr") %}
+      {% do infoArr[title].content.append(item) %}
       {% do infoArr[title].update({"hasData": True}) %}
     {% endif %}
   {% endif %}
