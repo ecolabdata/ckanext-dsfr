@@ -66,25 +66,61 @@
       <div class="list">
         <ul>
           {% for item in pkg.series_member %}
-          <li><span class="fr-fi-arrow-right-line" aria-hidden="true"></span> <a href="{{ h.url_for('%s.read' % pkg.type, id=item.url) }}">{{ item.title }}</a></li>
+            {% set member_title = h.ecospheres_get_package_title(item.name) %}
+            <li>
+              <span class="fr-fi-arrow-right-line" aria-hidden="true"></span>
+              {% if member_title %}
+                <a href="{{ h.url_for('%s.read' % pkg.type, id=item.name) }}">{{ h.scheming_language_text(member_title) }}</a>
+              {% else %}
+                {{ item.name }}
+              {% endif %}
+            </li>
           {% endfor %}
         </ul>
       </div>
     </div>
     {% endif %}
-    {% if pkg.in_series and pkg.in_series|length > 0 %}
+    {% if pkg.in_series and pkg.in_series|length == 1 %}
     <div class="pkg-org-series-container">
       {% for i_s in pkg.in_series %}
-      <p>
-        <span class="ri-stack-line" aria-hidden="true"></span> {{ _("Inclus dans la série") }}&nbsp;:
-        <a href="{{ h.url_for('%s.read' % pkg.type, id=i_s.url) }}">
-          {{ i_s.title }}
-        </a>
-      </p>
+        {% set series_title = h.ecospheres_get_package_title(i_s.name) %}
+        <p>
+          <span class="ri-stack-line" aria-hidden="true"></span> {{ _("Inclus dans la série") }}
+          {% if series_title %}
+            <a href="{{ h.url_for('%s.read' % pkg.type, id=i_s.name) }}">
+              {{ h.scheming_language_text(series_title) }}
+            </a>
+          {% else %}
+            {{ i_s.name }}
+          {% endif %}
+        </p>
       {% endfor %}
     </div>
-    {#{% else %}
-    NONE#}
+    {% elif pkg.in_series and pkg.in_series|length > 0 %}
+    <div class="pkg-org-series-container">
+      <p>
+        <span class="ri-stack-fill" aria-hidden="true"></span> Inclus dans {{ pkg.in_series|length }} séries
+        <a class="toggle" href="#">
+        <span class="link-open">{{ _("Voir la liste") }} <span class="fr-fi-arrow-down-s-line"></span></span>
+        <span class="link-close">{{ _("Fermer la liste") }} <span class="fr-fi-arrow-up-s-line"></span></span>
+        </a>
+      </p>
+      <div class="list">
+        <ul>
+          {% for i_s in pkg.in_series %}
+            {% set series_title = h.ecospheres_get_package_title(i_s.name) %}
+            <li>
+              <span class="fr-fi-arrow-right-line" aria-hidden="true"></span>
+              {% if series_title %}
+                <a href="{{ h.url_for('%s.read' % pkg.type, id=i_s.name) }}">{{ h.scheming_language_text(series_title) }}</a>
+              {% else %}
+                {{ i_s.name }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
     {% endif %}
   </div>
   <div class="fr-grid-row fr-pb-3w ">
