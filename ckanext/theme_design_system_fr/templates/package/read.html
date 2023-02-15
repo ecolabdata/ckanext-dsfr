@@ -123,28 +123,29 @@
     </div>
     {% endif %}
   </div>
-  <div class="fr-grid-row fr-pb-3w ">
-    <div class="fr-col-5">
-      Date de mise à jour
-      {% if pkg.modified is defined %}
-      {{ h.get_localized_date(pkg.modified) }}
-      {% elif pkg.metadata_modified is defined %}
-      {{ h.get_localized_date(pkg.metadata_modified) }}
-      {% else %}
-      -
-      {% endif %}
-    </div>
-    <div class="fr-col-7">
-				<div class="isopen">
-					{% if pkg.restricted_access == "true" %}
-						<span><i class="ri-close-circle-fill"></i>{{ _('Données restreintes') }}</span>
-					{% else %}
-						<span><i class="ri-checkbox-circle-fill"></i>{{ _('Données ouvertes') }}</span>
-					{% endif %}
-				</div>
-    </div>
-  </div>
   <div class="summary">
+    <div class="fr-grid-row">
+      <div class="fr-col-5">
+        <a href="{{ pkg.landing_page or pkg.url }}" class="fr-btn fr-btn--rounded fr-btn--white fr-btn--sm" target="_blank">
+          <span class="fr-fi-external-link-line" aria-hidden="true"></span>
+          {% trans %} Voir sur {% endtrans %} 
+          {% if pkg.record_in_catalog and not h.ecospheres_is_empty(pkg.record_in_catalog[0].title) %}
+            {{ h.scheming_language_text(pkg.record_in_catalog[0].title) }}
+          {% else %}
+            {% trans %} le catalogue source {% endtrans %}
+          {% endif %}
+        </a>
+      </div>
+      <div class="fr-col-7">
+          <div class="isopen">
+            {% if pkg.restricted_access == "true" %}
+              <span><i class="ri-close-circle-fill"></i>{{ _('Données restreintes') }}</span>
+            {% else %}
+              <span><i class="ri-checkbox-circle-fill"></i>{{ _('Données ouvertes') }}</span>
+            {% endif %}
+          </div>
+      </div>
+    </div>
     <div class="fr-grid-row">
       <div class="fr-col-5"><strong>{{ _('Organization') }}</strong></div>
       <div class="fr-col-7">
@@ -163,18 +164,23 @@
       </div>
     </div>
     {% endif %}
-    <div class="fr-grid-row">
-      <div class="fr-col-5"><strong>{{ _('Source') }}</strong></div>
-      <div class="fr-col-7">
-        <a href="{{ pkg.landing_page or pkg.url }}" class="fr-btn fr-btn--rounded fr-btn--white fr-btn--sm" target="_blank"><span class="fr-fi-external-link-line" aria-hidden="true"></span> {{ _("Lien du catalogue") }}</a>
+    {% if pkg.modified %}
+      <div class="fr-grid-row">
+        <div class="fr-col-5"><strong>{% trans %} Dernière modification des données {% endtrans %}</strong></div>
+        <div class="fr-col-7">
+          {{ h.get_localized_date(pkg.modified) }}
+        </div>
       </div>
-    </div>
-    <div class="fr-grid-row">
-      <div class="fr-col-5"><strong>{{ _('License') }}</strong></div>
-      <div class="fr-col-7">
-        {{ pkg.license_title or "-" }}
+    {% endif %}
+    {% if pkg.license %}
+      <div class="fr-grid-row">
+        <div class="fr-col-5"><strong>{{ _('License') }}</strong></div>
+        <div class="fr-col-7">
+          {%- snippet 'scheming/snippets/display_field.html',
+            field=h.ecospheres_get_field_dict('license', schema), data=pkg, schema=schema -%}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 {% endblock %}
 
@@ -206,14 +212,14 @@
 {% set infoArr = {} %}
 {% for key in schema %}
   {% if key.startswith('.tab') %}
-    {% set title = h.scheming_language_text(schema[key], prefer_lang="fr") %}
+    {% set title = h.scheming_language_text(schema[key]) %}
     {% do infoArr.update({title: {"key": key[1:], "content": [], "hasData": False}}) %}
   {% endif %}
 {% endfor %}
 {% for item in schema.dataset_fields %}
   {% if "tab" in item %}
     {% if not h.ecospheres_is_empty(pkg, item) %}
-      {% set title = h.scheming_language_text(item.tab, prefer_lang="fr") %}
+      {% set title = h.scheming_language_text(item.tab) %}
       {% do infoArr[title].content.append(item) %}
       {% do infoArr[title].update({"hasData": True}) %}
     {% endif %}
@@ -251,7 +257,7 @@
                 {% if pkg[item.field_name] %}
                   {% do tabcontent.update({'empty': False}) %}
                   <tr>
-                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label, prefer_lang="fr") }}</th>
+                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label) }}</th>
                     <td class="dataset-details" property="rdf:value">
                     {#
                       {{ pkg[item.field_name] }} <br>
@@ -263,7 +269,7 @@
                   </tr>
                 {#{% else %}
                   <tr style="background-color: RGBA(255,0,0,0.5); opacity: 0.3">
-                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label, prefer_lang="fr") }} [{{ item.field_name }}]</th>
+                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label) }} [{{ item.field_name }}]</th>
                     <td></td>
                   </tr>#}
                 {% endif %}
@@ -332,7 +338,7 @@
     {% endif %}
     <h1>
       {% block page_heading %}
-        {{ h.scheming_language_text(pkg.title, prefer_lang="fr") }} <br>
+        {{ h.scheming_language_text(pkg.title) }} <br>
         
         {{ pkg.notes }}
         {% if pkg.state.startswith('draft') %}
