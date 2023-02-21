@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         home.init();
     if(typeof pkgsearch !== "undefined")
         pkgsearch.init();
-    if(typeof orgsearch !== "undefined")
-        orgsearch.init();
     $(".js-hide").hide();
 
     // Selects 
