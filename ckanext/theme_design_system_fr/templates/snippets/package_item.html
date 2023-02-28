@@ -16,7 +16,7 @@ Example:
 {% set truncate = truncate or 180 %}
 {% set truncate_title = truncate_title or 80 %}
 {% set title = h.get_localized_value_for_display(package.get('title', '')) or package.name %}
-{% set notes = h.truncate(h.get_localized_value_for_display(package.get('notes', '')), truncate) %}
+{% set notes = h.truncate(h.get_localized_value_for_display(package.get('notes_translated', '')), truncate) %}
 {% block package_item %}
 {#
 <div class="fr-grid-row  fr-grid-row--gutters">
