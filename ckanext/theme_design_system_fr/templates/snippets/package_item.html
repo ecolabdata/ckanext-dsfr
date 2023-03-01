@@ -18,84 +18,6 @@ Example:
 {% set title = h.get_localized_value_for_display(package.get('title', '')) or package.name %}
 {% set notes = h.truncate(h.get_localized_value_for_display(package.get('notes_translated', '')), truncate) %}
 {% block package_item %}
-{#
-<div class="fr-grid-row  fr-grid-row--gutters">
-  <div class="fr-col-12">
-    <div class="{{ item_class or " dataset-item" }} fr-tile fr-enlarge-link fr-tile--horizontal">
-      <div class="fr-tile__body">
-        {% block content %}
-        <div class="dataset-content">
-          {% block heading %}
-          <h2 class="dataset-heading fr-tile__title">
-
-            {% block heading_private %}
-            {% if package.private %}
-            <span class="dataset-private label label-inverse">
-              <i class="fa fa-lock"></i>
-              {{ _('Private') }}
-            </span>
-            {% endif %}
-            {% endblock %}
-            {% block heading_title %}
-
-
-            {{ h.link_to(h.truncate(title, truncate_title), h.url_for('%s.read' % package.type, id=package.name)) }}
-
-
-            {% endblock %}
-            {% block heading_meta %}
-            {% if package.get('state', '').startswith('draft') %}
-            <span class="label label-info">{{ _('Draft') }}</span>
-            {% elif package.get('state', '').startswith('deleted') %}
-            <span class="label label-danger">{{ _('Deleted') }}</span>
-            {% endif %}
-            {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
-            {% endblock %}
-          </h2>
-          {% endblock %}
-          {% block banner %}
-          {% if banner %}
-          <span class="banner">{{ _('Popular') }}</span>
-          {% endif %}
-          {% endblock %}
-          {% block notes %}
-          {% if notes %}
-          <div>{{ notes|urlize }}</div>
-          {% else %}
-          <p class="empty">{{ _("This dataset has no description") }}</p>
-          {% endif %}
-          {% endblock %}
-        </div>
-
-        {% block resources %}
-        {% if package.resources and not hide_resources %}
-        {% block resources_outer %}
-        <ul class="dataset-resources list-unstyled fr-tags-group">
-          {% block resources_inner %}
-          {% for resource in h.dict_list_reduce(package.resources, 'format') %}
-          <li>
-            <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="label label-default fr-tag"
-              data-format="{{ resource.lower() }}">{{ resource }}</a>
-          </li>
-          {% endfor %}
-          {% endblock %}
-        </ul>
-        {% endblock %}
-        {% endif %}
-        {% endblock %}
-        {% endblock %}
-      </div>
-      <div class="fr-tile__img">
-        <img src="{{ package.organization.image_url or h.url_for_static('/base/images/placeholder-organization.png') }}"
-          class="fr-responsive-img" alt="">
-        <!-- L'alternative de l'image (attribut alt) doit à priori rester vide car l'image est illustrative et ne doit pas être restituée aux technologies d’assistance. Vous pouvez toutefois remplir l'alternative si vous estimer qu'elle apporte une information essentielle à la compréhension du contenu non présente dans le texte -->
-      </div>
-    </div>
-  </div>
-
-</div>
-#}
-
 <li class="fr-enlarge-link {{ item_class or " dataset-item" }}"> 
 	<div class="body">
 		{% block content %}
@@ -144,15 +66,17 @@ Example:
 					{% endif %}
 					<div>
 						<strong>Par</strong>
-						<a href="#" class="enlarge-link-inside">{{ package.organization.title }}</a>
+						<a href="{{ h.url_for('organization.about', id=package.organization.id) }}" class="enlarge-link-inside">
+							{{ package.organization.title }}
+						</a>
 						<br>
 						<strong>Date de mise à jour</strong>
 						{% if package.modified is defined %}
 							{{ h.get_localized_date(package.modified) }}
 						{% elif package.metadata_modified is defined %}
 							{{ h.get_localized_date(package.metadata_modified) }}
-            {% else %}
-              -
+						{% else %}
+							-
 						{% endif %}
 					</div>
 				</div>
@@ -179,9 +103,11 @@ Example:
 							{% block resources_outer %}
 								<ul class="dataset-resources list-unstyled fr-tags-group">
 									{% block resources_inner %}
-										{% for resource in h.dict_list_reduce(package.resources, 'format') %}
+										{% for resource in package.resources %}
 											<li>
-												<span class="label label-default fr-tag" data-format="{{ resource.lower() }}">{{ resource }}</span>
+												<span class="label label-default fr-tag">
+													{{ h.ecospheres_get_format(resource) or '?' }}
+												</span>
 											</li>
 										{% endfor %}
 									{% endblock %}
