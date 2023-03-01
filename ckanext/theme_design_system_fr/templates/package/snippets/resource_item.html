@@ -19,7 +19,7 @@
       {% block resource_item_title %}
       <td class="format-column">
         <a class="heading fr-tile__title fr-link" href="{{ url }}" title="{{ h.get_localized_value_for_display(res.get('name', '')) or h.get_localized_value_for_display(res.get('description', '')) }}">
-        <div class="format-block"><span class="format-label label label-default fr-tag" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">  {{ h.get_vocabulary_label_by_uri("iana_media_type",res.format) }}</span></div></a>
+        <div class="format-block"><span class="format-label label label-default fr-tag" property="dc:format">  {{ h.ecospheres_get_format(res, lang=h.lang()) }}</span></div></a>
       </td>
       <td>
           <a class="heading fr-tile__title fr-link" href="{{ url }}" title="{{ h.get_localized_value_for_display(res.get('name', '')) or h.get_localized_value_for_display(res.get('description', '')) }}">
