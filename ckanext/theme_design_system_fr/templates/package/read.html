@@ -46,21 +46,25 @@
 {% block package_title_info %}
   <div class="pkg-org-title has-series">
     <h1 class="fr-mb-3w">
-    {{ h.get_localized_value_for_display(pkg.get('title', '')) }}</h1>
-    
-          {% if pkg.state.startswith('draft') %}
-            <div class="fr-pb-2w">[{{ _('Draft') }}]</div>
-          {% endif %}
-          {% if pkg.state == 'deleted' %}
-            <div class="fr-pb-2w">[{{ _('Deleted') }}]</div>
-          {% endif %}
+      {{ h.scheming_language_text(pkg.title_translated) or pkg.name }}
+    </h1>
+    {% if pkg.state.startswith('draft') %}
+      <div class="fr-pb-2w">[{{ _('Draft') }}]</div>
+    {% endif %}
+    {% if pkg.state == 'deleted' %}
+      <div class="fr-pb-2w">[{{ _('Deleted') }}]</div>
+    {% endif %}
     {% if pkg.series_member and pkg.series_member|length > 0 %}
     <div class="pkg-org-series-container">
       <p>
         <span class="ri-stack-fill" aria-hidden="true"></span> Série de {{ pkg.series_member|length }} jeux de données
         <a class="toggle" href="#">
-        <span class="link-open">{{ _("Voir la liste") }} <span class="fr-fi-arrow-down-s-line"></span></span>
-        <span class="link-close">{{ _("Fermer la liste") }} <span class="fr-fi-arrow-up-s-line"></span></span>
+          <span class="link-open">{{ _("Voir la liste") }} 
+            <span class="fr-fi-arrow-down-s-line"></span>
+          </span>
+          <span class="link-close">{{ _("Fermer la liste") }}
+            <span class="fr-fi-arrow-up-s-line"></span>
+          </span>
         </a>
       </p>
       <div class="list">
@@ -203,7 +207,7 @@
     <!--div class="notes embedded-content" style="display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
       {{ h.render_markdown(h.scheming_language_text(pkg.notes, prefer_lang="fr")) }}
     </div-->
-    <div class="package-description desc-unwrap" data-readmore="{{ _("Lire plus") }}">{{ h.render_markdown(h.scheming_language_text(pkg.notes_translated, prefer_lang="fr")) }}</div>
+    <div class="package-description desc-unwrap" data-readmore="{{ _("Lire plus") }}">{{ h.render_markdown(h.scheming_language_text(pkg.notes_translated)) }}</div>
   {% endif %}
 {% endblock %}
 
@@ -319,59 +323,3 @@
 
 {% endblock %}
 
-
-
-
-
-
-
-
-
-{% block primary_content_inner %}
-  {{ super() }}
-  {% block package_description_old %}
-    {% if pkg.private %}
-      <span class="dataset-private badge badge-inverse pull-right">
-        <i class="fa fa-lock"></i>
-        {{ _('Private') }}
-      </span>
-    {% endif %}
-    <h1>
-      {% block page_heading %}
-        {{ h.scheming_language_text(pkg.title) }} <br>
-        
-        {{ pkg.notes_translated }}
-        {% if pkg.state.startswith('draft') %}
-          [{{ _('Draft') }}]
-        {% endif %}
-        {% if pkg.state == 'deleted' %}
-          [{{ _('Deleted') }}]
-        {% endif %}
-      {% endblock %}
-    </h1>
-    {% block package_notes %}
-      {% if pkg.notes_translated %}
-        <div class="notes embedded-content">
-          {{ h.render_markdown(h.get_translated(pkg, 'notes_translated')) }}
-        </div>
-      {% endif %}
-    {% endblock %}
-  {% endblock %}
-
-  {% block package_resources__ %}
-    {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
-  {% endblock %}
-
-  {% block package_tags %}
-    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
-  {% endblock %}
-
-  {% block package_additional_info %}
-    {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
-  {% endblock %}
-        <pre style="word-break: break-all;">
-          <script>
-          </script>
-          </pre>
-
-{% endblock %}
