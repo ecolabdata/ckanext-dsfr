@@ -8,8 +8,7 @@
 
 {% block breadcrumb_content %}
     {% if pkg %}
-        {#{% set dataset = h.scheming_language_text(pkg.title, prefer_lang="fr") %}#}
-        {% set dataset = h.get_localized_value_for_display(pkg.get('title', '')) %}
+        {% set dataset = h.scheming_language_text(pkg.title_translated) or pkg.name %}
         
         {% if pkg.organization %}
             {% set organization = pkg.organization.title %}
@@ -23,7 +22,7 @@
         {% else %}
             <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
         {% endif %}
-        <li{{ self.breadcrumb_content_selected() }} class="fr-breadcrumb__link">{% link_for dataset|truncate(30), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='read', id=pkg.name, title=dataset %}</li>
+        <li{{ self.breadcrumb_content_selected() }}>{% link_for dataset|truncate(30), named_route=pkg.type ~ '.read', id=pkg.name %}</li>
     {% else %}
 
         <li class="fr-breadcrumb__link">{% link_for _('Datasets'), controller='dataset' if h.ckan_version().split('.')[1] | int >= 9 else 'package', action='search' %}</li>
