@@ -15,8 +15,8 @@ Example:
 #}
 {% set truncate = truncate or 180 %}
 {% set truncate_title = truncate_title or 80 %}
-{% set title = h.get_localized_value_for_display(package.get('title', '')) or package.name %}
-{% set notes = h.truncate(h.get_localized_value_for_display(package.get('notes_translated', '')), truncate) %}
+{% set title = h.scheming_language_text(package.get('title_translated')) or package.name %}
+{% set notes = h.truncate(h.scheming_language_text(package.get('notes_translated')), truncate) %}
 {% block package_item %}
 <li class="fr-enlarge-link {{ item_class or " dataset-item" }}"> 
 	<div class="body">
