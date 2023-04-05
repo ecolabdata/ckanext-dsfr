@@ -256,26 +256,31 @@
             {% else %}
               {% set tabcontent = {'empty': True} %}
               <table style="width:100%" class="info-table fr-table">
-              {% for item in infoArr[key].content %}
-              
-                {% if pkg[item.field_name] %}
+              {% for field in infoArr[key].content %}
+                {% if not h.ecospheres_is_empty(pkg, field) %}
                   {% do tabcontent.update({'empty': False}) %}
-                  <tr>
-                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label) }}</th>
-                    <td class="dataset-details" property="rdf:value">
-                    {#
-                      {{ pkg[item.field_name] }} <br>
-                      {{ item }} <br>
-                      #}
-                      {%- snippet 'scheming/snippets/display_field.html',
-              field=item, data=pkg, schema=schema -%}
-                    </td>
-                  </tr>
-                {#{% else %}
-                  <tr style="background-color: RGBA(255,0,0,0.5); opacity: 0.3">
-                    <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(item.label) }} [{{ item.field_name }}]</th>
-                    <td></td>
-                  </tr>#}
+                  {% if field.repeating_subfields and field.flatten_subfields and pkg[field.field_name]|length == 1 %}
+                    {% set subpkg = pkg[field.field_name][0] %}
+                    {% for subfield in field.repeating_subfields %}
+                      {% if not h.ecospheres_is_empty(subpkg, subfield) %}
+                        <tr>
+                          <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(subfield.label) }}</th>
+                          <td class="dataset-details" property="rdf:value">
+                            {%- snippet 'scheming/snippets/display_field.html',
+                              field=subfield, data=subpkg, schema=schema -%}
+                          </td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    <tr>
+                      <th scope="row" class="dataset-label" property="rdfs:label">{{ h.scheming_language_text(field.label) }}</th>
+                      <td class="dataset-details" property="rdf:value">
+                        {%- snippet 'scheming/snippets/display_field.html',
+                          field=field, data=pkg, schema=schema -%}
+                      </td>
+                    </tr>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               </table>
